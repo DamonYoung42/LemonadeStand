@@ -8,11 +8,11 @@ namespace LemonadeStand
 {
     class Sugar : Ingredient
     {
-        int numOfDaysBeforeExpiration;
 
-        public Sugar()
+        public Sugar() : base("sugar")
         {
-            numOfDaysBeforeExpiration = 3;
+
+            this.numOfDaysBeforeExpiration = 3;
         }
     }
 }

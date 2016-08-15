@@ -6,11 +6,38 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    class Store
+    class Store : IInventory
     {
-        List<Inventory> storeInventory;
-        List<Inventory> recipe;
+        public string name;
+        public List<Ingredient> storeInventory;
+
+
+        public Store(string name)
+        {
+            string storeName = name;
+            List<Ingredient> storeInventory = new List<Ingredient> { };
+        }
+
+        public void AddToInventory(Ingredient item)
+        {
+            storeInventory.Add(item);
+        }
+
+        public void SubtractFromInventory(Ingredient item)
+        {
+            storeInventory.Remove(item);
+        }
+
+        public int GetInventoryItemCount(Ingredient item)
+        {
+            return storeInventory.Count(x => x == item);
+
+        }
+        
+        //public void CheckForSpoilage()
+        //{
+        //    return numOfDaysBeforeExpiration;
+        //}
+
     }
-
-
 }

@@ -1,1 +1,6 @@
 C:\Users\usf00_000\Documents\DevCodeCamp\Projects\LemonadeStand\LemonadeStand\bin\Debug\LemonadeStand.exe.config
+C:\Users\usf00_000\Documents\DevCodeCamp\Projects\LemonadeStand\LemonadeStand\obj\Debug\LemonadeStand.csprojResolveAssemblyReference.cache
+C:\Users\usf00_000\Documents\DevCodeCamp\Projects\LemonadeStand\LemonadeStand\bin\Debug\LemonadeStand.exe
+C:\Users\usf00_000\Documents\DevCodeCamp\Projects\LemonadeStand\LemonadeStand\bin\Debug\LemonadeStand.pdb
+C:\Users\usf00_000\Documents\DevCodeCamp\Projects\LemonadeStand\LemonadeStand\obj\Debug\LemonadeStand.exe
+C:\Users\usf00_000\Documents\DevCodeCamp\Projects\LemonadeStand\LemonadeStand\obj\Debug\LemonadeStand.pdb

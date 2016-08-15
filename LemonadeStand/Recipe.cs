@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    class Recipe
+    public class Recipe
     {
         string name;
         List<Ingredient> ingredients;
@@ -18,5 +18,18 @@ namespace LemonadeStand
 
         }
 
+        //public bool CanMakeRecipe()
+        //{
+        //    foreach (Ingredient item in ingredients)
+        //    {
+        //        if (item.CheckInventory() > item.quantityAvailable)
+        //        {
+        //            return false; // can't make recipe because ingredient not available
+        //        }     
+                
+        //    }
+        //    return true;
+
+        //}
     }
 }

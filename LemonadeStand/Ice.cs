@@ -8,9 +8,8 @@ namespace LemonadeStand
 {
     class Ice : Ingredient
     {
-        int numOfDaysBeforeExpiration;
 
-        public Ice()
+        public Ice() : base("ice")
         {
             numOfDaysBeforeExpiration = 1;
         } 
