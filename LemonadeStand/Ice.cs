@@ -9,9 +9,10 @@ namespace LemonadeStand
     class Ice : Ingredient
     {
 
-        public Ice() : base("ice")
+        public Ice() : base()
         {
-            numOfDaysBeforeExpiration = 1;
+            this.name = "ice";
+            this.numOfDaysBeforeExpiration = 1;
         } 
     }
 }

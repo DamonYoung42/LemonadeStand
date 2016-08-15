@@ -9,25 +9,25 @@ namespace LemonadeStand
     public class Weather
     {
         public int temperature;
-        public string sky;
+        public string conditions;
         public List<string> clouds = new List<string> { "Sunny", "Overcast", "Rainy" };
 
         public Weather()
         {
-            
-         }
-
-        public void GetWeather()
-        {
-            Random random = new Random();
-
-            temperature = random.Next(50-100);
-
-            int index = random.Next(0 - 2);
-            sky = clouds[index];
-
-            
+            SetWeather();
         }
+
+        public void SetWeather()
+        {
+            Random random = new Random(DateTime.Today.Millisecond);
+
+            temperature = random.Next(50,110);
+
+            Random index = new Random(DateTime.Today.Millisecond);
+
+            conditions = clouds[index.Next(0, 3)];
+        }
+
     }
 
    

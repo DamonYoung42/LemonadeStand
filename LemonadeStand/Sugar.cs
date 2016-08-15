@@ -9,9 +9,9 @@ namespace LemonadeStand
     class Sugar : Ingredient
     {
 
-        public Sugar() : base("sugar")
+        public Sugar() : base()
         {
-
+            this.name = "sugar";
             this.numOfDaysBeforeExpiration = 3;
         }
     }

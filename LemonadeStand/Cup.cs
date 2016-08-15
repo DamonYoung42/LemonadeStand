@@ -9,8 +9,9 @@ namespace LemonadeStand
     class Cup : Ingredient
     {
 
-        public Cup() : base("cup")
+        public Cup() : base()
         {
+            this.name = "cup";
             this.numOfDaysBeforeExpiration = 100;
         }
     }

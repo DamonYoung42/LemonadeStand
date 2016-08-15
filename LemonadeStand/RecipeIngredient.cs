@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    public class Ingredient
+    public class RecipeIngredient
     {
         public string name;
-        public int numOfDaysBeforeExpiration;
-        public bool isSpoiled;
+        public int quantity;
 
-        public Ingredient()
+        public RecipeIngredient(string name, int quantity)
         {
-            this.isSpoiled = false;
-
+            this.name = name;
+            this.quantity = quantity;
         }
-
-
     }
 }

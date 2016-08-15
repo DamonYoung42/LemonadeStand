@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    interface IInventory
+    public interface IInventory
     {
         int GetInventoryItemCount(Ingredient item);
         void AddToInventory(Ingredient item);
