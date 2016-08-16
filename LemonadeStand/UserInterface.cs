@@ -13,7 +13,7 @@ namespace LemonadeStand
             Console.WriteLine("Welcome to Lemonade Stand!");
             Console.WriteLine("You'll create your own recipe and try to sell as much you can over seven days.");
             Console.WriteLine("The amount of cups you sell is affected by weather and the price you set.");
-            Console.WriteLine("Good luck! Let's get started.");
+            Console.WriteLine("Good luck! Let's get started. You have $10.00 to start buying inventory.");
         }
         
         public string SetPlayerName()
@@ -22,7 +22,7 @@ namespace LemonadeStand
             return Console.ReadLine();
         }
 
-        public int AskForInput(string message)
+        public int AskForIntegerInput(string message)
         {
             Console.WriteLine(message);
             return Convert.ToInt32(Console.ReadLine());

@@ -17,7 +17,6 @@ namespace LemonadeStand
         public Day()
         {
             weather = new Weather();
-            weather.SetWeather();
             numOfCustomers = 0;
             numOfBuyingCustomers = 0;
             pricePerCup = 0;

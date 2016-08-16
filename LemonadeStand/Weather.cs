@@ -19,11 +19,11 @@ namespace LemonadeStand
 
         public void SetWeather()
         {
-            Random random = new Random(DateTime.Today.Millisecond);
+            Random random = new Random(DateTime.Now.Millisecond);
 
             temperature = random.Next(50,110);
 
-            Random index = new Random(DateTime.Today.Millisecond);
+            Random index = new Random(DateTime.Now.Millisecond);
 
             conditions = clouds[index.Next(0, 3)];
         }

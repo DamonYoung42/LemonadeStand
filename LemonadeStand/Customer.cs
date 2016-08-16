@@ -6,40 +6,46 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    class Customer
+    public class Customer
     {
-        int chanceOfPurchase;
-        bool buyingCustomer;
-        decimal amountSpent;
+       public double chanceOfPurchase;
+        static Random customerChance = new Random(DateTime.Now.Millisecond);
 
-        public Customer(Weather weather)
+        public Customer(Weather weather, double price)
         {
+            Random chance = new Random(DateTime.Now.Millisecond);
+            chanceOfPurchase = customerChance.Next(0,100);
+
             if (weather.temperature < 60)
             {
-                chanceOfPurchase = 20;
+                chanceOfPurchase *= .20;
             }
             else if (weather.temperature < 75)
             {
-                chanceOfPurchase = 70;
+                chanceOfPurchase *= .60;
             }
             else
             {
-                chanceOfPurchase = 90;
+                chanceOfPurchase *= .90;
             }
 
             switch (weather.conditions)
             {
                 case "Sunny":
-                    chanceOfPurchase += 10;
+                    chanceOfPurchase *= 1.1;
                     break;
                 case "Overcast":   
-                    chanceOfPurchase -= 10;
+                    chanceOfPurchase *= .90;
                     break;
                 case "Rainy":
-                    chanceOfPurchase = 0;
+                    chanceOfPurchase *= .10;
                     break;
             }
 
+            if (price < .05)
+            {
+                chanceOfPurchase *= customerChance.Next(1, 2);
+            }
         }
     }
 }

@@ -10,11 +10,9 @@ namespace LemonadeStand
     {
         public string name;
         public int numOfDaysBeforeExpiration;
-        public bool isSpoiled;
 
         public Ingredient()
         {
-            this.isSpoiled = false;
 
         }
 
