@@ -13,13 +13,15 @@ namespace LemonadeStand
         public Weather weatherConditions;
         public List<Ingredient> recipe;
         public int dayOfOperation;
-        double cashOnHand;
+        public double cashOnHand;
+        public double initialInvestment;
 
 
         public Store()
         {
            storeInventory = new List<Ingredient> { };
-           cashOnHand = 10.00;
+           initialInvestment = 10.00;
+           cashOnHand = initialInvestment;
            recipe = new List<Ingredient> { };
            weatherConditions = new Weather();
            DisplayWeather();
@@ -65,15 +67,25 @@ namespace LemonadeStand
             double icePrice = .05;
             double cupPrice = .10;
             double sugarPrice = .99;
+            double cost = 0;
 
             Console.WriteLine("You currently have {0} lemons. How many would you like to buy (75 cents per lemon):", storeInventory.Count(x => x.name == "lemon"));
-            userInput = userInput = Convert.ToInt32(Console.ReadLine());
-            for (int i = 0; i < userInput; i++)
+            userInput = Convert.ToInt32(Console.ReadLine());
+            cost = userInput * lemonPrice;
+            if (cashOnHand < cost)
             {
-                AddToInventory(newLemon);
+                Console.WriteLine("Sorry, you don't have enough cash to purchase those ingredients.");
+            }
+            else
+            {
+                for (int i = 0; i < userInput; i++)
+                {
+                    AddToInventory(newLemon);
+                }
+
+                UpdateCashOnHand(userInput, lemonPrice);
             }
 
-            UpdateCashOnHand(userInput, lemonPrice);
 
             Console.WriteLine("You currently have {0} sugars. How many would you like to buy (99 cents per sugar):", storeInventory.Count(x => x.name == "sugar"));
             userInput = userInput = Convert.ToInt32(Console.ReadLine());
@@ -100,13 +112,30 @@ namespace LemonadeStand
                 AddToInventory(newCup);
             }
 
-            UpdateCashOnHand(userInput, cupPrice);         
+            UpdateCashOnHand(userInput, cupPrice);
+            DisplayInventory();
         }
 
         public void UpdateCashOnHand(int quantity, double price)
         {
             cashOnHand -= quantity * price;
-            Console.WriteLine("Cash on Hand: {0}:", cashOnHand);
+            Console.WriteLine("Cash on hand: {0}", cashOnHand);
+        }
+
+        public void DisplayInventory()
+        {
+            //int totalLemons = storeInventory.Distinct().Count(x => key);
+
+            //foreach (Ingredient item in storeInventory)
+            //{
+            //    Console.WriteLine("You have {0} {1}s:", item, storeInventory.Count(x => x.name == item));
+            //}
+
+            //foreach (var item in distinctIngredients)
+            //{
+
+            //    Console.WriteLine("You currently have {0} {1}s.", storeInventory.Distinct(x => x.name == item.name).Count());
+            //}
         }
 
         //public bool CanMakeRecipe(Recipe recipe)
