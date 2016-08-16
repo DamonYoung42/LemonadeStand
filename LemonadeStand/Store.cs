@@ -124,18 +124,15 @@ namespace LemonadeStand
 
         public void DisplayInventory()
         {
-            //int totalLemons = storeInventory.Distinct().Count(x => key);
+            var query = storeInventory.Select(x => x.name)
+                .GroupBy(s => s)
+                .Select(g => new { name = g.Key, Count = g.Count() });
 
-            //foreach (Ingredient item in storeInventory)
-            //{
-            //    Console.WriteLine("You have {0} {1}s:", item, storeInventory.Count(x => x.name == item));
-            //}
+            foreach (var item in query)
+            {
+                Console.WriteLine("Ingredient: {0}, Count: {1}", item.name, item.Count);
+            }
 
-            //foreach (var item in distinctIngredients)
-            //{
-
-            //    Console.WriteLine("You currently have {0} {1}s.", storeInventory.Distinct(x => x.name == item.name).Count());
-            //}
         }
 
         //public bool CanMakeRecipe(Recipe recipe)
