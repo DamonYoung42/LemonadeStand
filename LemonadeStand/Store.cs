@@ -31,6 +31,7 @@ namespace LemonadeStand
         public int spoiledLemons;
         public int spoiledIce;
         public int spoiledSugar;
+        public bool validRecipe;
 
 
         public Store()
@@ -55,6 +56,7 @@ namespace LemonadeStand
             spoiledIce = 0;
             spoiledSugar = 0;
             storeInterface = new UserInterface();
+            validRecipe = false;
 
         }
 
@@ -337,19 +339,24 @@ namespace LemonadeStand
             int quantity = 0;
             RecipeIngredient ingredient;
 
-            Console.WriteLine("Now it's time to set your recipe for the day.");
-            quantity = storeInterface.SetRecipe("lemons");
-            ingredient = new RecipeIngredient("lemon", quantity);
-            recipe.recipeIngredients.Add(ingredient);
-            
+            do
+            {
+                Console.WriteLine("Set your recipe for the day.");
+                quantity = storeInterface.SetRecipe("lemons");
+                ingredient = new RecipeIngredient("lemon", quantity);
+                recipe.recipeIngredients.Add(ingredient);
 
-            quantity = storeInterface.SetRecipe("sugar");
-            ingredient = new RecipeIngredient("sugar", quantity);
-            recipe.recipeIngredients.Add(ingredient);
+                quantity = storeInterface.SetRecipe("sugar");
+                ingredient = new RecipeIngredient("sugar", quantity);
+                recipe.recipeIngredients.Add(ingredient);
 
-            quantity = storeInterface.SetRecipe("ice");
-            ingredient = new RecipeIngredient("ice", quantity);
-            recipe.recipeIngredients.Add(ingredient);
+                quantity = storeInterface.SetRecipe("ice");
+                ingredient = new RecipeIngredient("ice", quantity);
+                recipe.recipeIngredients.Add(ingredient);
+
+                CheckForValidRecipe();
+
+            } while (!validRecipe);
 
             //Console.WriteLine("How many lemons would you like to use per cup in your recipe?");
             //userInput = int.Parse(Console.ReadLine());
@@ -367,24 +374,39 @@ namespace LemonadeStand
             //recipe.recipeIngredients.Add(ingredient);
         }
 
+        public void CheckForValidRecipe()
+        {
+            foreach (RecipeIngredient ingredient in recipe.recipeIngredients)
+            {
+                if (ingredient.quantity < storeInventory.Count(x => x.name == ingredient.name))
+                {
+                    validRecipe = true;
+                }
+                else
+                {
+                    validRecipe = false;
+                    Console.WriteLine("You don't have enough inventory to create your recipe!");
+                    BuyInventory();
+                }
+            }
+        }
+
          public void SellToCustomers()
         {
             Ingredient deleteCup;
             while (!soldOut) 
             {
-                //Reset weather
-                //Create Recipe
                 //open for business, generate customers
                 //Update daily revenue, total revenue, total expenses
 
                 Console.WriteLine("selling ... selling ... selling!!!");
 
                 GenerateCustomers();
+                
                 foreach(Customer customer in dailyCustomers)
                 {
                     if (customer.chanceOfPurchase > demandLevel)
                     {
-                        //cust buys lemonade
                         dailyCupsSold++;
                         dailyRevenue += productPrice;
 
