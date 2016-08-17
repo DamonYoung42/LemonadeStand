@@ -9,11 +9,10 @@ namespace LemonadeStand
     public class Customer
     {
        public double chanceOfPurchase;
-        static Random customerChance = new Random(DateTime.Now.Millisecond);
+       static Random customerChance = new Random(DateTime.Now.Millisecond);
 
         public Customer(Weather weather, double price)
         {
-            Random chance = new Random(DateTime.Now.Millisecond);
             chanceOfPurchase = customerChance.Next(0,100);
 
             if (weather.temperature < 60)

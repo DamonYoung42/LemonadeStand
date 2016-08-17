@@ -11,6 +11,7 @@ namespace LemonadeStand
 
         public List<Ingredient> storeInventory;
         public Weather weatherConditions;
+        public UserInterface storeInterface;
         public int dayOfOperation;
         public double cashOnHand;
         public double initialInvestment;
@@ -53,11 +54,13 @@ namespace LemonadeStand
             spoiledLemons = 0;
             spoiledIce = 0;
             spoiledSugar = 0;
+            storeInterface = new UserInterface();
+
         }
 
         public void DisplayWeather()
         {
-            Console.WriteLine("The weather forecast for Day {0} is {1} and {2}",dayOfOperation, weatherConditions.temperature, weatherConditions.conditions);
+            Console.WriteLine("The weather forecast for Day {0} is {1} and {2}", dayOfOperation, weatherConditions.temperature, weatherConditions.conditions);
         }
 
         public void AddToInventory(Ingredient item)
@@ -103,13 +106,16 @@ namespace LemonadeStand
             int numOfItemsToAdd = 0;
 
             Console.WriteLine("You have {0} lemons in your inventory.", storeInventory.Count(x => x.name == "lemon"));
-            Console.WriteLine("How many lemons would you like to buy?");
-            Console.WriteLine("Option 1: 5 for $0.60");
-            Console.WriteLine("Option 2: 20 for $2.00");
-            Console.WriteLine("Option 3: 50 for $4.00");
-            Console.WriteLine("Please enter the number of your selection:");
+            userInput = storeInterface.SetInventory("lemon");
+            
+            //Console.WriteLine("You have {0} lemons in your inventory.", storeInventory.Count(x => x.name == "lemon"));
+            //Console.WriteLine("How many lemons would you like to buy?");
+            //Console.WriteLine("Option 1: 5 for $0.60");
+            //Console.WriteLine("Option 2: 20 for $2.00");
+            //Console.WriteLine("Option 3: 50 for $4.00");
+            //Console.WriteLine("Please enter the number of your selection:");
 
-            userInput = int.Parse(Console.ReadLine());
+            //userInput = int.Parse(Console.ReadLine());
             switch (userInput)
             {
                 case 1:
@@ -152,13 +158,14 @@ namespace LemonadeStand
             int numOfItemsToAdd = 0;
 
             Console.WriteLine("You have {0} sugar in your inventory.", storeInventory.Count(x => x.name == "sugar"));
-            Console.WriteLine("How much sugar would you like to buy?");
-            Console.WriteLine("Option 1: 5 for $0.60");
-            Console.WriteLine("Option 2: 20 for $2.00");
-            Console.WriteLine("Option 3: 100 for $9.00");
-            Console.WriteLine("Please enter the number of your selection:");
+            userInput = storeInterface.SetInventory("sugar");
+            //Console.WriteLine("How much sugar would you like to buy?");
+            //Console.WriteLine("Option 1: 5 for $0.60");
+            //Console.WriteLine("Option 2: 20 for $2.00");
+            //Console.WriteLine("Option 3: 100 for $9.00");
+            //Console.WriteLine("Please enter the number of your selection:");
 
-            userInput = int.Parse(Console.ReadLine());
+            //userInput = int.Parse(Console.ReadLine());
             switch (userInput)
             {
                 case 1:
@@ -198,13 +205,14 @@ namespace LemonadeStand
             int numOfItemsToAdd = 0;
 
             Console.WriteLine("You have {0} ice cubes in your inventory.", storeInventory.Count(x => x.name == "ice"));
-            Console.WriteLine("How many ice cubes would you like to buy?");
-            Console.WriteLine("Option 1: 100 for $0.80");
-            Console.WriteLine("Option 2: 250 for $1.80");
-            Console.WriteLine("Option 3: 500 for $2.50");
-            Console.WriteLine("Please enter the number of your selection:");
+            userInput = storeInterface.SetInventory("ice");
+            //Console.WriteLine("How many ice cubes would you like to buy?");
+            //Console.WriteLine("Option 1: 100 for $0.80");
+            //Console.WriteLine("Option 2: 250 for $1.80");
+            //Console.WriteLine("Option 3: 500 for $2.50");
+            //Console.WriteLine("Please enter the number of your selection:");
 
-            userInput = int.Parse(Console.ReadLine());
+            //userInput = int.Parse(Console.ReadLine());
             switch (userInput)
             {
                 case 1:
@@ -247,13 +255,14 @@ namespace LemonadeStand
             int numOfItemsToAdd = 0;
 
             Console.WriteLine("You have {0} cups in your inventory.", storeInventory.Count(x => x.name == "cup"));
-            Console.WriteLine("How many cups would you like to buy?");
-            Console.WriteLine("Option 1: 50 for $3.00");
-            Console.WriteLine("Option 2: 100 for $5.00");
-            Console.WriteLine("Option 3: 200 for $8.00");
-            Console.WriteLine("Please enter the number of your selection or ENTER to continue with your current supply:");
+            userInput = storeInterface.SetInventory("cup");
+            //Console.WriteLine("How many cups would you like to buy?");
+            //Console.WriteLine("Option 1: 50 for $3.00");
+            //Console.WriteLine("Option 2: 100 for $5.00");
+            //Console.WriteLine("Option 3: 200 for $8.00");
+            //Console.WriteLine("Please enter the number of your selection or ENTER to continue with your current supply:");
 
-            userInput = int.Parse(Console.ReadLine());
+            //userInput = int.Parse(Console.ReadLine());
             switch (userInput)
             {
                 case 1:
@@ -310,8 +319,10 @@ namespace LemonadeStand
 
         public void SetProductPrice()
         {
-            Console.WriteLine("How much will a cup of lemonade cost today?");
-            productPrice = double.Parse(Console.ReadLine());
+            productPrice = storeInterface.SetPrice();
+
+            //Console.WriteLine("How much will a cup of lemonade cost today?");
+            //productPrice = double.Parse(Console.ReadLine());
         }
 
         public void UpdateCashOnHand(double cost)
@@ -323,26 +334,40 @@ namespace LemonadeStand
 
         public void CreateRecipe()
         {
-            int userInput = 0;
+            int quantity = 0;
             RecipeIngredient ingredient;
+
             Console.WriteLine("Now it's time to set your recipe for the day.");
-            Console.WriteLine("How many lemons would you like to use per cup in your recipe?");
-            userInput = int.Parse(Console.ReadLine());
-            ingredient = new RecipeIngredient("lemon", userInput);
+            quantity = storeInterface.SetRecipe("lemons");
+            ingredient = new RecipeIngredient("lemon", quantity);
+            recipe.recipeIngredients.Add(ingredient);
+            
+
+            quantity = storeInterface.SetRecipe("sugar");
+            ingredient = new RecipeIngredient("sugar", quantity);
             recipe.recipeIngredients.Add(ingredient);
 
-            Console.WriteLine("How much sugar would you like to use per cup in your recipe?");
-            userInput = int.Parse(Console.ReadLine());
-            ingredient = new RecipeIngredient("suger", userInput);
+            quantity = storeInterface.SetRecipe("ice");
+            ingredient = new RecipeIngredient("ice", quantity);
             recipe.recipeIngredients.Add(ingredient);
 
-            Console.WriteLine("How much ice would you like to use per cup in your recipe?");
-            userInput = int.Parse(Console.ReadLine());
-            ingredient = new RecipeIngredient("ice", userInput);
-            recipe.recipeIngredients.Add(ingredient);
+            //Console.WriteLine("How many lemons would you like to use per cup in your recipe?");
+            //userInput = int.Parse(Console.ReadLine());
+            //ingredient = new RecipeIngredient("lemon", userInput);
+            //recipe.recipeIngredients.Add(ingredient);
+
+            //Console.WriteLine("How much sugar would you like to use per cup in your recipe?");
+            //userInput = int.Parse(Console.ReadLine());
+            //ingredient = new RecipeIngredient("suger", userInput);
+            //recipe.recipeIngredients.Add(ingredient);
+
+            //Console.WriteLine("How much ice would you like to use per cup in your recipe?");
+            //userInput = int.Parse(Console.ReadLine());
+            //ingredient = new RecipeIngredient("ice", userInput);
+            //recipe.recipeIngredients.Add(ingredient);
         }
 
-        public void SellToCustomers()
+         public void SellToCustomers()
         {
             Ingredient deleteCup;
             while (!soldOut) 
@@ -364,22 +389,54 @@ namespace LemonadeStand
                         dailyRevenue += productPrice;
 
                         //remove inventory
-                        
+                        RemoveInventory();
+
                         //check inventory levels
+                        CheckInventory();
                     }
                 }
-                soldOut = true;
-
             }
             totalRevenue += dailyRevenue;
             cashOnHand += dailyRevenue;
 
-            //spoilage numbers
-
             foreach (Ingredient ingredient in storeInventory)
             {
-                //ingredient.numOfDaysBeforeExpiration -= 1;
-                SubtractSpoiledDay(ingredient);
+                    SubtractSpoiledDay(ingredient);
+            }
+        }
+
+        public void RemoveInventory()
+        {
+
+
+        }
+
+        public void CheckInventory()
+        {
+            if (storeInventory.Count(x => x.name == "lemon") < recipe.recipeIngredients.Find(x => x.name == "lemon").quantity)
+            {
+                soldOut = true;
+            }
+
+            if (storeInventory.Count(x => x.name == "sugar") < recipe.recipeIngredients.Find(x => x.name == "sugar").quantity)
+            {
+                soldOut = true;
+            }
+
+            if (storeInventory.Count(x => x.name == "ice") < recipe.recipeIngredients.Find(x => x.name == "ice").quantity)
+            {
+                soldOut = true;
+            }
+
+
+            if (storeInventory.Count(x => x.name == "cup") == 0)
+            {
+                soldOut = true;
+            }
+
+            if (soldOut)
+            {
+                Console.WriteLine("You have run out of supplies.");
             }
         }
 

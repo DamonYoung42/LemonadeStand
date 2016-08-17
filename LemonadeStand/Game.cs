@@ -26,10 +26,12 @@ namespace LemonadeStand
                 {
                     player.franchise.weatherConditions = new Weather();
                     player.franchise.recipe = new Recipe();
-                    player.franchise.DisplayWeather();
-                    Console.WriteLine("You have {0:$0.00} cash to buy supplies.", player.franchise.cashOnHand);
+                    player.franchise.maxNumOfDays = gameConsole.SetDaysofOperation();
+                    gameConsole.DisplayWeather(player.franchise);
+                    gameConsole.DisplayCash(player.franchise);
                     player.franchise.BuyInventory();
                     player.franchise.CreateRecipe();
+                    player.franchise.CheckInventory();
                     player.franchise.SetProductPrice();
                     player.franchise.GenerateDemandLevel();
                     player.franchise.soldOut = false;
@@ -39,7 +41,6 @@ namespace LemonadeStand
 
                     player.franchise.dayOfOperation++;
 
-                    //create store, set weather, buy inventory, create recipe, set price, sell to customers, update revenue 
                 }
                 player.franchise.DisplayFinalResults();
                 //Console.WriteLine("Do you want to play again - Y/N?");
