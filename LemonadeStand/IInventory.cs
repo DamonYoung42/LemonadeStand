@@ -8,10 +8,10 @@ namespace LemonadeStand
 {
     public interface IInventory
     {
-        int GetInventoryItemCount(Ingredient item);
-        void AddToInventory(Ingredient item);
-        void SubtractFromInventory(Ingredient item);
-        //void CheckForSpoilage();
+        int CountInventory();
+        void AddInventory();
+        void SubtractInventory();
+
 
     }
 

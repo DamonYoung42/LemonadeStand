@@ -8,7 +8,7 @@ namespace LemonadeStand
 {
     public class Game
     {
-        public UserInterface gameConsole;
+        public UserInput gameConsole;
         public Player player;
         public bool endGame;
         public string playAgain;
@@ -16,11 +16,14 @@ namespace LemonadeStand
         public Game()
         {
             endGame = false;
-            gameConsole = new UserInterface();
+            gameConsole = new UserInput();
             gameConsole.IntroduceGame();
             player = new Player(gameConsole.SetPlayerName().ToUpper());
             player.franchise.maxNumOfDays = gameConsole.SetDaysofOperation();
+        }
 
+        public void RunGame()
+        {
             while (!endGame)
             {
                 while ((!player.franchise.bankrupt) && (player.franchise.dayOfOperation <= player.franchise.maxNumOfDays))

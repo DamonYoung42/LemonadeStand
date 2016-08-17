@@ -9,9 +9,10 @@ namespace LemonadeStand
     public class Store
     {
 
-        public List<Ingredient> storeInventory;
+        public List<Ingredient> storeInventoryList;
+        public Inventory storeInventory;
         public Weather weatherConditions;
-        public UserInterface storeInterface;
+        public UserInput storeInterface;
         public int dayOfOperation;
         public double cashOnHand;
         public double initialInvestment;
@@ -27,16 +28,18 @@ namespace LemonadeStand
         public bool bankrupt;
         public double demandLevel;
         public List<Customer> dailyCustomers;
-        public int numOfCustomers;
+        public int dailyNumOfCustomers;
         public int spoiledLemons;
         public int spoiledIce;
         public int spoiledSugar;
         public bool validRecipe;
 
 
+
         public Store()
         {
-            storeInventory = new List<Ingredient> { };
+            storeInventoryList = new List<Ingredient>();
+            storeInventory = new Inventory();
             initialInvestment = 10.00;
             cashOnHand = initialInvestment;
             recipe = new Recipe();
@@ -55,7 +58,7 @@ namespace LemonadeStand
             spoiledLemons = 0;
             spoiledIce = 0;
             spoiledSugar = 0;
-            storeInterface = new UserInterface();
+            storeInterface = new UserInput();
             validRecipe = false;
 
         }
@@ -67,26 +70,26 @@ namespace LemonadeStand
 
         public void AddToInventory(Ingredient item)
         {
-            storeInventory.Add(item);
+            storeInventoryList.Add(item);
 
         }
 
         public void SubtractFromInventory(Ingredient item)
         {
 
-            storeInventory.Remove(item);
+            storeInventoryList.Remove(item);
         }
 
-        public int GetInventoryItemCount(Ingredient item)
-        {
-            return storeInventory.Count(x => x.name == item.name);
+        //public int GetInventoryItemCount(Ingredient item)
+        //{
+        //    return storeInventoryList.Count(x => x.name == item.name);
 
-        }
+        //}
 
         public void SubtractSpoiledDay()
         {
-            foreach(Ingredient ingredient in storeInventory)
-            ingredient.numOfDaysBeforeExpiration -= 1;
+            foreach(Ingredient ingredient in storeInventoryList)
+                ingredient.numOfDaysBeforeExpiration -= 1;
         }
 
 
@@ -108,7 +111,7 @@ namespace LemonadeStand
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} lemons in your inventory.", storeInventory.Count(x => x.name == "lemon"));
+            Console.WriteLine("You have {0} lemons in your inventory.", storeInventory.lemonInventory.Count());
             userInput = storeInterface.SetInventory("lemon");
             
             //Console.WriteLine("You have {0} lemons in your inventory.", storeInventory.Count(x => x.name == "lemon"));
@@ -143,7 +146,7 @@ namespace LemonadeStand
                 for (int i = 1; i <= numOfItemsToAdd; i++)
                 {
                     newLemon = new Lemon();
-                    AddToInventory(newLemon);
+                    storeInventory.lemonInventory.Add(newLemon);
                 }
                 dailyExpenses += cost;
                 totalExpenses += cost;
@@ -160,7 +163,7 @@ namespace LemonadeStand
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} sugar in your inventory.", storeInventory.Count(x => x.name == "sugar"));
+            Console.WriteLine("You have {0} sugar in your inventory.", storeInventory.sugarInventory.Count());
             userInput = storeInterface.SetInventory("sugar");
             //Console.WriteLine("How much sugar would you like to buy?");
             //Console.WriteLine("Option 1: 5 for $0.60");
@@ -190,7 +193,7 @@ namespace LemonadeStand
                 for (int i = 1; i <= numOfItemsToAdd; i++)
                 {
                     newSugar = new Sugar();
-                    AddToInventory(newSugar);
+                    storeInventory.sugarInventory.Add(newSugar);
                 }
                 dailyExpenses += cost;
                 totalExpenses += cost;
@@ -207,7 +210,7 @@ namespace LemonadeStand
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} ice cubes in your inventory.", storeInventory.Count(x => x.name == "ice"));
+            Console.WriteLine("You have {0} ice cubes in your inventory.", storeInventory.iceInventory.Count());
             userInput = storeInterface.SetInventory("ice");
             //Console.WriteLine("How many ice cubes would you like to buy?");
             //Console.WriteLine("Option 1: 100 for $0.80");
@@ -240,7 +243,7 @@ namespace LemonadeStand
                 for (int i = 1; i <= numOfItemsToAdd; i++)
                 {
                     newIce = new Ice();
-                    AddToInventory(newIce);
+                    storeInventory.iceInventory.Add(newIce);
                 }
                 dailyExpenses += cost;
                 totalExpenses += cost;
@@ -257,7 +260,7 @@ namespace LemonadeStand
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} cups in your inventory.", storeInventory.Count(x => x.name == "cup"));
+            Console.WriteLine("You have {0} cups in your inventory.", storeInventory.cupInventory.Count());
             userInput = storeInterface.SetInventory("cup");
             //Console.WriteLine("How many cups would you like to buy?");
             //Console.WriteLine("Option 1: 50 for $3.00");
@@ -290,7 +293,7 @@ namespace LemonadeStand
                 for (int i = 1; i <= numOfItemsToAdd; i++)
                 {
                     newCup = new Cup();
-                    AddToInventory(newCup);
+                    storeInventory.cupInventory.Add(newCup);
                 }
                 dailyExpenses += cost;
                 totalExpenses += cost;
@@ -383,7 +386,7 @@ namespace LemonadeStand
         {
             foreach (RecipeIngredient ingredient in recipe.recipeIngredients)
             {
-                if (ingredient.quantity < storeInventory.Count(x => x.name == ingredient.name))
+                if (ingredient.quantity < storeInventoryList.Count(x => x.name == ingredient.name))
                 {
                     validRecipe = true;
                 }
@@ -433,17 +436,17 @@ namespace LemonadeStand
             {
                 for (int i = 0; i < ingredient.quantity; i++)
                 {
-                    storeInventory.Remove(storeInventory.First(item => item.name == ingredient.name));
+                    storeInventoryList.Remove(storeInventoryList.First(item => item.name == ingredient.name));
                 }
             }
         }
 
         public void CheckInventory()
         {
-            if ((storeInventory.Count(x => x.name == "lemon") < recipe.recipeIngredients.Find(x => x.name == "lemon").quantity) ||
-                    (storeInventory.Count(x => x.name == "sugar") < recipe.recipeIngredients.Find(x => x.name == "sugar").quantity) ||
-                    (storeInventory.Count(x => x.name == "ice") < recipe.recipeIngredients.Find(x => x.name == "ice").quantity) ||
-                    (storeInventory.Count(x => x.name == "cup") < recipe.recipeIngredients.Find(x => x.name == "cup").quantity))
+            if ((storeInventory.lemonInventory.Count() < recipe.recipeIngredients.Find(x => x.name == "lemon").quantity) ||
+                    (storeInventory.sugarInventory.Count() < recipe.recipeIngredients.Find(x => x.name == "sugar").quantity) ||
+                    (storeInventory.iceInventory.Count() < recipe.recipeIngredients.Find(x => x.name == "ice").quantity) ||
+                    (storeInventory.cupInventory.Count() < recipe.recipeIngredients.Find(x => x.name == "cup").quantity))
             {
                 soldOut = true;
             }
@@ -456,27 +459,47 @@ namespace LemonadeStand
 
         public void GenerateCustomers()
         {
+            int numOfCustomersMin = 25;
+            int numOfCustomersMax = 150;
             Random random = new Random(DateTime.Now.Millisecond);
-            numOfCustomers = random.Next(25, 100);
-            for (int i = 0; i < Convert.ToInt32(numOfCustomers); i++)
+
+            dailyNumOfCustomers = random.Next(numOfCustomersMin, numOfCustomersMax);
+
+            for (int i = 0; i < Convert.ToInt32(dailyNumOfCustomers); i++)
             {
                 Customer newCustomer = new Customer(weatherConditions, productPrice);
                 dailyCustomers.Add(newCustomer);
             }
 
         }
+        
+        public void RemoveSpoiledInventory()
+        {
+            storeInventoryList.RemoveAll(item => item.numOfDaysBeforeExpiration == 0);
+        }
 
         public void GenerateDemandLevel()
         {
-            Random chance = new Random(DateTime.Now.Millisecond);
+            int temperatureLevelOne = 60;
+            int temperatureLevelTwo = 75;
+            int temperatureLevelThree = 85;
+            double sunnyFactor = 1.1;
+            double overcastFactor = .80;
+            double rainyFactor = .20;
+
+        Random chance = new Random(DateTime.Now.Millisecond);
             demandLevel = chance.Next(0, 100);
-            if (weatherConditions.temperature < 60)
+            if (weatherConditions.temperature < temperatureLevelOne)
             {
-                demandLevel *= .20;
+                demandLevel *= .30;
             }
-            else if (weatherConditions.temperature < 75)
+            else if (weatherConditions.temperature < temperatureLevelTwo)
             {
                 demandLevel *= .60;
+            }
+            else if (weatherConditions.temperature < temperatureLevelThree)
+            {
+                demandLevel *= .75;
             }
             else
             {
@@ -486,22 +509,16 @@ namespace LemonadeStand
             switch (weatherConditions.conditions)
             {
                 case "Sunny":
-                    demandLevel *= 1.1;
+                    demandLevel *= sunnyFactor;
                     break;
                 case "Overcast":
-                    demandLevel *= .90;
+                    demandLevel *= overcastFactor;
                     break;
                 case "Rainy":
-                    demandLevel *= .10;
+                    demandLevel *= rainyFactor;
                     break;
             }
         }
-
-        public void RemoveSpoiledInventory()
-        {
-            storeInventory.RemoveAll(item => item.numOfDaysBeforeExpiration == 0);
-        }
-
 
     }
 }

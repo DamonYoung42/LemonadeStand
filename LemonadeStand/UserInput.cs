@@ -8,16 +8,16 @@ namespace LemonadeStand
 {
 
 
-    public class UserInterface
+    public class UserInput
     {
-        public int inventoryQuantityMin;
-        public int inventoryQuantityMax;
-        public int recipeIngredientQuantityMin;
-        public int recipeIngredientQuantityMax;
-        public int numOfDaysMin;
-        public int numOfDaysMax;
-
-        public UserInterface()
+        protected int inventoryQuantityMin;
+        protected int inventoryQuantityMax;
+        protected int recipeIngredientQuantityMin;
+        protected int recipeIngredientQuantityMax;
+        protected int numOfDaysMin;
+        protected int numOfDaysMax;
+        
+        public UserInput()
         {
             inventoryQuantityMin = 1;
             inventoryQuantityMax = 4;
@@ -125,7 +125,7 @@ namespace LemonadeStand
         public int SetDaysofOperation()
         {
             int quantity;
-            Console.WriteLine("How many days would you like to be open for business?");
+            Console.WriteLine("How many days (7-21) would you like to be open for business?");
             while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < numOfDaysMin) || (quantity > numOfDaysMax)))
             {
                 {
@@ -148,13 +148,13 @@ namespace LemonadeStand
 
         public void DisplayDailyResults(Store store)
         {
-            Console.WriteLine("You had {0} customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", store.numOfCustomers, store.dailyCupsSold, store.dailyRevenue, store.dayOfOperation);
+            Console.WriteLine("You had {0} customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", store.dailyNumOfCustomers, store.dailyCupsSold, store.dailyRevenue, store.dayOfOperation);
             Console.WriteLine("Your total expenses for the day equaled {0:$0.00}.", store.dailyExpenses);
             Console.WriteLine("Your net income for Day {0} was {1:$0.00}", store.dayOfOperation, (store.dailyRevenue - store.dailyExpenses));
             Console.WriteLine("You lost {0} lemons, {1} sugars and {2} ice cubes to spoilage.", +
-                store.storeInventory.Count(ingredient => (ingredient.name == "lemon") && (ingredient.numOfDaysBeforeExpiration == 0)), +
-                store.storeInventory.Count(ingredient => (ingredient.name == "sugar") && (ingredient.numOfDaysBeforeExpiration == 0)), +
-                store.storeInventory.Count(ingredient => (ingredient.name == "ice") && (ingredient.numOfDaysBeforeExpiration == 0)));
+                store.storeInventory.lemonInventory.Count(item => item.numOfDaysBeforeExpiration == 0), +
+                store.storeInventory.iceInventory.Count(item => item.numOfDaysBeforeExpiration == 0), +
+                store.storeInventory.sugarInventory.Count(item => item.numOfDaysBeforeExpiration == 0));
         }
 
         public void DisplayFinalResults(Store store)

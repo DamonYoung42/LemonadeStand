@@ -8,10 +8,10 @@ namespace LemonadeStand
 {
     public class Lemon : Ingredient
     {
-        public Lemon() : base()
+        public Lemon()
         {
-            this.name = "lemon";
-            this.numOfDaysBeforeExpiration = 7;
+            numOfDaysBeforeExpiration = 7;
         }
+
     }
 }

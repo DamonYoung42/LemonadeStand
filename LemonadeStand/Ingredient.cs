@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    public class Ingredient
+    public abstract class Ingredient
     {
-        public string name;
         public int numOfDaysBeforeExpiration;
 
         public Ingredient()
         {
 
         }
-
-
     }
 }

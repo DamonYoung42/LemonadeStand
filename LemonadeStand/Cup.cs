@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    class Cup : Ingredient
+    public class Cup : Ingredient
     {
 
-        public Cup() : base()
+        public Cup()
         {
-            this.name = "cup";
-            this.numOfDaysBeforeExpiration = 100;
+            numOfDaysBeforeExpiration = 100;
         }
+
     }
 }

@@ -16,10 +16,10 @@ namespace LemonadeStand
 
         public Weather()
         {
-            SetWeather();
+            SetWeatherForecast();
         }
 
-        public void SetWeather()
+        public void SetWeatherForecast()
         {
             Random random = new Random(DateTime.Now.Millisecond);
 
@@ -30,6 +30,14 @@ namespace LemonadeStand
             conditions = clouds[index.Next(0, clouds.Count())];
         }
 
+        public void SetWeatherActual(Weather weatherForecast)
+        {
+            int weatherVariance = 10;
+            Random random = new Random(DateTime.Now.Millisecond);
+            temperature = random.Next(weatherForecast.temperature - weatherVariance, weatherForecast.temperature + weatherVariance);
+            Random index = new Random(DateTime.Now.Millisecond);
+            conditions = clouds[index.Next(0, clouds.Count())];
+        }
     }
 
    

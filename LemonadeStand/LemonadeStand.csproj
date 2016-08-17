@@ -59,7 +59,7 @@
     <Compile Include="RecipeIngredient.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="Sugar.cs" />
-    <Compile Include="UserInterface.cs" />
+    <Compile Include="UserInput.cs" />
     <Compile Include="Weather.cs" />
   </ItemGroup>
   <ItemGroup>
