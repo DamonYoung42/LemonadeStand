@@ -19,6 +19,7 @@ namespace LemonadeStand
             gameConsole = new UserInterface();
             gameConsole.IntroduceGame();
             player = new Player(gameConsole.SetPlayerName().ToUpper());
+            player.franchise.maxNumOfDays = gameConsole.SetDaysofOperation();
 
             while (!endGame)
             {
@@ -26,7 +27,8 @@ namespace LemonadeStand
                 {
                     player.franchise.weatherConditions = new Weather();
                     player.franchise.recipe = new Recipe();
-                    player.franchise.maxNumOfDays = gameConsole.SetDaysofOperation();
+                    player.franchise.soldOut = false;
+
                     gameConsole.DisplayWeather(player.franchise);
                     gameConsole.DisplayCash(player.franchise);
                     player.franchise.BuyInventory();
@@ -34,15 +36,16 @@ namespace LemonadeStand
                     player.franchise.CheckInventory();
                     player.franchise.SetProductPrice();
                     player.franchise.GenerateDemandLevel();
-                    player.franchise.soldOut = false;
+                    player.franchise.GenerateCustomers();
                     player.franchise.SellToCustomers();
-                    player.franchise.DisplayDailyResults();
+                    player.franchise.SubtractSpoiledDay();
+                    gameConsole.DisplayDailyResults(player.franchise);
                     player.franchise.RemoveSpoiledInventory();
 
                     player.franchise.dayOfOperation++;
 
                 }
-                player.franchise.DisplayFinalResults();
+                gameConsole.DisplayFinalResults(player.franchise);
                 //Console.WriteLine("Do you want to play again - Y/N?");
                 //playAgain = Console.ReadLine().ToUpper();
 

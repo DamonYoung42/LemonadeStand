@@ -6,8 +6,29 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
+
+
     public class UserInterface
     {
+        public int inventoryQuantityMin;
+        public int inventoryQuantityMax;
+        public int recipeIngredientQuantityMin;
+        public int recipeIngredientQuantityMax;
+        public int numOfDaysMin;
+        public int numOfDaysMax;
+
+        public UserInterface()
+        {
+            inventoryQuantityMin = 1;
+            inventoryQuantityMax = 4;
+            recipeIngredientQuantityMin = 1;
+            recipeIngredientQuantityMax = 5;
+            numOfDaysMin = 7;
+            numOfDaysMax = 21;
+
+        }
+
+
         public void IntroduceGame()
         {
             Console.WriteLine("Welcome to Lemonade Stand!");
@@ -67,7 +88,7 @@ namespace LemonadeStand
             }
 
 
-	        while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < 1) || (quantity > 4)))
+	        while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < inventoryQuantityMin) || (quantity > inventoryQuantityMax)))
 	        {
                      Console.WriteLine("Enter one of the four options!");             
 	        }
@@ -91,7 +112,8 @@ namespace LemonadeStand
         {
             int quantity;
             Console.WriteLine("How many {0} per cup?", ingredient);
-            while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < 1) || (quantity > 5)))
+
+            while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < recipeIngredientQuantityMin) || (quantity > recipeIngredientQuantityMax)))
             {
                 Console.WriteLine("Enter a quantity between 1-5.");
 
@@ -104,7 +126,7 @@ namespace LemonadeStand
         {
             int quantity;
             Console.WriteLine("How many days would you like to be open for business?");
-            while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity <= 6) || (quantity > 21)))
+            while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < numOfDaysMin) || (quantity > numOfDaysMax)))
             {
                 {
                     Console.WriteLine("Enter a number between 7-21.");
@@ -122,6 +144,24 @@ namespace LemonadeStand
         public void DisplayCash(Store store)
         {
             Console.WriteLine("You have {0:$0.00} cash to buy supplies.", store.cashOnHand);
+        }
+
+        public void DisplayDailyResults(Store store)
+        {
+            Console.WriteLine("You had {0} customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", store.numOfCustomers, store.dailyCupsSold, store.dailyRevenue, store.dayOfOperation);
+            Console.WriteLine("Your total expenses for the day equaled {0:$0.00}.", store.dailyExpenses);
+            Console.WriteLine("Your net income for Day {0} was {1:$0.00}", store.dayOfOperation, (store.dailyRevenue - store.dailyExpenses));
+            Console.WriteLine("You lost {0} lemons, {1} sugars and {2} ice cubes to spoilage.", +
+                store.storeInventory.Count(ingredient => (ingredient.name == "lemon") && (ingredient.numOfDaysBeforeExpiration == 0)), +
+                store.storeInventory.Count(ingredient => (ingredient.name == "sugar") && (ingredient.numOfDaysBeforeExpiration == 0)), +
+                store.storeInventory.Count(ingredient => (ingredient.name == "ice") && (ingredient.numOfDaysBeforeExpiration == 0)));
+        }
+
+        public void DisplayFinalResults(Store store)
+        {
+            Console.WriteLine("You made {0:$0.00} in total revenue.", store.totalRevenue);
+            Console.WriteLine("You spent {0:$0.00} on inventory.", store.totalExpenses);
+            Console.WriteLine("You made a net profit of {0:$0.00}", store.totalRevenue - store.totalExpenses);
         }
         //public Recipe GetRecipeRequirements()
         //{

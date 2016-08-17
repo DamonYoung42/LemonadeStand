@@ -83,9 +83,10 @@ namespace LemonadeStand
 
         }
 
-        public void SubtractSpoiledDay(Ingredient item)
+        public void SubtractSpoiledDay()
         {
-            item.numOfDaysBeforeExpiration -= 1;
+            foreach(Ingredient ingredient in storeInventory)
+            ingredient.numOfDaysBeforeExpiration -= 1;
         }
 
 
@@ -306,6 +307,7 @@ namespace LemonadeStand
             }
             return true;
         }
+
         //public void DisplayInventory()
         //{
         //    var distinctInventoryItems = storeInventory.Select(x => x.name)
@@ -354,6 +356,9 @@ namespace LemonadeStand
                 ingredient = new RecipeIngredient("ice", quantity);
                 recipe.recipeIngredients.Add(ingredient);
 
+                ingredient = new RecipeIngredient("cup", 1);
+                recipe.recipeIngredients.Add(ingredient);
+
                 CheckForValidRecipe();
 
             } while (!validRecipe);
@@ -393,65 +398,52 @@ namespace LemonadeStand
 
          public void SellToCustomers()
         {
-            Ingredient deleteCup;
-            while (!soldOut) 
+            //open for business, generate customers
+            //Update daily revenue, total revenue, total expenses
+
+            Console.WriteLine("selling ... selling ... selling!!!");
+       
+            foreach(Customer customer in dailyCustomers)
             {
-                //open for business, generate customers
-                //Update daily revenue, total revenue, total expenses
-
-                Console.WriteLine("selling ... selling ... selling!!!");
-
-                GenerateCustomers();
-                
-                foreach(Customer customer in dailyCustomers)
+                if (!soldOut)
                 {
-                    if (customer.chanceOfPurchase > demandLevel)
+                    if (customer.chanceOfPurchase >= demandLevel)
                     {
                         dailyCupsSold++;
                         dailyRevenue += productPrice;
-
-                        //remove inventory
+                        ////remove inventory
                         RemoveInventory();
-
-                        //check inventory levels
-                        CheckInventory();
                     }
+                
+                    ////check inventory levels
+                    CheckInventory();
                 }
             }
+
             totalRevenue += dailyRevenue;
             cashOnHand += dailyRevenue;
 
-            foreach (Ingredient ingredient in storeInventory)
-            {
-                    SubtractSpoiledDay(ingredient);
-            }
+        
+
         }
 
         public void RemoveInventory()
         {
-
-
+            foreach (RecipeIngredient ingredient in recipe.recipeIngredients)
+            {
+                for (int i = 0; i < ingredient.quantity; i++)
+                {
+                    storeInventory.Remove(storeInventory.First(item => item.name == ingredient.name));
+                }
+            }
         }
 
         public void CheckInventory()
         {
-            if (storeInventory.Count(x => x.name == "lemon") < recipe.recipeIngredients.Find(x => x.name == "lemon").quantity)
-            {
-                soldOut = true;
-            }
-
-            if (storeInventory.Count(x => x.name == "sugar") < recipe.recipeIngredients.Find(x => x.name == "sugar").quantity)
-            {
-                soldOut = true;
-            }
-
-            if (storeInventory.Count(x => x.name == "ice") < recipe.recipeIngredients.Find(x => x.name == "ice").quantity)
-            {
-                soldOut = true;
-            }
-
-
-            if (storeInventory.Count(x => x.name == "cup") == 0)
+            if ((storeInventory.Count(x => x.name == "lemon") < recipe.recipeIngredients.Find(x => x.name == "lemon").quantity) ||
+                    (storeInventory.Count(x => x.name == "sugar") < recipe.recipeIngredients.Find(x => x.name == "sugar").quantity) ||
+                    (storeInventory.Count(x => x.name == "ice") < recipe.recipeIngredients.Find(x => x.name == "ice").quantity) ||
+                    (storeInventory.Count(x => x.name == "cup") < recipe.recipeIngredients.Find(x => x.name == "cup").quantity))
             {
                 soldOut = true;
             }
@@ -510,19 +502,6 @@ namespace LemonadeStand
             storeInventory.RemoveAll(item => item.numOfDaysBeforeExpiration == 0);
         }
 
-        public void DisplayDailyResults()
-        {
-            Console.WriteLine("You sold {0} cups of lemonade and added {1:$0.00} in revenue on Day {2}.", dailyCupsSold, dailyRevenue, dayOfOperation);
-            Console.WriteLine("Your total expenses for the day equaled {0:$0.00}.", dailyExpenses);
-            Console.WriteLine("Your net income for Day {0} was {1:$0.00}", dayOfOperation, (dailyRevenue - dailyExpenses));
-            Console.WriteLine("You lost {0} lemons, {1} sugars and {2} ice cubes to spoilage.", storeInventory.Count(ingredient => (ingredient.name == "lemon") && (ingredient.numOfDaysBeforeExpiration == 0)), storeInventory.Count(ingredient => (ingredient.name == "sugar") && (ingredient.numOfDaysBeforeExpiration == 0)), storeInventory.Count(ingredient => (ingredient.name == "ice") && (ingredient.numOfDaysBeforeExpiration == 0)));
-        }
 
-        public void DisplayFinalResults()
-        {
-            Console.WriteLine("You made {0:$0.00} in total revenue.", totalRevenue);
-            Console.WriteLine("You spent {0:$0.00} on inventory.", totalExpenses);
-            Console.WriteLine("You made a net profit of {0:$0.00}", totalRevenue - totalExpenses);
-        }
     }
 }
