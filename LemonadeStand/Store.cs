@@ -44,6 +44,7 @@ namespace LemonadeStand
             productPrice = 0;
             dailyCupsSold = 0;
             dailyRevenue = 0;
+            totalRevenue = 0;
             dailyExpenses = 0;
             totalExpenses = 0;
             bankrupt = false;
@@ -56,7 +57,7 @@ namespace LemonadeStand
 
         public void DisplayWeather()
         {
-            Console.WriteLine("The weather forecast today is {0} and {1}", weatherConditions.temperature, weatherConditions.conditions);
+            Console.WriteLine("The weather forecast for Day {0} is {1} and {2}",dayOfOperation, weatherConditions.temperature, weatherConditions.conditions);
         }
 
         public void AddToInventory(Ingredient item)
@@ -97,7 +98,7 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            Lemon newLemon = new Lemon();
+            Lemon newLemon;
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
@@ -132,9 +133,11 @@ namespace LemonadeStand
             {
                 for (int i = 1; i <= numOfItemsToAdd; i++)
                 {
+                    newLemon = new Lemon();
                     AddToInventory(newLemon);
                 }
-
+                dailyExpenses += cost;
+                totalExpenses += cost;
                 UpdateCashOnHand(cost);
             }
 
@@ -144,7 +147,7 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            Sugar newSugar = new Sugar();
+            Sugar newSugar;
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
@@ -176,8 +179,11 @@ namespace LemonadeStand
             {
                 for (int i = 1; i <= numOfItemsToAdd; i++)
                 {
+                    newSugar = new Sugar();
                     AddToInventory(newSugar);
                 }
+                dailyExpenses += cost;
+                totalExpenses += cost;
                 UpdateCashOnHand(cost);
             }
 
@@ -187,7 +193,7 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            Ice newIce = new Ice();
+            Ice newIce;
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
@@ -222,8 +228,11 @@ namespace LemonadeStand
             {
                 for (int i = 1; i <= numOfItemsToAdd; i++)
                 {
+                    newIce = new Ice();
                     AddToInventory(newIce);
                 }
+                dailyExpenses += cost;
+                totalExpenses += cost;
                 UpdateCashOnHand(cost);
             }
 
@@ -233,7 +242,7 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            Cup newCup = new Cup();
+            Cup newCup;
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
@@ -268,9 +277,11 @@ namespace LemonadeStand
             {
                 for (int i = 1; i <= numOfItemsToAdd; i++)
                 {
+                    newCup = new Cup();
                     AddToInventory(newCup);
                 }
-
+                dailyExpenses += cost;
+                totalExpenses += cost;
                 UpdateCashOnHand(cost);
             }
 
@@ -333,12 +344,13 @@ namespace LemonadeStand
 
         public void SellToCustomers()
         {
+            Ingredient deleteCup;
             while (!soldOut) 
             {
                 //Reset weather
                 //Create Recipe
                 //open for business, generate customers
-                //Update daily revenue, total revenue
+                //Update daily revenue, total revenue, total expenses
 
                 Console.WriteLine("selling ... selling ... selling!!!");
 
@@ -350,7 +362,7 @@ namespace LemonadeStand
                         //cust buys lemonade
                         dailyCupsSold++;
                         dailyRevenue += productPrice;
-                        
+
                         //remove inventory
                         
                         //check inventory levels
@@ -366,8 +378,8 @@ namespace LemonadeStand
 
             foreach (Ingredient ingredient in storeInventory)
             {
-                ingredient.numOfDaysBeforeExpiration -= 1;
-                //SubtractSpoiledDay(ingredient);
+                //ingredient.numOfDaysBeforeExpiration -= 1;
+                SubtractSpoiledDay(ingredient);
             }
         }
 
@@ -422,6 +434,8 @@ namespace LemonadeStand
         public void DisplayDailyResults()
         {
             Console.WriteLine("You sold {0} cups of lemonade and added {1:$0.00} in revenue on Day {2}.", dailyCupsSold, dailyRevenue, dayOfOperation);
+            Console.WriteLine("Your total expenses for the day equaled {0:$0.00}.", dailyExpenses);
+            Console.WriteLine("Your net income for Day {0} was {1:$0.00}", dayOfOperation, (dailyRevenue - dailyExpenses));
             Console.WriteLine("You lost {0} lemons, {1} sugars and {2} ice cubes to spoilage.", storeInventory.Count(ingredient => (ingredient.name == "lemon") && (ingredient.numOfDaysBeforeExpiration == 0)), storeInventory.Count(ingredient => (ingredient.name == "sugar") && (ingredient.numOfDaysBeforeExpiration == 0)), storeInventory.Count(ingredient => (ingredient.name == "ice") && (ingredient.numOfDaysBeforeExpiration == 0)));
         }
 

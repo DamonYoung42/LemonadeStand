@@ -32,6 +32,7 @@ namespace LemonadeStand
                     player.franchise.CreateRecipe();
                     player.franchise.SetProductPrice();
                     player.franchise.GenerateDemandLevel();
+                    player.franchise.soldOut = false;
                     player.franchise.SellToCustomers();
                     player.franchise.DisplayDailyResults();
                     player.franchise.RemoveSpoiledInventory();
@@ -41,8 +42,8 @@ namespace LemonadeStand
                     //create store, set weather, buy inventory, create recipe, set price, sell to customers, update revenue 
                 }
                 player.franchise.DisplayFinalResults();
-                Console.WriteLine("Do you want to play again - Y/N?");
-                playAgain = Console.ReadLine().ToUpper();
+                //Console.WriteLine("Do you want to play again - Y/N?");
+                //playAgain = Console.ReadLine().ToUpper();
 
                 //if (playAgain == "N")
                 //{
