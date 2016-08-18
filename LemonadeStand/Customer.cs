@@ -10,16 +10,16 @@ namespace LemonadeStand
     {
         public double chanceOfPurchase;
         static Random customerChance = new Random(DateTime.Now.Millisecond);
-        private int temperatureLevelOne = 60;
-        private int temperatureLevelTwo = 75;
-        private double temperatureLevelOneFactor = .20;
-        private double temperatureLevelTwoFactor = .60;
-        private double temperatureLevelThreeFactor = .90;
-        private double sunnyFactor = 1.1;
-        private double overcastFactor = .75;
-        private double rainyFactor = .10;
-        private double priceLevelOne = .50;
-        private double priceLevelTwo = 1;
+        public int temperatureLevelOne = 60;
+        public int temperatureLevelTwo = 75;
+        public double temperatureLevelOneFactor = .20;
+        public double temperatureLevelTwoFactor = .60;
+        public double temperatureLevelThreeFactor = .90;
+        public double sunnyFactor = 1.1;
+        public double overcastFactor = .75;
+        public double rainyFactor = .20;
+        public double priceLevelOne = .50;
+        public double priceLevelTwo = 1;
 
         public Customer(Weather weather, double price)
         {

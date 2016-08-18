@@ -22,12 +22,8 @@ namespace LemonadeStand
 
         }
 
-        public void RemoveSpoiledInventory()
-        {
-            lemonInventory.RemoveAll(item => item.numOfDaysBeforeExpiration == 0);
-            iceInventory.RemoveAll(item => item.numOfDaysBeforeExpiration == 0);
-            sugarInventory.RemoveAll(item => item.numOfDaysBeforeExpiration == 0);
-        }
+
+
 
     }
 }

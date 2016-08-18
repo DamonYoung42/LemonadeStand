@@ -20,9 +20,8 @@ namespace LemonadeStand
         public double pricePerCup;
         public double dailyRevenue;
         public double dailyExpenses;
-        public int dayOfOperation;
-
         public bool soldOut;
+        public int numOfPitchers;
 
         public Day()
         {
@@ -36,10 +35,17 @@ namespace LemonadeStand
             dailyRevenue = 0;
             dailyExpenses = 0;
             soldOut = false;
-            dayOfOperation = 0;
-
+            numOfPitchers = 0;
         }
 
-        //create recipe, set price, tally daily revenue, update total revenue
+        public void AddToDailyExpenses(double cost)
+        {
+            dailyExpenses += cost;
+        }
+
+        public void AddToDailyRevenue(double price)
+        {
+            dailyRevenue += price;
+        }
     }
 }

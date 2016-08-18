@@ -8,7 +8,6 @@ namespace LemonadeStand
 {
     public class Sugar : Ingredient
     {
-
         public Sugar()
         {
             numOfDaysBeforeExpiration = 3;

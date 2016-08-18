@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-
-
+    
     public class UserInput
     {
         protected int inventoryQuantityMin;
@@ -25,14 +24,12 @@ namespace LemonadeStand
             recipeIngredientQuantityMax = 5;
             numOfDaysMin = 7;
             numOfDaysMax = 21;
-
         }
-
 
         public void IntroduceGame()
         {
             Console.WriteLine("Welcome to Lemonade Stand!");
-            Console.WriteLine("You'll create your own recipe and try to sell as much you can over seven days.");
+            Console.WriteLine("You'll create your own recipe and try to sell as much you can over a period of days.");
             Console.WriteLine("The amount of cups you sell is affected by weather and the price you set.");
             Console.WriteLine("Good luck! Let's get started. You have $20.00 to start buying inventory.");
         }
@@ -84,9 +81,7 @@ namespace LemonadeStand
                     Console.WriteLine("Option 4: Keep current inventory level");
                     Console.WriteLine("Please enter the number of your selection:");
                     break;
-
             }
-
 
 	        while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < inventoryQuantityMin) || (quantity > inventoryQuantityMax)))
 	        {
@@ -103,7 +98,6 @@ namespace LemonadeStand
             while (!double.TryParse(Console.ReadLine(), out price))
             {
                 Console.WriteLine("Enter a valid price.");
-
             }
             return price;
         }
@@ -145,9 +139,14 @@ namespace LemonadeStand
             return quantity;
         }
 
-        public void DisplayWeather(Weather weather)
+        public void DisplayWeatherForecast(Weather weather)
         {
-            Console.WriteLine("The weather forecast is {0} and {1}", weather.temperature, weather.conditions);
+            Console.WriteLine("The weather forecast calls for {0} degrees and {1} conditions", weather.temperature, weather.conditions);
+        }
+
+        public void DisplayActualWeather(Weather weather)
+        {
+            Console.WriteLine("The actual weather today is {0} degrees and {1} skies", weather.temperature, weather.conditions);
         }
 
         public void DisplayCash(Store store)
@@ -157,10 +156,10 @@ namespace LemonadeStand
 
         public void DisplayDailyResults(Day day)
         {
-            Console.WriteLine("You had {0} customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", day.numOfCustomers, 
-                day.numOfBuyingCustomers, day.dailyRevenue, day.dayOfOperation);
+            Console.WriteLine("You had {0} potential customers and sold {1} cups of lemonade for {2:$0.00} in revenue.", day.numOfCustomers, 
+                day.numOfBuyingCustomers, day.dailyRevenue);
             Console.WriteLine("Your total expenses for the day equaled {0:$0.00}.", day.dailyExpenses);
-            Console.WriteLine("Your net income for Day {0} was {1:$0.00}", day.dayOfOperation, (day.dailyRevenue - day.dailyExpenses));
+            Console.WriteLine("Your net income was {0:$0.00}", (day.dailyRevenue - day.dailyExpenses));
 
         }
 

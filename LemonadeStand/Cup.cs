@@ -8,7 +8,6 @@ namespace LemonadeStand
 {
     public class Cup : Ingredient
     {
-
         public Cup()
         {
             numOfDaysBeforeExpiration = 100;
