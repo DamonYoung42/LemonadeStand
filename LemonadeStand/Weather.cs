@@ -12,17 +12,16 @@ namespace LemonadeStand
         public string conditions;
         public List<string> clouds = new List<string> { "Sunny", "Overcast", "Rainy" };
 
-        private int weatherVariance = 10;
-        private int temperatureMin = 30;
-        private int temperatureMax = 100;
-
+       
         public Weather()
         {
-            SetWeatherForecast();
         }
 
-        public void SetWeatherForecast()
+        public void SetWeather()
         {
+            int temperatureMin = 30;
+            int temperatureMax = 100;
+
             Random random = new Random(DateTime.Now.Millisecond);
 
             temperature = random.Next(temperatureMin, temperatureMax);
@@ -32,13 +31,19 @@ namespace LemonadeStand
             conditions = clouds[index.Next(0, clouds.Count())];
         }
 
-        public void SetWeatherActual(Weather weatherForecast)
+        public void SetWeather(Weather weatherForecast)
         {
-            
+            int weatherVariance = 5;
+
             Random random = new Random(DateTime.Now.Millisecond);
             temperature = random.Next(weatherForecast.temperature - weatherVariance, weatherForecast.temperature + weatherVariance);
             Random index = new Random(DateTime.Now.Millisecond);
             conditions = clouds[index.Next(0, clouds.Count())];
+        }
+
+        public void DisplayWeather(Weather weather)
+        {
+            Console.WriteLine("The weather forecast is {1} and {2}", weather.temperature, weather.conditions);
         }
     }
 

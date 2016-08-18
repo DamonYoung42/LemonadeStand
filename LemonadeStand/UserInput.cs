@@ -34,9 +34,9 @@ namespace LemonadeStand
             Console.WriteLine("Welcome to Lemonade Stand!");
             Console.WriteLine("You'll create your own recipe and try to sell as much you can over seven days.");
             Console.WriteLine("The amount of cups you sell is affected by weather and the price you set.");
-            Console.WriteLine("Good luck! Let's get started. You have $10.00 to start buying inventory.");
+            Console.WriteLine("Good luck! Let's get started. You have $20.00 to start buying inventory.");
         }
-        
+
         public string SetPlayerName()
         {
             Console.WriteLine("What is your name?");
@@ -145,9 +145,9 @@ namespace LemonadeStand
             return quantity;
         }
 
-        public void DisplayWeather(Store store)
+        public void DisplayWeather(Weather weather)
         {
-            Console.WriteLine("The weather forecast for Day {0} is {1} and {2}", store.dayOfOperation, store.weatherConditions.temperature, store.weatherConditions.conditions);
+            Console.WriteLine("The weather forecast is {0} and {1}", weather.temperature, weather.conditions);
         }
 
         public void DisplayCash(Store store)
@@ -155,15 +155,21 @@ namespace LemonadeStand
             Console.WriteLine("You have {0:$0.00} cash to buy supplies.", store.cashOnHand);
         }
 
-        public void DisplayDailyResults(Store store)
+        public void DisplayDailyResults(Day day)
         {
-            Console.WriteLine("You had {0} customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", store.dailyNumOfCustomers, store.dailyCupsSold, store.dailyRevenue, store.dayOfOperation);
-            Console.WriteLine("Your total expenses for the day equaled {0:$0.00}.", store.dailyExpenses);
-            Console.WriteLine("Your net income for Day {0} was {1:$0.00}", store.dayOfOperation, (store.dailyRevenue - store.dailyExpenses));
+            Console.WriteLine("You had {0} customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", day.numOfCustomers, 
+                day.numOfBuyingCustomers, day.dailyRevenue, day.dayOfOperation);
+            Console.WriteLine("Your total expenses for the day equaled {0:$0.00}.", day.dailyExpenses);
+            Console.WriteLine("Your net income for Day {0} was {1:$0.00}", day.dayOfOperation, (day.dailyRevenue - day.dailyExpenses));
+
+        }
+
+        public void DisplaySpoilage(Player player)
+        {
             Console.WriteLine("You lost {0} lemons, {1} sugars and {2} ice cubes to spoilage.", +
-                store.storeInventory.lemonInventory.Count(item => item.numOfDaysBeforeExpiration == 0),
-                store.storeInventory.sugarInventory.Count(item => item.numOfDaysBeforeExpiration == 0), 
-                store.storeInventory.iceInventory.Count(item => item.numOfDaysBeforeExpiration == 0));
+            player.franchise.storeInventory.lemonInventory.Count(item => item.numOfDaysBeforeExpiration == 0),
+            player.franchise.storeInventory.sugarInventory.Count(item => item.numOfDaysBeforeExpiration == 0),
+            player.franchise.storeInventory.iceInventory.Count(item => item.numOfDaysBeforeExpiration == 0));
         }
 
         public void DisplayFinalResults(Store store)
