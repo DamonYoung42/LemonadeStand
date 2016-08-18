@@ -8,10 +8,11 @@ namespace LemonadeStand
 {
     public class Game
     {
-        public UserInput gameConsole;
+        //public UserInput gameConsole;
         public Player player;
         public bool endGame;
         public string playAgain;
+        public UserInput gameConsole;
 
         public Game()
         {
@@ -20,10 +21,11 @@ namespace LemonadeStand
             gameConsole.IntroduceGame();
             player = new Player(gameConsole.SetPlayerName().ToUpper());
             player.franchise.maxNumOfDays = gameConsole.SetDaysofOperation();
+
         }
 
         public void RunGame()
-        {
+        {          
             while (!endGame)
             {
                 while ((!player.franchise.bankrupt) && (player.franchise.dayOfOperation <= player.franchise.maxNumOfDays))
@@ -31,7 +33,7 @@ namespace LemonadeStand
                     player.franchise.weatherConditions = new Weather();
                     player.franchise.recipe = new Recipe();
                     player.franchise.soldOut = false;
-
+                                        
                     gameConsole.DisplayWeather(player.franchise);
                     gameConsole.DisplayCash(player.franchise);
                     player.franchise.BuyInventory();

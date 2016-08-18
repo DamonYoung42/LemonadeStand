@@ -111,7 +111,16 @@ namespace LemonadeStand
         public int SetRecipe(string ingredient)
         {
             int quantity;
-            Console.WriteLine("How many {0} per cup?", ingredient);
+            switch (ingredient)
+            {
+                case "ice":
+                    Console.WriteLine("How many ice cubes per cup?");
+                    break;
+                default:
+                    Console.WriteLine("How many {0} per pitcher?", ingredient);
+                    break;
+
+            }
 
             while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < recipeIngredientQuantityMin) || (quantity > recipeIngredientQuantityMax)))
             {
@@ -152,9 +161,9 @@ namespace LemonadeStand
             Console.WriteLine("Your total expenses for the day equaled {0:$0.00}.", store.dailyExpenses);
             Console.WriteLine("Your net income for Day {0} was {1:$0.00}", store.dayOfOperation, (store.dailyRevenue - store.dailyExpenses));
             Console.WriteLine("You lost {0} lemons, {1} sugars and {2} ice cubes to spoilage.", +
-                store.storeInventory.lemonInventory.Count(item => item.numOfDaysBeforeExpiration == 0), +
-                store.storeInventory.iceInventory.Count(item => item.numOfDaysBeforeExpiration == 0), +
-                store.storeInventory.sugarInventory.Count(item => item.numOfDaysBeforeExpiration == 0));
+                store.storeInventory.lemonInventory.Count(item => item.numOfDaysBeforeExpiration == 0),
+                store.storeInventory.sugarInventory.Count(item => item.numOfDaysBeforeExpiration == 0), 
+                store.storeInventory.iceInventory.Count(item => item.numOfDaysBeforeExpiration == 0));
         }
 
         public void DisplayFinalResults(Store store)
@@ -163,39 +172,5 @@ namespace LemonadeStand
             Console.WriteLine("You spent {0:$0.00} on inventory.", store.totalExpenses);
             Console.WriteLine("You made a net profit of {0:$0.00}", store.totalRevenue - store.totalExpenses);
         }
-        //public Recipe GetRecipeRequirements()
-        //{
-        //    Recipe newRecipe = new Recipe("Lemonade");
-        //    int userInput;
-        //    RecipeIngredient ingredient;
-
-        //    Console.WriteLine("How many lemons would you like to use per cup in your recipe:");
-        //    userInput = Convert.ToInt32(Console.ReadLine());
-        //    ingredient = new RecipeIngredient("lemon", userInput);
-        //    newRecipe.recipeIngredients.Add(ingredient);
-
-        //    Console.WriteLine("How much sugar would you like to use per cup in your recipe:");
-        //    userInput = Convert.ToInt32(Console.ReadLine());
-        //    ingredient = new RecipeIngredient("suger", userInput);
-        //    newRecipe.recipeIngredients.Add(ingredient);
-
-        //    Console.WriteLine("How many ice cubes would you like to use per cup in your recipe:");
-        //    userInput = Convert.ToInt32(Console.ReadLine());
-        //    ingredient = new RecipeIngredient("ice", userInput);
-        //    newRecipe.recipeIngredients.Add(ingredient);
-
-        //    foreach (RecipeIngredient item in newRecipe.recipeIngredients)
-        //    {
-        //        Console.WriteLine(item.name + item.quantity);
-        //    }
-        //    return newRecipe;
-        //}
-
-        //public void BuyInventory(Store storeName)
-        //{
-
-
-
-        //}
     }
 }

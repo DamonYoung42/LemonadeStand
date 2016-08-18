@@ -9,7 +9,7 @@ namespace LemonadeStand
     public class Store
     {
 
-        public List<Ingredient> storeInventoryList;
+        //public List<Ingredient> storeInventoryList;
         public Inventory storeInventory;
         public Weather weatherConditions;
         public UserInput storeInterface;
@@ -33,18 +33,19 @@ namespace LemonadeStand
         public int spoiledIce;
         public int spoiledSugar;
         public bool validRecipe;
-
-
+        public int lemonRecipeQuantity;
+        public int iceRecipeQuantity;
+        public int cupRecipeQuantity;
+        public int sugarRecipeQuantity;
 
         public Store()
         {
-            storeInventoryList = new List<Ingredient>();
             storeInventory = new Inventory();
             initialInvestment = 10.00;
             cashOnHand = initialInvestment;
             recipe = new Recipe();
             dayOfOperation = 1;
-            maxNumOfDays = 7;
+            maxNumOfDays = 0;
             weatherConditions = new Weather();
             productPrice = 0;
             dailyCupsSold = 0;
@@ -60,6 +61,10 @@ namespace LemonadeStand
             spoiledSugar = 0;
             storeInterface = new UserInput();
             validRecipe = false;
+            lemonRecipeQuantity = 0;
+            sugarRecipeQuantity = 0;
+            iceRecipeQuantity = 0;
+            cupRecipeQuantity = 0;
 
         }
 
@@ -68,28 +73,32 @@ namespace LemonadeStand
             Console.WriteLine("The weather forecast for Day {0} is {1} and {2}", dayOfOperation, weatherConditions.temperature, weatherConditions.conditions);
         }
 
-        public void AddToInventory(Ingredient item)
-        {
-            storeInventoryList.Add(item);
-
-        }
-
-        public void SubtractFromInventory(Ingredient item)
-        {
-
-            storeInventoryList.Remove(item);
-        }
-
-        //public int GetInventoryItemCount(Ingredient item)
-        //{
-        //    return storeInventoryList.Count(x => x.name == item.name);
-
-        //}
-
         public void SubtractSpoiledDay()
         {
-            foreach(Ingredient ingredient in storeInventoryList)
+            foreach(Lemon ingredient in storeInventory.lemonInventory)
+            {
                 ingredient.numOfDaysBeforeExpiration -= 1;
+            }
+
+
+            foreach (Ice ingredient in storeInventory.iceInventory)
+            {
+                ingredient.numOfDaysBeforeExpiration -= 1;
+
+            }
+
+
+            foreach (Sugar ingredient in storeInventory.sugarInventory)
+            {
+                ingredient.numOfDaysBeforeExpiration -= 1;
+            }
+
+
+            foreach (Cup ingredient in storeInventory.cupInventory)
+            {
+                ingredient.numOfDaysBeforeExpiration -= 1;
+            }
+
         }
 
 
@@ -114,14 +123,6 @@ namespace LemonadeStand
             Console.WriteLine("You have {0} lemons in your inventory.", storeInventory.lemonInventory.Count());
             userInput = storeInterface.SetInventory("lemon");
             
-            //Console.WriteLine("You have {0} lemons in your inventory.", storeInventory.Count(x => x.name == "lemon"));
-            //Console.WriteLine("How many lemons would you like to buy?");
-            //Console.WriteLine("Option 1: 5 for $0.60");
-            //Console.WriteLine("Option 2: 20 for $2.00");
-            //Console.WriteLine("Option 3: 50 for $4.00");
-            //Console.WriteLine("Please enter the number of your selection:");
-
-            //userInput = int.Parse(Console.ReadLine());
             switch (userInput)
             {
                 case 1:
@@ -165,13 +166,7 @@ namespace LemonadeStand
 
             Console.WriteLine("You have {0} sugar in your inventory.", storeInventory.sugarInventory.Count());
             userInput = storeInterface.SetInventory("sugar");
-            //Console.WriteLine("How much sugar would you like to buy?");
-            //Console.WriteLine("Option 1: 5 for $0.60");
-            //Console.WriteLine("Option 2: 20 for $2.00");
-            //Console.WriteLine("Option 3: 100 for $9.00");
-            //Console.WriteLine("Please enter the number of your selection:");
 
-            //userInput = int.Parse(Console.ReadLine());
             switch (userInput)
             {
                 case 1:
@@ -212,13 +207,7 @@ namespace LemonadeStand
 
             Console.WriteLine("You have {0} ice cubes in your inventory.", storeInventory.iceInventory.Count());
             userInput = storeInterface.SetInventory("ice");
-            //Console.WriteLine("How many ice cubes would you like to buy?");
-            //Console.WriteLine("Option 1: 100 for $0.80");
-            //Console.WriteLine("Option 2: 250 for $1.80");
-            //Console.WriteLine("Option 3: 500 for $2.50");
-            //Console.WriteLine("Please enter the number of your selection:");
 
-            //userInput = int.Parse(Console.ReadLine());
             switch (userInput)
             {
                 case 1:
@@ -262,13 +251,7 @@ namespace LemonadeStand
 
             Console.WriteLine("You have {0} cups in your inventory.", storeInventory.cupInventory.Count());
             userInput = storeInterface.SetInventory("cup");
-            //Console.WriteLine("How many cups would you like to buy?");
-            //Console.WriteLine("Option 1: 50 for $3.00");
-            //Console.WriteLine("Option 2: 100 for $5.00");
-            //Console.WriteLine("Option 3: 200 for $8.00");
-            //Console.WriteLine("Please enter the number of your selection or ENTER to continue with your current supply:");
 
-            //userInput = int.Parse(Console.ReadLine());
             switch (userInput)
             {
                 case 1:
@@ -328,8 +311,6 @@ namespace LemonadeStand
         {
             productPrice = storeInterface.SetPrice();
 
-            //Console.WriteLine("How much will a cup of lemonade cost today?");
-            //productPrice = double.Parse(Console.ReadLine());
         }
 
         public void UpdateCashOnHand(double cost)
@@ -341,62 +322,37 @@ namespace LemonadeStand
 
         public void CreateRecipe()
         {
-            int quantity = 0;
-            RecipeIngredient ingredient;
-
             do
             {
                 Console.WriteLine("Set your recipe for the day.");
-                quantity = storeInterface.SetRecipe("lemons");
-                ingredient = new RecipeIngredient("lemon", quantity);
-                recipe.recipeIngredients.Add(ingredient);
+                lemonRecipeQuantity = storeInterface.SetRecipe("lemons");
 
-                quantity = storeInterface.SetRecipe("sugar");
-                ingredient = new RecipeIngredient("sugar", quantity);
-                recipe.recipeIngredients.Add(ingredient);
+                sugarRecipeQuantity = storeInterface.SetRecipe("sugar");
 
-                quantity = storeInterface.SetRecipe("ice");
-                ingredient = new RecipeIngredient("ice", quantity);
-                recipe.recipeIngredients.Add(ingredient);
-
-                ingredient = new RecipeIngredient("cup", 1);
-                recipe.recipeIngredients.Add(ingredient);
+                iceRecipeQuantity = storeInterface.SetRecipe("ice");
 
                 CheckForValidRecipe();
 
             } while (!validRecipe);
-
-            //Console.WriteLine("How many lemons would you like to use per cup in your recipe?");
-            //userInput = int.Parse(Console.ReadLine());
-            //ingredient = new RecipeIngredient("lemon", userInput);
-            //recipe.recipeIngredients.Add(ingredient);
-
-            //Console.WriteLine("How much sugar would you like to use per cup in your recipe?");
-            //userInput = int.Parse(Console.ReadLine());
-            //ingredient = new RecipeIngredient("suger", userInput);
-            //recipe.recipeIngredients.Add(ingredient);
-
-            //Console.WriteLine("How much ice would you like to use per cup in your recipe?");
-            //userInput = int.Parse(Console.ReadLine());
-            //ingredient = new RecipeIngredient("ice", userInput);
-            //recipe.recipeIngredients.Add(ingredient);
-        }
+       }
 
         public void CheckForValidRecipe()
         {
-            foreach (RecipeIngredient ingredient in recipe.recipeIngredients)
+            
+            if ((storeInventory.lemonInventory.Count() < lemonRecipeQuantity)
+                || (storeInventory.iceInventory.Count() < iceRecipeQuantity) 
+                    || (storeInventory.sugarInventory.Count() < sugarRecipeQuantity)
+                    || (storeInventory.cupInventory.Count() < cupRecipeQuantity))
+                {
+                validRecipe = false;
+                Console.WriteLine("You don't have enough inventory to create your recipe!");
+                BuyInventory();
+                }
+            else
             {
-                if (ingredient.quantity < storeInventoryList.Count(x => x.name == ingredient.name))
-                {
-                    validRecipe = true;
-                }
-                else
-                {
-                    validRecipe = false;
-                    Console.WriteLine("You don't have enough inventory to create your recipe!");
-                    BuyInventory();
-                }
+                validRecipe = true;
             }
+
         }
 
          public void SellToCustomers()
@@ -415,11 +371,12 @@ namespace LemonadeStand
                         dailyCupsSold++;
                         dailyRevenue += productPrice;
                         ////remove inventory
-                        RemoveInventory();
+                        storeInventory.cupInventory.RemoveAt(0);
+                        storeInventory.iceInventory.RemoveRange(0, iceRecipeQuantity);
                     }
-                
-                    ////check inventory levels
-                    CheckInventory();
+                                    
+                    ////check inventory levels -- not here; have to make pitcher, remove lemons and sugar when pitcher is made!!!
+                    ////CheckInventory();
                 }
             }
 
@@ -432,21 +389,17 @@ namespace LemonadeStand
 
         public void RemoveInventory()
         {
-            foreach (RecipeIngredient ingredient in recipe.recipeIngredients)
-            {
-                for (int i = 0; i < ingredient.quantity; i++)
-                {
-                    storeInventoryList.Remove(storeInventoryList.First(item => item.name == ingredient.name));
-                }
-            }
-        }
+            storeInventory.lemonInventory.RemoveRange(0, lemonRecipeQuantity);
+            storeInventory.iceInventory.RemoveRange(0, iceRecipeQuantity);
+            storeInventory.sugarInventory.RemoveRange(0, sugarRecipeQuantity);
+        }       
 
         public void CheckInventory()
         {
-            if ((storeInventory.lemonInventory.Count() < recipe.recipeIngredients.Find(x => x.name == "lemon").quantity) ||
-                    (storeInventory.sugarInventory.Count() < recipe.recipeIngredients.Find(x => x.name == "sugar").quantity) ||
-                    (storeInventory.iceInventory.Count() < recipe.recipeIngredients.Find(x => x.name == "ice").quantity) ||
-                    (storeInventory.cupInventory.Count() < recipe.recipeIngredients.Find(x => x.name == "cup").quantity))
+            if ((storeInventory.lemonInventory.Count() < lemonRecipeQuantity) ||
+                    (storeInventory.sugarInventory.Count() < sugarRecipeQuantity) ||
+                    (storeInventory.iceInventory.Count() < iceRecipeQuantity) ||
+                    (storeInventory.cupInventory.Count() < cupRecipeQuantity))
             {
                 soldOut = true;
             }
@@ -475,7 +428,9 @@ namespace LemonadeStand
         
         public void RemoveSpoiledInventory()
         {
-            storeInventoryList.RemoveAll(item => item.numOfDaysBeforeExpiration == 0);
+            storeInventory.lemonInventory.RemoveAll(item => item.numOfDaysBeforeExpiration == 0);
+            storeInventory.iceInventory.RemoveAll(item => item.numOfDaysBeforeExpiration == 0);
+            storeInventory.sugarInventory.RemoveAll(item => item.numOfDaysBeforeExpiration == 0);
         }
 
         public void GenerateDemandLevel()
@@ -487,7 +442,7 @@ namespace LemonadeStand
             double overcastFactor = .80;
             double rainyFactor = .20;
 
-        Random chance = new Random(DateTime.Now.Millisecond);
+            Random chance = new Random(DateTime.Now.Millisecond);
             demandLevel = chance.Next(0, 100);
             if (weatherConditions.temperature < temperatureLevelOne)
             {

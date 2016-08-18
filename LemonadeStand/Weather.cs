@@ -11,8 +11,10 @@ namespace LemonadeStand
         public int temperature;
         public string conditions;
         public List<string> clouds = new List<string> { "Sunny", "Overcast", "Rainy" };
-        public int temperatureMin = 45;
-        public int temperatureMax = 100;
+
+        private int weatherVariance = 10;
+        private int temperatureMin = 30;
+        private int temperatureMax = 100;
 
         public Weather()
         {
@@ -23,7 +25,7 @@ namespace LemonadeStand
         {
             Random random = new Random(DateTime.Now.Millisecond);
 
-            temperature = random.Next(temperatureMin,temperatureMax);
+            temperature = random.Next(temperatureMin, temperatureMax);
 
             Random index = new Random(DateTime.Now.Millisecond);
 
@@ -32,7 +34,7 @@ namespace LemonadeStand
 
         public void SetWeatherActual(Weather weatherForecast)
         {
-            int weatherVariance = 10;
+            
             Random random = new Random(DateTime.Now.Millisecond);
             temperature = random.Next(weatherForecast.temperature - weatherVariance, weatherForecast.temperature + weatherVariance);
             Random index = new Random(DateTime.Now.Millisecond);

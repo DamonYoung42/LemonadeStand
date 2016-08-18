@@ -14,7 +14,7 @@ namespace LemonadeStand
         public Player(string name)
         {
             this.name = name;
-            franchise = new Store();
+            this.franchise = new Store();
         }
 
 
