@@ -168,11 +168,16 @@ namespace LemonadeStand
 
             if (EnoughInventory(store))
             {
-                availableLemonPitchers = Convert.ToInt32(store.storeInventory.lemonInventory.Count() / recipe.numOfLemons);
-                availableSugarPitchers = Convert.ToInt32(store.storeInventory.sugarInventory.Count() / recipe.numOfSugar);
+                availableLemonPitchers = Convert.ToInt32(store.storeInventory.GetLemonInventoryCount() / recipe.GetNumberOfLemons());
+                availableSugarPitchers = Convert.ToInt32(store.storeInventory.GetSugarInventoryCount() / recipe.GetNumberOfSugar());
+                //availableLemonPitchers = Convert.ToInt32(store.storeInventory.lemonInventory.Count() / recipe.numOfLemons);
+                //availableSugarPitchers = Convert.ToInt32(store.storeInventory.sugarInventory.Count() / recipe.numOfSugar);
 
-                recipe.maxNumOfPitchers = Math.Min(availableLemonPitchers, availableSugarPitchers);
+                recipe.GetMaxNumberOfPitchers(availableLemonPitchers, availableSugarPitchers);
 
+                //recipe.maxNumOfPitchers = Math.Min(availableLemonPitchers, availableSugarPitchers);
+
+                recipe.SetMaxNumberOfCups();
                 recipe.maxNumOfCups = recipe.maxNumOfPitchers * recipe.cupsPerPitcher;
             }
             else
@@ -184,17 +189,17 @@ namespace LemonadeStand
         public bool EnoughInventory(Store store)
         {
 
-            if (store.storeInventory.lemonInventory.Count() < recipe.GetNumberOfLemons())
+            if (store.storeInventory.GetLemonInventoryCount() < recipe.GetNumberOfLemons())
             {
                 Console.WriteLine("You don't have enough lemons for your recipe.");
                 return false;
             }
-            else if (store.storeInventory.iceInventory.Count() < recipe.GetNumberOfIce())
+            else if (store.storeInventory.GetIceInventoryCount() < recipe.GetNumberOfIce())
             {
                 Console.WriteLine("You don't have enough ice for your recipe.");
                 return false;
             }
-            else if (store.storeInventory.sugarInventory.Count() < recipe.GetNumberOfSugar())
+            else if (store.storeInventory.GetSugarInventoryCount() < recipe.GetNumberOfSugar())
             {
                 Console.WriteLine("You don't have enough sugar for your recipe.");
                 return false;
@@ -218,7 +223,7 @@ namespace LemonadeStand
         {
             store.SubtractFromCashOnHand(cost);
 
-            Console.WriteLine("Cash on hand: {0:$0.00}", store.cashOnHand);
+            Console.WriteLine("Cash on hand: {0:$0.00}", store.GetCashOnHand());
         }
 
         public void AddSugarInventory(Store store, UserInput gameConsole)
@@ -228,7 +233,7 @@ namespace LemonadeStand
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} sugar in your inventory.", store.storeInventory.sugarInventory.Count());
+            Console.WriteLine("You have {0} sugar in your inventory.", store.storeInventory.GetSugarInventoryCount());
             userInput = gameConsole.SetInventory("sugar");
 
             switch (userInput)
@@ -457,9 +462,12 @@ namespace LemonadeStand
                     {
                         MakePitcher(store);
                     }
+
                     AddToNumberOfBuyingCustomers();
-                    store.storeInventory.cupInventory.RemoveAt(0);
-                    store.storeInventory.iceInventory.RemoveRange(0, recipe.numOfIce);
+                    store.storeInventory.RemoveCupInventory();
+                    //store.storeInventory.cupInventory.RemoveAt(0);
+                    store.storeInventory.RemoveIceInventory(recipe.GetNumberOfIce());
+                    //store.storeInventory.iceInventory.RemoveRange(0, recipe.numOfIce);
 
                     if (((GetNumberofBuyingCustomers() % recipe.cupsPerPitcher) == 0) && (GetNumberOfPitchers() < recipe.maxNumOfPitchers))
                     {

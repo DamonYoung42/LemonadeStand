@@ -91,8 +91,10 @@ namespace LemonadeStand
 
         public void RemoveUsedInventory(Recipe recipe)
         {
-            storeInventory.lemonInventory.RemoveRange(0, (recipe.numOfLemons));
-            storeInventory.sugarInventory.RemoveRange(0, (recipe.numOfSugar));
+            storeInventory.RemoveLemonInventory(recipe.GetNumberOfLemons());
+            storeInventory.RemoveSugarInventory(recipe.GetNumberOfSugar());
+            //storeInventory.lemonInventory.RemoveRange(0, (recipe.numOfLemons));
+            //storeInventory.sugarInventory.RemoveRange(0, (recipe.numOfSugar));
         }
 
         public bool EnoughInventory(Recipe recipe)

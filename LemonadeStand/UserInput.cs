@@ -52,7 +52,7 @@ namespace LemonadeStand
                     Console.WriteLine("Option 2: 20 for $2.00");
                     Console.WriteLine("Option 3: 50 for $4.00");
                     Console.WriteLine("Option 4: Keep current inventory level");
-                    Console.WriteLine("Please enter the number of your selection:");
+                    Console.WriteLine("Please enter the number (1-4) of your selection:");
                     break;
 
                 case "sugar":
@@ -61,7 +61,7 @@ namespace LemonadeStand
                     Console.WriteLine("Option 2: 20 for $2.00");
                     Console.WriteLine("Option 3: 100 for $9.00");
                     Console.WriteLine("Option 4: Keep current inventory level");
-                    Console.WriteLine("Please enter the number of your selection:");
+                    Console.WriteLine("Please enter the number (1-4) of your selection:");
                     break;
 
                 case "ice":
@@ -70,7 +70,7 @@ namespace LemonadeStand
                     Console.WriteLine("Option 2: 250 for $1.80");
                     Console.WriteLine("Option 3: 500 for $2.50");
                     Console.WriteLine("Option 4: Keep current inventory level");
-                    Console.WriteLine("Please enter the number of your selection:");
+                    Console.WriteLine("Please enter the number (1-4) of your selection:");
                     break;
 
                 case "cup":
@@ -79,7 +79,7 @@ namespace LemonadeStand
                     Console.WriteLine("Option 2: 100 for $5.00");
                     Console.WriteLine("Option 3: 200 for $8.00");
                     Console.WriteLine("Option 4: Keep current inventory level");
-                    Console.WriteLine("Please enter the number of your selection:");
+                    Console.WriteLine("Please enter the number (1-4) of your selection:");
                     break;
             }
 

@@ -14,7 +14,6 @@ namespace LemonadeStand
         public int maxNumOfCups;
         public int maxNumOfPitchers;
         public int cupsPerPitcher;
-        //public bool validRecipe;
        
         public Recipe()
         {
@@ -24,8 +23,10 @@ namespace LemonadeStand
             maxNumOfCups = 0;
             maxNumOfPitchers = 0;
             cupsPerPitcher = 7;
-            //validRecipe = true;
         }
+
+
+
 
         public int GetNumberOfLemons()
         {
@@ -55,6 +56,16 @@ namespace LemonadeStand
         public int GetCupsPerPitcher()
         {
             return cupsPerPitcher;
+        }
+        public int GetMaxNumberOfPitchers(int availableLemonPitchers, int availableSugarPitchers)
+        {
+
+            return Math.Min(availableLemonPitchers, availableSugarPitchers);
+        }
+
+        public void SetMaxNumberOfCups()
+        {
+            maxNumOfCups = maxNumOfPitchers * cupsPerPitcher;
         }
 
     }
