@@ -127,7 +127,7 @@ namespace LemonadeStand
                     (storeInventory.iceInventory.Count() == 0) ||
                     (storeInventory.cupInventory.Count() == 0))
             {
-                Console.WriteLine("You don't have sufficient inventory to make lemonade. Please buy your ingredients.");
+                Console.WriteLine("You don't have sufficient inventory to make lemonade.");
                 return true;
             }
             else
@@ -138,8 +138,12 @@ namespace LemonadeStand
 
         public bool IsBankrupt()
         {
-            if (cashOnHand < minimumCashNeeded)
+            if ((cashOnHand < minimumCashNeeded) && ((storeInventory.lemonInventory.Count() == 0) ||
+                    (storeInventory.sugarInventory.Count() == 0) ||
+                    (storeInventory.iceInventory.Count() == 0) ||
+                    (storeInventory.cupInventory.Count() == 0)))
             {
+                Console.WriteLine("You have gone bankrupt!");
                 return true;
             }
             else

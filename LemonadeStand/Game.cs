@@ -31,50 +31,15 @@ namespace LemonadeStand
             {
                 day = new Day();
                 day.RunDay(gameConsole, player.franchise, dayOfOperation);
-            //    day.weatherForecast.SetWeather();
-            //    gameConsole.DisplayWeatherForecast(day.weatherForecast, dayOfOperation);
-            //    gameConsole.DisplayCash(player.franchise);
-
-            //    AddLemonInventory();
-            //    AddSugarInventory();
-            //    AddIceInventory();
-            //    AddCupInventory();
-
-            //    while (NoInventory())
-            //    {
-            //        AddLemonInventory();
-            //        AddSugarInventory();
-            //        AddIceInventory();
-            //        AddCupInventory();
-            //    }
-
-            //    day.CreateRecipe(player.franchise, gameConsole);
-
-            //    SetProductPrice();
-
-            //    day.weatherActual.SetWeather(day.weatherForecast);
-            //    day.GenerateDemandLevel();
-            //    day.GenerateCustomers();
-            //    gameConsole.DisplayActualWeather(day.weatherActual, dayOfOperation);
-
-            //    MakePitcher();
-            //    SellToCustomers();
-
-            //    SubtractSpoiledDay();
-
-               gameConsole.DisplayDailyResults(day, dayOfOperation);
-               gameConsole.DisplaySpoilage(player.franchise.storeInventory);
-
-            //    player.franchise.RemoveSpoiledInventory();
-
+                gameConsole.DisplayDailyResults(day, dayOfOperation);
+                gameConsole.DisplaySpoilage(player.franchise.storeInventory);
+                player.franchise.RemoveSpoiledInventory();
                 dayOfOperation++;
                 Console.WriteLine("Press any key to continue:");
                 Console.ReadKey();
             }
 
-
             gameConsole.DisplayFinalResults(player.franchise);
-
             Console.WriteLine("Thanks for playing {0}. Goodbye!", player.name);
             Console.ReadLine();
         }

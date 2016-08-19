@@ -51,7 +51,7 @@ namespace LemonadeStand
             AddIceInventory(store, gameConsole);
             AddCupInventory(store, gameConsole);
 
-            while (NoInventory())
+            while (store.NoInventory())
             {
                 AddLemonInventory(store, gameConsole);
                 AddSugarInventory(store, gameConsole);
@@ -74,13 +74,6 @@ namespace LemonadeStand
             store.SubtractSpoiledDay();
 
 
-            gameConsole.DisplaySpoilage(store.storeInventory);
-
-            store.RemoveSpoiledInventory();
-
-
-            Console.WriteLine("Press any key to continue:");
-            Console.ReadKey();
         }
     
 
@@ -256,7 +249,7 @@ namespace LemonadeStand
                     break;
             }
 
-            if (addItems)
+            if (addItems) 
             {
                 if (CheckCashOnHand(store, cost))
                 {
@@ -265,8 +258,9 @@ namespace LemonadeStand
                         newSugar = new Sugar();
                         store.storeInventory.sugarInventory.Add(newSugar);
                     }
-                    store.AddToStoreExpenses(dailyExpenses);
                     AddToDailyExpenses(cost);
+                    store.AddToStoreExpenses(dailyExpenses);
+
                     UpdateCashOnHand(store, cost);
                 }
                 else
@@ -308,15 +302,15 @@ namespace LemonadeStand
 
             if (addItems)
             {
-                if (CheckCashOnHand(store, cost) && (addItems))
+                if (CheckCashOnHand(store, cost))
                 {
                     for (int i = 1; i <= numOfItemsToAdd; i++)
                     {
                         newIce = new Ice();
                         store.storeInventory.iceInventory.Add(newIce);
                     }
-                    store.AddToStoreExpenses(dailyExpenses);
                     AddToDailyExpenses(cost);
+                    store.AddToStoreExpenses(dailyExpenses);
                     UpdateCashOnHand(store, cost);
                 }
                 else
@@ -366,8 +360,8 @@ namespace LemonadeStand
                         newCup = new Cup();
                         store.storeInventory.cupInventory.Add(newCup);
                     }
-                    store.AddToStoreExpenses(dailyExpenses);
                     AddToDailyExpenses(cost);
+                    store.AddToStoreExpenses(dailyExpenses);
                     UpdateCashOnHand(store, cost);
                 }
                 else
@@ -417,11 +411,11 @@ namespace LemonadeStand
                         newLemon = new Lemon();
                         store.storeInventory.lemonInventory.Add(newLemon);
                     }
-                    store.AddToStoreExpenses(dailyExpenses);
                     AddToDailyExpenses(cost);
+                    store.AddToStoreExpenses(dailyExpenses);
                     UpdateCashOnHand(store, cost);
                 }
-                else
+                else if (!store.IsBankrupt())
                 {
                     AddLemonInventory(store, gameConsole);
                 }
@@ -434,18 +428,17 @@ namespace LemonadeStand
             store.RemoveUsedInventory(recipe);
         }
 
-        public void CheckIfSoldOut()
+        public void CheckIfSoldOut(Inventory inventory)
         {
             //if ((day.numOfBuyingCustomers == day.recipe.maxNumOfCups) || (!EnoughInventory()))
-            if ((numOfBuyingCustomers == recipe.maxNumOfCups))
+            if ((numOfBuyingCustomers == recipe.maxNumOfCups) || (inventory.iceInventory.Count() < recipe.numOfIce))
             {
                 Console.WriteLine("You sold out of lemonade!");
                 soldOut = true;
             }
 
         }
-
-
+        
         public void SellToCustomers(Store store)
         {
             foreach (Customer customer in customers)
@@ -464,7 +457,7 @@ namespace LemonadeStand
                 }
                 if (!soldOut)
                 {
-                    CheckIfSoldOut();
+                    CheckIfSoldOut(store.storeInventory);
                 }
             }
 
