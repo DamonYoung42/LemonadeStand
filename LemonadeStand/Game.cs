@@ -209,32 +209,30 @@ namespace LemonadeStand
             //open for business, generate customers
             //Update daily revenue, total revenue, total expenses
 
-            while (!day.soldOut)
-            {
                 foreach (Customer customer in day.customers)
                 {
                     if (customer.chanceOfPurchase >= day.demandLevel)
                     {
-                        //if (!day.soldOut)
-                        //{
+                        if (!day.soldOut)
+                        {
                             day.numOfBuyingCustomers++;
-                            if ((day.numOfBuyingCustomers % day.recipe.maxNumOfCups) == 0)
+                            player.franchise.storeInventory.cupInventory.RemoveAt(0);
+                            player.franchise.storeInventory.iceInventory.RemoveRange(0, day.recipe.numOfIce);
+
+                            if (((day.numOfBuyingCustomers % day.recipe.cupsPerPitcher) == 0) && (day.numOfPitchers < day.recipe.maxNumOfPitchers))
                             {
                                 MakePitcher();
                                 //MakePitcher, remove lemons/sugar ingredients from inventory
                             }
                             day.AddToDailyRevenue(day.pricePerCup);
                             ////remove inventory
-                            player.franchise.storeInventory.cupInventory.RemoveAt(0);
-                            player.franchise.storeInventory.iceInventory.RemoveRange(0, day.recipe.numOfIce);
 
-                        //}
+
+                        }
 
                     }
                     CheckIfSoldOut();
                 }
-
-            }
 
             player.franchise.SetStoreRevenue(day);
             player.franchise.AddToStoreCashOnHand(day);
@@ -288,6 +286,10 @@ namespace LemonadeStand
                 day.AddToDailyExpenses(cost);
                 UpdateCashOnHand(cost);
             }
+            else
+            {
+                AddLemonInventory();
+            }
 
         }
         public void UpdateCashOnHand(double cost)
@@ -335,6 +337,10 @@ namespace LemonadeStand
                 day.AddToDailyExpenses(cost);
                 UpdateCashOnHand(cost);
             }
+            else
+            {
+                AddSugarInventory();
+            }
 
         }
 
@@ -379,7 +385,10 @@ namespace LemonadeStand
                 day.AddToDailyExpenses(cost);
                 UpdateCashOnHand(cost);
             }
-
+            else
+            {
+                AddIceInventory();
+            }
         }
 
         public void AddCupInventory()
@@ -422,6 +431,10 @@ namespace LemonadeStand
                 player.franchise.SetStoreExpenses(day);
                 day.AddToDailyExpenses(cost);
                 UpdateCashOnHand(cost);
+            }
+            else
+            {
+                AddCupInventory();
             }
 
         }
