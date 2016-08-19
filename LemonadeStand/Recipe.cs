@@ -27,6 +27,35 @@ namespace LemonadeStand
             validRecipe = true;
         }
 
+        public int GetNumberOfLemons()
+        {
+            return numOfLemons;
+        }
+
+        public int GetNumberOfSugar()
+        {
+            return numOfSugar;
+        }
+
+        public int GetNumberOfIce()
+        {
+            return numOfIce;
+        }
+
+        public int GetMaxNumberOfCups()
+        {
+            return maxNumOfCups;
+        }
+
+        public int GetMaxNumberOfPitchers()
+        {
+            return maxNumOfPitchers;
+        }
+
+        public int GetCupsPerPitcher()
+        {
+            return cupsPerPitcher;
+        }
 
     }
 }

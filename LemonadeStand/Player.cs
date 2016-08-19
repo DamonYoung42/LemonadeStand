@@ -9,12 +9,12 @@ namespace LemonadeStand
     public class Player
     {
         public string name;
-        public Store franchise;
+        public Store store;
 
         public Player(string name)
         {
             this.name = name;
-            franchise = new Store();
+            this.store = new Store();
         }
 
 

@@ -22,9 +22,48 @@ namespace LemonadeStand
 
         }
 
+        public int GetLemonInventoryCount()
+        {
+            return lemonInventory.Count();
+        }
+        public int GetSugarInventoryCount()
+        {
+            return sugarInventory.Count();
+        }
 
+        public int GetCupInventoryCount()
+        {
+            return cupInventory.Count();
+        }
 
+        public int GetIceInventoryCount()
+        {
+            return iceInventory.Count();
+        }
 
+        public void AddToSugarInventory()
+        {
+            Sugar sugar = new Sugar();
+            sugarInventory.Add(sugar);
+        }
+
+        public void AddToLemonInventory()
+        {
+            Lemon lemon = new Lemon();
+            lemonInventory.Add(lemon);
+        }
+
+        public void AddToIceInventory()
+        {
+            Ice ice = new Ice();
+            iceInventory.Add(ice);
+        }
+
+        public void AddToCupInventory()
+        {
+            Cup cup = new Cup();
+            cupInventory.Add(cup);
+        }
     }
 }
 

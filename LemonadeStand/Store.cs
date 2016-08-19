@@ -10,14 +10,12 @@ namespace LemonadeStand
     {
 
         public Inventory storeInventory;
-        public UserInput userInput;
         public double cashOnHand;
         public double initialInvestment;
         public int dailyCupsSold;
         public double totalRevenue;
         public double totalExpenses;
         public int maxNumOfDays;
-        public bool bankrupt;
         public double minimumCashNeeded;
 
         public Store()
@@ -28,8 +26,11 @@ namespace LemonadeStand
             maxNumOfDays = 0;
             totalRevenue = 0;
             totalExpenses = 0;
-            bankrupt = false;
-            userInput = new UserInput();
+
+        }
+        public double GetMinimumCashNeeded()
+        {
+            return minimumCashNeeded;
         }
         public void SetStoreRevenue(double revenue)
         {
@@ -130,10 +131,7 @@ namespace LemonadeStand
                 Console.WriteLine("You don't have sufficient inventory to make lemonade.");
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public bool IsBankrupt()

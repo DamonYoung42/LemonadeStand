@@ -40,25 +40,26 @@ namespace LemonadeStand
             userInput = new UserInput();
         }
 
-        public void RunDay(UserInput gameConsole, Store store, int dayNumber)
+        public bool RunDay(UserInput gameConsole, Store store, int dayNumber)
         {
             weatherForecast.SetWeather();
             gameConsole.DisplayWeatherForecast(weatherForecast, dayNumber);
             gameConsole.DisplayCash(store);
 
-            AddLemonInventory(store, gameConsole);
-            AddSugarInventory(store, gameConsole);
-            AddIceInventory(store, gameConsole);
-            AddCupInventory(store, gameConsole);
+            //AddLemonInventory(store, gameConsole);
+            //AddSugarInventory(store, gameConsole);
+            //AddIceInventory(store, gameConsole);
+            //AddCupInventory(store, gameConsole);
 
-            while (store.NoInventory())
+            do
             {
                 AddLemonInventory(store, gameConsole);
                 AddSugarInventory(store, gameConsole);
                 AddIceInventory(store, gameConsole);
                 AddCupInventory(store, gameConsole);
             }
-
+            while (store.NoInventory());
+            
             CreateRecipe(store, gameConsole);
 
             SetProductPrice();
@@ -68,11 +69,10 @@ namespace LemonadeStand
             GenerateCustomers();
             gameConsole.DisplayActualWeather(weatherActual, dayNumber);
 
-            MakePitcher(store);
             SellToCustomers(store);
 
             store.SubtractSpoiledDay();
-
+            return true;
 
         }
     
@@ -90,6 +90,11 @@ namespace LemonadeStand
         public double SetProductPrice()
         {
             return pricePerCup = userInput.SetPrice();
+        }
+
+        public void AddToNumberOfBuyingCustomers()
+        {
+            numOfBuyingCustomers++;
         }
 
         public void GenerateCustomers()
@@ -179,36 +184,33 @@ namespace LemonadeStand
         public bool EnoughInventory(Store store)
         {
 
-            if (store.storeInventory.lemonInventory.Count() < recipe.numOfLemons)
+            if (store.storeInventory.lemonInventory.Count() < recipe.GetNumberOfLemons())
             {
                 Console.WriteLine("You don't have enough lemons for your recipe.");
                 return false;
             }
-            else if (store.storeInventory.iceInventory.Count() < recipe.numOfIce)
+            else if (store.storeInventory.iceInventory.Count() < recipe.GetNumberOfIce())
             {
                 Console.WriteLine("You don't have enough ice for your recipe.");
                 return false;
             }
-            else if (store.storeInventory.sugarInventory.Count() < recipe.numOfSugar)
+            else if (store.storeInventory.sugarInventory.Count() < recipe.GetNumberOfSugar())
             {
                 Console.WriteLine("You don't have enough sugar for your recipe.");
                 return false;
             }
-            //else if (player.franchise.storeInventory.cupInventory.Count() < 1)
-            //{
-            //    Console.WriteLine("You don't have enough cups to create your recipe!");
-            //    return false;
-            //}
             return true;
         }
 
-        public bool CheckCashOnHand(Store store, double cost)
+        public bool VerifyCashOnHand(Store store, double cost)
         {
-            if (store.GetCashOnHand() < cost)
+            if (store.GetCashOnHand() <= cost)
             {
                 Console.WriteLine("Sorry, you don't have enough money to purchase those ingredients.");
                 return false;
             }
+
+
             return true;
         }
 
@@ -223,7 +225,6 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            Sugar newSugar;
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
@@ -251,17 +252,25 @@ namespace LemonadeStand
 
             if (addItems) 
             {
-                if (CheckCashOnHand(store, cost))
+                if (VerifyCashOnHand(store, cost))
                 {
                     for (int i = 1; i <= numOfItemsToAdd; i++)
                     {
-                        newSugar = new Sugar();
-                        store.storeInventory.sugarInventory.Add(newSugar);
+                        //newSugar = new Sugar();
+                        store.storeInventory.AddToSugarInventory();
+                        //store.storeInventory.sugarInventory.Add(newSugar);
                     }
                     AddToDailyExpenses(cost);
                     store.AddToStoreExpenses(dailyExpenses);
 
                     UpdateCashOnHand(store, cost);
+                    if ((store.GetCashOnHand() <= store.GetMinimumCashNeeded()) && ((store.storeInventory.GetSugarInventoryCount() == 0) ||
+                    (store.storeInventory.GetIceInventoryCount() == 0) ||
+                    (store.storeInventory.GetCupInventoryCount() == 0)))
+                    {
+                        Console.WriteLine("Sorry you have gone bankrupt");
+  
+                    }
                 }
                 else
                 {
@@ -274,11 +283,10 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            Ice newIce;
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} ice cubes in your inventory.", store.storeInventory.iceInventory.Count());
+            Console.WriteLine("You have {0} ice cubes in your inventory.", store.storeInventory.GetIceInventoryCount());
             userInput = gameConsole.SetInventory("ice");
 
             switch (userInput)
@@ -302,12 +310,11 @@ namespace LemonadeStand
 
             if (addItems)
             {
-                if (CheckCashOnHand(store, cost))
+                if (VerifyCashOnHand(store, cost))
                 {
                     for (int i = 1; i <= numOfItemsToAdd; i++)
                     {
-                        newIce = new Ice();
-                        store.storeInventory.iceInventory.Add(newIce);
+                        store.storeInventory.AddToIceInventory();
                     }
                     AddToDailyExpenses(cost);
                     store.AddToStoreExpenses(dailyExpenses);
@@ -325,11 +332,10 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            Cup newCup;
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} cups in your inventory.", store.storeInventory.cupInventory.Count());
+            Console.WriteLine("You have {0} cups in your inventory.", store.storeInventory.GetCupInventoryCount());
             userInput = gameConsole.SetInventory("cup");
 
             switch (userInput)
@@ -353,12 +359,11 @@ namespace LemonadeStand
 
             if (addItems)
             {
-                if (CheckCashOnHand(store, cost))
+                if (VerifyCashOnHand(store, cost))
                 {
                     for (int i = 1; i <= numOfItemsToAdd; i++)
                     {
-                        newCup = new Cup();
-                        store.storeInventory.cupInventory.Add(newCup);
+                        store.storeInventory.AddToCupInventory();
                     }
                     AddToDailyExpenses(cost);
                     store.AddToStoreExpenses(dailyExpenses);
@@ -376,11 +381,10 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            Lemon newLemon;
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} lemons in your inventory.", store.storeInventory.lemonInventory.Count());
+            Console.WriteLine("You have {0} lemons in your inventory.", store.storeInventory.GetLemonInventoryCount());
             userInput = gameConsole.SetInventory("lemon");
 
             switch (userInput)
@@ -404,18 +408,17 @@ namespace LemonadeStand
 
             if (addItems)
             {
-                if (CheckCashOnHand(store, cost))
+                if (VerifyCashOnHand(store, cost))
                 {
                     for (int i = 1; i <= numOfItemsToAdd; i++)
                     {
-                        newLemon = new Lemon();
-                        store.storeInventory.lemonInventory.Add(newLemon);
+                        store.storeInventory.AddToLemonInventory();
                     }
                     AddToDailyExpenses(cost);
                     store.AddToStoreExpenses(dailyExpenses);
                     UpdateCashOnHand(store, cost);
                 }
-                else if (!store.IsBankrupt())
+                else
                 {
                     AddLemonInventory(store, gameConsole);
                 }
@@ -424,14 +427,19 @@ namespace LemonadeStand
 
         public void MakePitcher(Store store)
         {
-            numOfPitchers++;
+            AddToNumberOfPitchers();
             store.RemoveUsedInventory(recipe);
+        }
+
+        public int GetNumberofBuyingCustomers()
+        {
+            return numOfBuyingCustomers;
         }
 
         public void CheckIfSoldOut(Inventory inventory)
         {
             //if ((day.numOfBuyingCustomers == day.recipe.maxNumOfCups) || (!EnoughInventory()))
-            if ((numOfBuyingCustomers == recipe.maxNumOfCups) || (inventory.iceInventory.Count() < recipe.numOfIce))
+            if ((GetNumberofBuyingCustomers() == recipe.GetMaxNumberOfCups()) || (inventory.iceInventory.Count() < recipe.numOfIce))
             {
                 Console.WriteLine("You sold out of lemonade!");
                 soldOut = true;
@@ -445,11 +453,15 @@ namespace LemonadeStand
             {
                 if ((customer.chanceOfPurchase >= demandLevel) && (!soldOut))
                 {
-                    numOfBuyingCustomers++;
+                    if (GetNumberOfPitchers() == 0)
+                    {
+                        MakePitcher(store);
+                    }
+                    AddToNumberOfBuyingCustomers();
                     store.storeInventory.cupInventory.RemoveAt(0);
                     store.storeInventory.iceInventory.RemoveRange(0, recipe.numOfIce);
 
-                    if (((numOfBuyingCustomers % recipe.cupsPerPitcher) == 0) && (numOfPitchers < recipe.maxNumOfPitchers))
+                    if (((GetNumberofBuyingCustomers() % recipe.cupsPerPitcher) == 0) && (GetNumberOfPitchers() < recipe.maxNumOfPitchers))
                     {
                         MakePitcher(store);
                     }
@@ -466,6 +478,14 @@ namespace LemonadeStand
 
         }
 
+        public int GetNumberOfPitchers()
+        {
+            return numOfPitchers;
+        }
 
+        public void AddToNumberOfPitchers()
+        {
+            numOfPitchers++;
+        }
     }
 }

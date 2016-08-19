@@ -27,19 +27,28 @@ namespace LemonadeStand
             player = new Player(gameConsole.SetPlayerName().ToUpper());
             maxNumOfDays = gameConsole.SetDaysofOperation();
 
-            while ((!player.franchise.IsBankrupt()) && (dayOfOperation < maxNumOfDays + 1))
+            while (dayOfOperation < maxNumOfDays + 1)
             {
                 day = new Day();
-                day.RunDay(gameConsole, player.franchise, dayOfOperation);
-                gameConsole.DisplayDailyResults(day, dayOfOperation);
-                gameConsole.DisplaySpoilage(player.franchise.storeInventory);
-                player.franchise.RemoveSpoiledInventory();
-                dayOfOperation++;
-                Console.WriteLine("Press any key to continue:");
-                Console.ReadKey();
+                if (day.RunDay(gameConsole, player.store, dayOfOperation))
+                {
+                    //day.RunDay(gameConsole, player.store, dayOfOperation);
+                    gameConsole.DisplayDailyResults(day, dayOfOperation);
+                    gameConsole.DisplaySpoilage(player.store.storeInventory);
+                    player.store.RemoveSpoiledInventory();
+                    dayOfOperation++;
+                    Console.WriteLine("Press any key to continue:");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.WriteLine("You went bankrupt!!");
+                    dayOfOperation = maxNumOfDays;
+                }
+
             }
 
-            gameConsole.DisplayFinalResults(player.franchise);
+            gameConsole.DisplayFinalResults(player.store);
             Console.WriteLine("Thanks for playing {0}. Goodbye!", player.name);
             Console.ReadLine();
         }
