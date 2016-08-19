@@ -149,6 +149,16 @@ namespace LemonadeStand
                 return false;
             }
         }
+
+        public double GetTotalRevenue()
+        {
+            return totalRevenue;
+        }
+
+        public double GetTotalExpenses()
+        {
+            return totalExpenses;
+        }
     }
 }
 

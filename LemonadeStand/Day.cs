@@ -487,5 +487,26 @@ namespace LemonadeStand
         {
             numOfPitchers++;
         }
+
+        public int GetNumOfCustomers()
+        {
+            return numOfCustomers;
+        }
+
+        public double GetDailyRevenue()
+        {
+            return dailyRevenue;
+        }
+
+        public double GetDailyExpenses()
+        {
+            return dailyExpenses;
+        }
+
+        public int GetNumOfBuyingCustomers()
+        {
+            return numOfBuyingCustomers;
+        }
+
     }
 }

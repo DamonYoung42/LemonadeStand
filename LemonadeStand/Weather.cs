@@ -45,6 +45,16 @@ namespace LemonadeStand
         {
             Console.WriteLine("The weather forecast is {1} and {2}", weather.temperature, weather.conditions);
         }
+
+        public int GetWeatherTemperature()
+        {
+            return temperature;
+        }
+
+        public string GetWeatherConditions()
+        {
+            return conditions;
+        }
     }
 
    

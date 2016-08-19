@@ -14,7 +14,7 @@ namespace LemonadeStand
         public int maxNumOfCups;
         public int maxNumOfPitchers;
         public int cupsPerPitcher;
-        public bool validRecipe;
+        //public bool validRecipe;
        
         public Recipe()
         {
@@ -24,7 +24,7 @@ namespace LemonadeStand
             maxNumOfCups = 0;
             maxNumOfPitchers = 0;
             cupsPerPitcher = 7;
-            validRecipe = true;
+            //validRecipe = true;
         }
 
         public int GetNumberOfLemons()

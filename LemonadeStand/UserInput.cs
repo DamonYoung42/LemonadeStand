@@ -42,7 +42,7 @@ namespace LemonadeStand
 
         public int SetInventory(string ingredient)
         {
-            int quantity;
+            int option;
 
             switch (ingredient)
             {
@@ -83,11 +83,11 @@ namespace LemonadeStand
                     break;
             }
 
-	        while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < inventoryQuantityMin) || (quantity > inventoryQuantityMax)))
+	        while ((!int.TryParse(Console.ReadLine(), out option)) || ((option < inventoryQuantityMin) || (option > inventoryQuantityMax)))
 	        {
                      Console.WriteLine("Please enter one of the four options!");             
 	        }
-            return quantity;
+            return option;
 
         }
 
@@ -144,46 +144,46 @@ namespace LemonadeStand
 
         public void DisplayWeatherForecast(Weather weather, int dayNumber)
         {
-            Console.WriteLine("The weather forecast for Day {0} calls for {1} degrees and {2} conditions", dayNumber, weather.temperature, weather.conditions);
+            Console.WriteLine("The weather forecast for Day {0} calls for {1} degrees and {2} conditions", dayNumber, weather.GetWeatherTemperature(), weather.GetWeatherConditions());
         }
 
         public void DisplayActualWeather(Weather weather, int dayNumber)
         {
-            Console.WriteLine("The actual weather for Day {0} is {1} degrees and {2} skies", dayNumber, weather.temperature, weather.conditions);
+            Console.WriteLine("The actual weather for Day {0} was {1} degrees and {2} skies", dayNumber, weather.GetWeatherTemperature(), weather.GetWeatherConditions());
         }
 
         public void DisplayCash(Store store)
         {
-            Console.WriteLine("You have {0:$0.00} cash to buy supplies.", store.cashOnHand);
+            Console.WriteLine("You have {0:$0.00} cash to buy supplies.", store.GetCashOnHand());
         }
 
         public void DisplayDailyResults(Day day, int dayNumber)
         {
-            Console.WriteLine("You had {0} potential customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", day.numOfCustomers, 
-                day.numOfBuyingCustomers, day.dailyRevenue, dayNumber);
-            Console.WriteLine("Your total expenses for Day {0} equaled {1:$0.00}.", dayNumber, day.dailyExpenses);
-            Console.WriteLine("Your net income for Day {0} was {1:$0.00}", dayNumber, (day.dailyRevenue - day.dailyExpenses));
+            Console.WriteLine("You had {0} potential customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", day.GetNumOfCustomers(), 
+                day.GetNumOfBuyingCustomers(), day.GetDailyRevenue(), dayNumber);
+            Console.WriteLine("Your total expenses for Day {0} equaled {1:$0.00}.", dayNumber, day.GetDailyExpenses());
+            Console.WriteLine("Your net income for Day {0} was {1:$0.00}", dayNumber, (day.GetDailyRevenue() - day.GetDailyExpenses()));
 
         }
 
         public void DisplayInventory(Inventory inventory)
         {
-            Console.WriteLine("Your inventory includes {0} lemons, {1} cups of sugar, {2} ice cubes and {3} cups.", inventory.lemonInventory.Count(), inventory.sugarInventory.Count(), inventory.iceInventory.Count(), inventory.cupInventory.Count());
+            Console.WriteLine("Your inventory includes {0} lemons, {1} cups of sugar, {2} ice cubes and {3} cups.", inventory.GetLemonInventoryCount(), inventory.GetSugarInventoryCount(), inventory.GetIceInventoryCount(), inventory.GetCupInventoryCount());
         }
 
         public void DisplaySpoilage(Inventory inventory)
         {
             Console.WriteLine("You lost {0} lemons, {1} sugars and {2} ice cubes to spoilage.", +
-            inventory.lemonInventory.Count(item => item.numOfDaysBeforeExpiration == 0),
-            inventory.sugarInventory.Count(item => item.numOfDaysBeforeExpiration == 0),
-            inventory.iceInventory.Count(item => item.numOfDaysBeforeExpiration == 0));
+            inventory.GetLemonsExpiredCount(),
+            inventory.GetSugarExpiredCount(),
+            inventory.GetIceExpiredCount());
         }
 
         public void DisplayFinalResults(Store store)
         {
-            Console.WriteLine("You made {0:$0.00} in total revenue.", store.totalRevenue);
-            Console.WriteLine("You spent {0:$0.00} on inventory.", store.totalExpenses);
-            Console.WriteLine("You made a net profit of {0:$0.00}", store.totalRevenue - store.totalExpenses);
+            Console.WriteLine("You made {0:$0.00} in total revenue.", store.GetTotalRevenue());
+            Console.WriteLine("You spent {0:$0.00} on inventory.", store.GetTotalExpenses());
+            Console.WriteLine("You made a net profit of {0:$0.00}", store.GetTotalRevenue() - store.GetTotalExpenses());
         }
     }
 }
