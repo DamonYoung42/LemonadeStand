@@ -30,7 +30,7 @@ namespace LemonadeStand
         {
             Console.WriteLine("Welcome to Lemonade Stand!");
             Console.WriteLine("You'll create your own recipe and try to sell as much you can over a period of days.");
-            Console.WriteLine("The amount of cups you sell is affected by weather and the price you set.");
+            Console.WriteLine("The amount of lemonade you sell is affected by weather and the price you set.");
             Console.WriteLine("Good luck! Let's get started. You have $20.00 to start buying inventory.");
         }
 
@@ -47,7 +47,7 @@ namespace LemonadeStand
             switch (ingredient)
             {
                 case "lemon":
-                    Console.WriteLine("How many lemons would you like to buy?");
+                    Console.WriteLine("How many lemons, which spoil after 7 days, would you like to buy?");
                     Console.WriteLine("Option 1: 5 for $0.60");
                     Console.WriteLine("Option 2: 20 for $2.00");
                     Console.WriteLine("Option 3: 50 for $4.00");
@@ -56,7 +56,7 @@ namespace LemonadeStand
                     break;
 
                 case "sugar":
-                    Console.WriteLine("How much sugar would you like to buy?");
+                    Console.WriteLine("How many cups of sugar, which spoil after 3 days, would you like to buy?");
                     Console.WriteLine("Option 1: 5 for $0.60");
                     Console.WriteLine("Option 2: 20 for $2.00");
                     Console.WriteLine("Option 3: 100 for $9.00");
@@ -65,7 +65,7 @@ namespace LemonadeStand
                     break;
 
                 case "ice":
-                    Console.WriteLine("How many ice cubes would you like to buy?");
+                    Console.WriteLine("How many ice cubes, which spoil each day, would you like to buy?");
                     Console.WriteLine("Option 1: 100 for $0.80");
                     Console.WriteLine("Option 2: 250 for $1.80");
                     Console.WriteLine("Option 3: 500 for $2.50");
@@ -74,7 +74,7 @@ namespace LemonadeStand
                     break;
 
                 case "cup":
-                    Console.WriteLine("How many cups would you like to buy?");
+                    Console.WriteLine("How many cups, which never spoil, would you like to buy?");
                     Console.WriteLine("Option 1: 50 for $3.00");
                     Console.WriteLine("Option 2: 100 for $5.00");
                     Console.WriteLine("Option 3: 200 for $8.00");
@@ -85,7 +85,7 @@ namespace LemonadeStand
 
 	        while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < inventoryQuantityMin) || (quantity > inventoryQuantityMax)))
 	        {
-                     Console.WriteLine("Enter one of the four options!");             
+                     Console.WriteLine("Please enter one of the four options!");             
 	        }
             return quantity;
 
@@ -97,7 +97,7 @@ namespace LemonadeStand
             Console.WriteLine("How much will a cup of lemonade cost today?");
             while (!double.TryParse(Console.ReadLine(), out price))
             {
-                Console.WriteLine("Enter a valid price.");
+                Console.WriteLine("Please enter a valid price.");
             }
             return price;
         }
@@ -110,6 +110,9 @@ namespace LemonadeStand
                 case "ice":
                     Console.WriteLine("How many ice cubes per cup?");
                     break;
+                case "sugar":
+                    Console.WriteLine("How many cups of sugar per pitcher");
+                    break;
                 default:
                     Console.WriteLine("How many {0} per pitcher?", ingredient);
                     break;
@@ -118,7 +121,7 @@ namespace LemonadeStand
 
             while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < recipeIngredientQuantityMin) || (quantity > recipeIngredientQuantityMax)))
             {
-                Console.WriteLine("Enter a quantity between 1-5.");
+                Console.WriteLine("Please enter a quantity between 1-5.");
 
             }
             return quantity;
@@ -139,14 +142,14 @@ namespace LemonadeStand
             return quantity;
         }
 
-        public void DisplayWeatherForecast(Weather weather)
+        public void DisplayWeatherForecast(Weather weather, int dayNumber)
         {
-            Console.WriteLine("The weather forecast calls for {0} degrees and {1} conditions", weather.temperature, weather.conditions);
+            Console.WriteLine("The weather forecast for Day {0} calls for {1} degrees and {2} conditions", dayNumber, weather.temperature, weather.conditions);
         }
 
-        public void DisplayActualWeather(Weather weather)
+        public void DisplayActualWeather(Weather weather, int dayNumber)
         {
-            Console.WriteLine("The actual weather today is {0} degrees and {1} skies", weather.temperature, weather.conditions);
+            Console.WriteLine("The actual weather for Day {0} is {1} degrees and {2} skies", dayNumber, weather.temperature, weather.conditions);
         }
 
         public void DisplayCash(Store store)
@@ -154,21 +157,26 @@ namespace LemonadeStand
             Console.WriteLine("You have {0:$0.00} cash to buy supplies.", store.cashOnHand);
         }
 
-        public void DisplayDailyResults(Day day)
+        public void DisplayDailyResults(Day day, int dayNumber)
         {
-            Console.WriteLine("You had {0} potential customers and sold {1} cups of lemonade for {2:$0.00} in revenue.", day.numOfCustomers, 
-                day.numOfBuyingCustomers, day.dailyRevenue);
-            Console.WriteLine("Your total expenses for the day equaled {0:$0.00}.", day.dailyExpenses);
-            Console.WriteLine("Your net income was {0:$0.00}", (day.dailyRevenue - day.dailyExpenses));
+            Console.WriteLine("You had {0} potential customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", day.numOfCustomers, 
+                day.numOfBuyingCustomers, day.dailyRevenue, dayNumber);
+            Console.WriteLine("Your total expenses for Day {0} equaled {1:$0.00}.", dayNumber, day.dailyExpenses);
+            Console.WriteLine("Your net income for Day {0} was {1:$0.00}", dayNumber, (day.dailyRevenue - day.dailyExpenses));
 
         }
 
-        public void DisplaySpoilage(Player player)
+        public void DisplayInventory(Inventory inventory)
+        {
+            Console.WriteLine("Your inventory includes {0} lemons, {1} cups of sugar, {2} ice cubes and {3} cups.", inventory.lemonInventory.Count(), inventory.sugarInventory.Count(), inventory.iceInventory.Count(), inventory.cupInventory.Count());
+        }
+
+        public void DisplaySpoilage(Inventory inventory)
         {
             Console.WriteLine("You lost {0} lemons, {1} sugars and {2} ice cubes to spoilage.", +
-            player.franchise.storeInventory.lemonInventory.Count(item => item.numOfDaysBeforeExpiration == 0),
-            player.franchise.storeInventory.sugarInventory.Count(item => item.numOfDaysBeforeExpiration == 0),
-            player.franchise.storeInventory.iceInventory.Count(item => item.numOfDaysBeforeExpiration == 0));
+            inventory.lemonInventory.Count(item => item.numOfDaysBeforeExpiration == 0),
+            inventory.sugarInventory.Count(item => item.numOfDaysBeforeExpiration == 0),
+            inventory.iceInventory.Count(item => item.numOfDaysBeforeExpiration == 0));
         }
 
         public void DisplayFinalResults(Store store)

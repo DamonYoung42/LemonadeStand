@@ -10,6 +10,7 @@ namespace LemonadeStand
     {
 
         public Inventory storeInventory;
+        public UserInput userInput;
         public double cashOnHand;
         public double initialInvestment;
         public int dailyCupsSold;
@@ -27,13 +28,14 @@ namespace LemonadeStand
             totalRevenue = 0;
             totalExpenses = 0;
             bankrupt = false;
+            userInput = new UserInput();
         }
         public void SetStoreRevenue(Day day)
         {
             totalRevenue += day.dailyRevenue;
         }
 
-        public void SetStoreExpenses(Day day)
+        public void AddToStoreExpenses(Day day)
         {
             totalExpenses += day.dailyExpenses;
         }
@@ -48,5 +50,11 @@ namespace LemonadeStand
             cashOnHand -= cost;
 
         }
+
+        public double GetCashOnHand()
+        {
+            return cashOnHand;
+        }
+
     }
 }

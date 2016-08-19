@@ -13,5 +13,11 @@ namespace LemonadeStand
             numOfDaysBeforeExpiration = 7;
         }
 
+        public void SubtractDayBeforeExpiration()
+        {
+            numOfDaysBeforeExpiration -= 1;
+        }
     }
+
+
 }

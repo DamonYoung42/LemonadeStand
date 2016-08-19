@@ -11,82 +11,111 @@ namespace LemonadeStand
         public UserInput gameConsole;
         public Player player;
         public Day day;
-        public bool bankrupt;
         public int maxNumOfDays;
         public int dayOfOperation;
+        public double minimumCashNeeded = 1.00;
 
         public Game()
         {
-            bankrupt = false;
             dayOfOperation = 1;
             gameConsole = new UserInput();
             gameConsole.IntroduceGame();
 
         }
-
         public void RunGame()
         {
             player = new Player(gameConsole.SetPlayerName().ToUpper());
             maxNumOfDays = gameConsole.SetDaysofOperation();
 
-                while ((!bankrupt) && (dayOfOperation < maxNumOfDays))
-                {
-                    day = new Day();
-                    day.weatherForecast.SetWeather();
-                    gameConsole.DisplayWeatherForecast(day.weatherForecast);
-                    gameConsole.DisplayCash(player.franchise);
-
-                    BuyInventory();
-                    
-                    CreateRecipe();
-
-                    SetProductPrice();
-                    day.weatherActual.SetWeather(day.weatherForecast);
-                    GenerateDemandLevel();
-                    GenerateCustomers();
-                    gameConsole.DisplayActualWeather(day.weatherActual);
-                    MakePitcher();
-                    SellToCustomers();
-                    SubtractSpoiledDay();
-                    gameConsole.DisplayDailyResults(day);
-                    gameConsole.DisplaySpoilage(player);
-                    RemoveSpoiledInventory();
-                    dayOfOperation++;
-                    Console.WriteLine("Press any key to continue:");
-                    Console.ReadKey();
-                }
-            
-            gameConsole.DisplayFinalResults(player.franchise);
-                
-            Console.WriteLine("Thanks for playing {0}. Goodbye!", player.name);
-            Console.ReadLine();
-        }
-
-
-
-        public void BuyInventory()
-        {
-            if (player.franchise.cashOnHand > 1.00)
+            while ((!IsBankrupt()) && (dayOfOperation < maxNumOfDays + 1))
             {
+                day = new Day();
+                day.weatherForecast.SetWeather();
+                gameConsole.DisplayWeatherForecast(day.weatherForecast, dayOfOperation);
+                gameConsole.DisplayCash(player.franchise);
 
+                AddLemonInventory();
+                AddSugarInventory();
+                AddIceInventory();
+                AddCupInventory();
+
+                while (NoInventory())
+                {
                     AddLemonInventory();
                     AddSugarInventory();
                     AddIceInventory();
                     AddCupInventory();
-                
+                }
 
+                day.CreateRecipe(player.franchise, gameConsole);
+
+                SetProductPrice();
+
+                day.weatherActual.SetWeather(day.weatherForecast);
+                day.GenerateDemandLevel();
+                day.GenerateCustomers();
+                gameConsole.DisplayActualWeather(day.weatherActual, dayOfOperation);
+
+                MakePitcher();
+                SellToCustomers();
+
+                SubtractSpoiledDay();
+
+                gameConsole.DisplayDailyResults(day, dayOfOperation);
+                gameConsole.DisplaySpoilage(player.franchise.storeInventory);
+
+                RemoveSpoiledInventory();
+
+                dayOfOperation++;
+                Console.WriteLine("Press any key to continue:");
+                Console.ReadKey();
             }
-            else bankrupt = true;
 
+
+            gameConsole.DisplayFinalResults(player.franchise);
+
+            Console.WriteLine("Thanks for playing {0}. Goodbye!", player.name);
+            Console.ReadLine();
+        }
+    
+
+        public bool NoInventory()
+        {
+            if ((player.franchise.storeInventory.lemonInventory.Count() == 0) || 
+                    (player.franchise.storeInventory.sugarInventory.Count() == 0) || 
+                    (player.franchise.storeInventory.iceInventory.Count() == 0) || 
+                    (player.franchise.storeInventory.cupInventory.Count() == 0))
+            {
+                Console.WriteLine("You don't have sufficient inventory to make lemonade. Please buy your ingredients.");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool IsBankrupt()
+        {
+            if (player.franchise.cashOnHand < minimumCashNeeded)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void CheckIfSoldOut ()
         {
-            if ((day.numOfBuyingCustomers == day.recipe.maxNumOfCups) || (!EnoughInventory()))
+            //if ((day.numOfBuyingCustomers == day.recipe.maxNumOfCups) || (!EnoughInventory()))
+            if ((day.numOfBuyingCustomers == day.recipe.maxNumOfCups))
             {
-                Console.WriteLine("You are sold out!");
+                Console.WriteLine("You sold out of lemonade!");
                 day.soldOut = true;
             }
+            
         }
 
         public void SetProductPrice()
@@ -95,80 +124,34 @@ namespace LemonadeStand
 
         }
 
-        public void GenerateDemandLevel()
-        {
-            int temperatureLevelOne = 60;
-            int temperatureLevelTwo = 75;
-            int temperatureLevelThree = 85;
-            double sunnyFactor = 1.1;
-            double overcastFactor = .80;
-            double rainyFactor = .20;
 
-            Random chance = new Random(DateTime.Now.Millisecond);
-            day.demandLevel = chance.Next(0, 100);
-            if (day.weatherActual.temperature < temperatureLevelOne)
-            {
-                day.demandLevel *= .30;
-            }
-            else if (day.weatherActual.temperature < temperatureLevelTwo)
-            {
-                day.demandLevel *= .60;
-            }
-            else if (day.weatherActual.temperature < temperatureLevelThree)
-            {
-                day.demandLevel *= .75;
-            }
-            else
-            {
-                day.demandLevel *= .90;
-            }
 
-            switch (day.weatherActual.conditions)
-            {
-                case "Sunny":
-                    day.demandLevel *= sunnyFactor;
-                    break;
-                case "Overcast":
-                    day.demandLevel *= overcastFactor;
-                    break;
-                case "Rainy":
-                    day.demandLevel *= rainyFactor;
-                    break;
-            }
-        }
-
-        public void GenerateCustomers()
-        {
-            int numOfCustomersMin = 25;
-            int numOfCustomersMax = 150;
-            Random random = new Random(DateTime.Now.Millisecond);
-            
-            day.numOfCustomers = random.Next(numOfCustomersMin, numOfCustomersMax);
-
-            for (int i = 0; i < day.numOfCustomers; i++)
-            {
-                Customer newCustomer = new Customer(day.weatherActual, day.pricePerCup);
-                day.customers.Add(newCustomer);
-            }
-
-        }
 
         public void CreateRecipe()
         {
             int availableLemonPitchers;
             int availableSugarPitchers;
 
+            gameConsole.DisplayInventory(player.franchise.storeInventory);
             Console.WriteLine("Set your recipe for the day.");
             day.recipe.numOfLemons = gameConsole.SetRecipe("lemons");
             day.recipe.numOfSugar = gameConsole.SetRecipe("sugar");
             day.recipe.numOfIce = gameConsole.SetRecipe("ice");
 
-            availableLemonPitchers = Convert.ToInt32(player.franchise.storeInventory.lemonInventory.Count() / day.recipe.numOfLemons);
-            availableSugarPitchers = Convert.ToInt32(player.franchise.storeInventory.sugarInventory.Count() / day.recipe.numOfSugar);
+            if (EnoughInventory())
+            {
+                availableLemonPitchers = Convert.ToInt32(player.franchise.storeInventory.lemonInventory.Count() / day.recipe.numOfLemons);
+                availableSugarPitchers = Convert.ToInt32(player.franchise.storeInventory.sugarInventory.Count() / day.recipe.numOfSugar);
 
-            day.recipe.maxNumOfPitchers = Math.Min(availableLemonPitchers, availableSugarPitchers);
+                day.recipe.maxNumOfPitchers = Math.Min(availableLemonPitchers, availableSugarPitchers);
 
-            day.recipe.maxNumOfCups = day.recipe.maxNumOfPitchers * day.recipe.cupsPerPitcher;
+                day.recipe.maxNumOfCups = day.recipe.maxNumOfPitchers * day.recipe.cupsPerPitcher;
+            }
+            else
+            {
+                CreateRecipe();
+            }
+
         }
 
         public void RemoveUsedInventory()
@@ -176,6 +159,7 @@ namespace LemonadeStand
             player.franchise.storeInventory.lemonInventory.RemoveRange(0, (day.recipe.numOfLemons));
             player.franchise.storeInventory.sugarInventory.RemoveRange(0, (day.recipe.numOfSugar));
         }
+
 
         public bool EnoughInventory()
         {
@@ -206,15 +190,10 @@ namespace LemonadeStand
 
         public void SellToCustomers()
         {
-            //open for business, generate customers
-            //Update daily revenue, total revenue, total expenses
-
                 foreach (Customer customer in day.customers)
                 {
-                    if (customer.chanceOfPurchase >= day.demandLevel)
+                    if ((customer.chanceOfPurchase >= day.demandLevel) && (!day.soldOut))
                     {
-                        if (!day.soldOut)
-                        {
                             day.numOfBuyingCustomers++;
                             player.franchise.storeInventory.cupInventory.RemoveAt(0);
                             player.franchise.storeInventory.iceInventory.RemoveRange(0, day.recipe.numOfIce);
@@ -222,17 +201,14 @@ namespace LemonadeStand
                             if (((day.numOfBuyingCustomers % day.recipe.cupsPerPitcher) == 0) && (day.numOfPitchers < day.recipe.maxNumOfPitchers))
                             {
                                 MakePitcher();
-                                //MakePitcher, remove lemons/sugar ingredients from inventory
                             }
-                            day.AddToDailyRevenue(day.pricePerCup);
-                            ////remove inventory
-
-
-                        }
-
+                            day.AddToDailyRevenue(day.pricePerCup);                     
                     }
-                    CheckIfSoldOut();
-                }
+                    if (!day.soldOut)
+                    {
+                        CheckIfSoldOut();
+                    }
+            }
 
             player.franchise.SetStoreRevenue(day);
             player.franchise.AddToStoreCashOnHand(day);
@@ -275,23 +251,27 @@ namespace LemonadeStand
                     break;
             }
 
-            if (CheckCashOnHand(cost) && (addItems))
+            if (addItems)
             {
-                for (int i = 1; i <= numOfItemsToAdd; i++)
+                if (CheckCashOnHand(cost))
                 {
-                    newLemon = new Lemon();
-                    player.franchise.storeInventory.lemonInventory.Add(newLemon);
+                    for (int i = 1; i <= numOfItemsToAdd; i++)
+                    {
+                        newLemon = new Lemon();
+                        player.franchise.storeInventory.lemonInventory.Add(newLemon);
+                    }
+                    player.franchise.AddToStoreExpenses(day);
+                    day.AddToDailyExpenses(cost);
+                    UpdateCashOnHand(cost);
                 }
-                player.franchise.SetStoreExpenses(day);
-                day.AddToDailyExpenses(cost);
-                UpdateCashOnHand(cost);
+                else
+                {
+                    AddLemonInventory();
+                }
             }
-            else
-            {
-                AddLemonInventory();
-            }
+    }
 
-        }
+
         public void UpdateCashOnHand(double cost)
         {
             player.franchise.SubtractFromCashOnHand(cost);
@@ -324,24 +304,29 @@ namespace LemonadeStand
                     cost = 9.00;
                     numOfItemsToAdd = 100;
                     break;
+                default:
+                    addItems = false;
+                    break;
             }
 
-            if (CheckCashOnHand(cost) && (addItems))
+            if (addItems)
             {
-                for (int i = 1; i <= numOfItemsToAdd; i++)
+                if (CheckCashOnHand(cost))
                 {
-                    newSugar = new Sugar();
-                    player.franchise.storeInventory.sugarInventory.Add(newSugar);
+                    for (int i = 1; i <= numOfItemsToAdd; i++)
+                    {
+                        newSugar = new Sugar();
+                        player.franchise.storeInventory.sugarInventory.Add(newSugar);
+                    }
+                    player.franchise.AddToStoreExpenses(day);
+                    day.AddToDailyExpenses(cost);
+                    UpdateCashOnHand(cost);
                 }
-                player.franchise.SetStoreExpenses(day);
-                day.AddToDailyExpenses(cost);
-                UpdateCashOnHand(cost);
+                else
+                {
+                    AddSugarInventory();
+                }
             }
-            else
-            {
-                AddSugarInventory();
-            }
-
         }
 
         public void AddIceInventory()
@@ -374,21 +359,25 @@ namespace LemonadeStand
                     break;
             }
 
-            if (CheckCashOnHand(cost) && (addItems))
+            if (addItems)
             {
-                for (int i = 1; i <= numOfItemsToAdd; i++)
+                if (CheckCashOnHand(cost) && (addItems))
                 {
-                    newIce = new Ice();
-                    player.franchise.storeInventory.iceInventory.Add(newIce);
+                    for (int i = 1; i <= numOfItemsToAdd; i++)
+                    {
+                        newIce = new Ice();
+                        player.franchise.storeInventory.iceInventory.Add(newIce);
+                    }
+                    player.franchise.AddToStoreExpenses(day);
+                    day.AddToDailyExpenses(cost);
+                    UpdateCashOnHand(cost);
                 }
-                player.franchise.SetStoreExpenses(day);
-                day.AddToDailyExpenses(cost);
-                UpdateCashOnHand(cost);
+                else
+                {
+                    AddIceInventory();
+                }
             }
-            else
-            {
-                AddIceInventory();
-            }
+
         }
 
         public void AddCupInventory()
@@ -421,26 +410,29 @@ namespace LemonadeStand
                     break;
             }
 
-            if (CheckCashOnHand(cost) && (addItems))
+            if (addItems)
             {
-                for (int i = 1; i <= numOfItemsToAdd; i++)
+                if (CheckCashOnHand(cost))
                 {
-                    newCup = new Cup();
-                    player.franchise.storeInventory.cupInventory.Add(newCup);
+                    for (int i = 1; i <= numOfItemsToAdd; i++)
+                    {
+                        newCup = new Cup();
+                        player.franchise.storeInventory.cupInventory.Add(newCup);
+                    }
+                    player.franchise.AddToStoreExpenses(day);
+                    day.AddToDailyExpenses(cost);
+                    UpdateCashOnHand(cost);
                 }
-                player.franchise.SetStoreExpenses(day);
-                day.AddToDailyExpenses(cost);
-                UpdateCashOnHand(cost);
-            }
-            else
-            {
-                AddCupInventory();
+                else
+                {
+                    AddCupInventory();
+                }
             }
 
         }
         public bool CheckCashOnHand(double cost)
         {
-            if (player.franchise.cashOnHand < cost)
+            if (player.franchise.GetCashOnHand() < cost)
             {
                 Console.WriteLine("Sorry, you don't have enough money to purchase those ingredients.");
                 return false;
@@ -458,28 +450,24 @@ namespace LemonadeStand
 
         public void SubtractSpoiledDay()
         {
-            foreach (Lemon ingredient in player.franchise.storeInventory.lemonInventory)
+            foreach (Lemon lemon in player.franchise.storeInventory.lemonInventory)
             {
-                ingredient.numOfDaysBeforeExpiration -= 1;
+                lemon.SubtractDayBeforeExpiration();
             }
 
-
-            foreach (Ice ingredient in player.franchise.storeInventory.iceInventory)
+            foreach (Sugar sugar in player.franchise.storeInventory.sugarInventory)
             {
-                ingredient.numOfDaysBeforeExpiration -= 1;
-
+                sugar.SubtractDayBeforeExpiration();
             }
 
-
-            foreach (Sugar ingredient in player.franchise.storeInventory.sugarInventory)
+            foreach (Cup cup in player.franchise.storeInventory.cupInventory)
             {
-                ingredient.numOfDaysBeforeExpiration -= 1;
+                cup.SubtractDayBeforeExpiration();
             }
 
-
-            foreach (Cup ingredient in player.franchise.storeInventory.cupInventory)
+            foreach (Ice ice in player.franchise.storeInventory.iceInventory)
             {
-                ingredient.numOfDaysBeforeExpiration -= 1;
+                ice.SubtractDayBeforeExpiration();
             }
 
         }
