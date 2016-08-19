@@ -18,6 +18,7 @@ namespace LemonadeStand
         public double totalExpenses;
         public int maxNumOfDays;
         public bool bankrupt;
+        public double minimumCashNeeded;
 
         public Store()
         {
@@ -30,19 +31,19 @@ namespace LemonadeStand
             bankrupt = false;
             userInput = new UserInput();
         }
-        public void SetStoreRevenue(Day day)
+        public void SetStoreRevenue(double revenue)
         {
-            totalRevenue += day.dailyRevenue;
+            totalRevenue += revenue;
         }
 
-        public void AddToStoreExpenses(Day day)
+        public void AddToStoreExpenses(double expense)
         {
-            totalExpenses += day.dailyExpenses;
+            totalExpenses += expense;
         }
 
-        public void AddToStoreCashOnHand(Day day)
+        public void AddToStoreCashOnHand(double revenue)
         {
-            cashOnHand += day.dailyRevenue;
+            cashOnHand += revenue;
         }
 
         public void SubtractFromCashOnHand(double cost)
@@ -56,5 +57,96 @@ namespace LemonadeStand
             return cashOnHand;
         }
 
+        public void RemoveSpoiledInventory()
+        {
+            storeInventory.lemonInventory.RemoveAll(lemon => lemon.numOfDaysBeforeExpiration == 0);
+            storeInventory.iceInventory.RemoveAll(ice => ice.numOfDaysBeforeExpiration == 0);
+            storeInventory.sugarInventory.RemoveAll(sugar => sugar.numOfDaysBeforeExpiration == 0);
+            storeInventory.cupInventory.RemoveAll(cup => cup.numOfDaysBeforeExpiration == 0);
+        }
+
+        public void SubtractSpoiledDay()
+        {
+            foreach (Lemon lemon in storeInventory.lemonInventory)
+            {
+                lemon.SubtractDayBeforeExpiration();
+            }
+
+            foreach (Sugar sugar in storeInventory.sugarInventory)
+            {
+                sugar.SubtractDayBeforeExpiration();
+            }
+
+            foreach (Cup cup in storeInventory.cupInventory)
+            {
+                cup.SubtractDayBeforeExpiration();
+            }
+
+            foreach (Ice ice in storeInventory.iceInventory)
+            {
+                ice.SubtractDayBeforeExpiration();
+            }
+        }
+
+        public void RemoveUsedInventory(Recipe recipe)
+        {
+            storeInventory.lemonInventory.RemoveRange(0, (recipe.numOfLemons));
+            storeInventory.sugarInventory.RemoveRange(0, (recipe.numOfSugar));
+        }
+
+        public bool EnoughInventory(Recipe recipe)
+        {
+
+            if (storeInventory.lemonInventory.Count() < recipe.numOfLemons)
+            {
+                Console.WriteLine("You don't have enough lemons for your recipe.");
+                return false;
+            }
+            else if (storeInventory.iceInventory.Count() < recipe.numOfIce)
+            {
+                Console.WriteLine("You don't have enough ice for your recipe.");
+                return false;
+            }
+            else if (storeInventory.sugarInventory.Count() < recipe.numOfSugar)
+            {
+                Console.WriteLine("You don't have enough sugar for your recipe.");
+                return false;
+            }
+            //else if (player.franchise.storeInventory.cupInventory.Count() < 1)
+            //{
+            //    Console.WriteLine("You don't have enough cups to create your recipe!");
+            //    return false;
+            //}
+            return true;
+        }
+
+        public bool NoInventory()
+        {
+            if ((storeInventory.lemonInventory.Count() == 0) ||
+                    (storeInventory.sugarInventory.Count() == 0) ||
+                    (storeInventory.iceInventory.Count() == 0) ||
+                    (storeInventory.cupInventory.Count() == 0))
+            {
+                Console.WriteLine("You don't have sufficient inventory to make lemonade. Please buy your ingredients.");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool IsBankrupt()
+        {
+            if (cashOnHand < minimumCashNeeded)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
+
