@@ -53,10 +53,10 @@ namespace LemonadeStand
 
             do
             {
-                AddLemonInventory(store, gameConsole);
-                AddSugarInventory(store, gameConsole);
-                AddIceInventory(store, gameConsole);
-                AddCupInventory(store, gameConsole);
+                if (!store.IsBankrupt()){ AddLemonInventory(store, gameConsole); } else { return false; }
+                if (!store.IsBankrupt()){ AddSugarInventory(store, gameConsole); } else { return false; }
+                if (!store.IsBankrupt()){ AddIceInventory(store, gameConsole); } else { return false; }
+                if (!store.IsBankrupt()){ AddCupInventory(store, gameConsole); } else { return false; }
             }
             while (store.NoInventory());
             
@@ -173,12 +173,12 @@ namespace LemonadeStand
                 //availableLemonPitchers = Convert.ToInt32(store.storeInventory.lemonInventory.Count() / recipe.numOfLemons);
                 //availableSugarPitchers = Convert.ToInt32(store.storeInventory.sugarInventory.Count() / recipe.numOfSugar);
 
-                recipe.GetMaxNumberOfPitchers(availableLemonPitchers, availableSugarPitchers);
+                recipe.SetMaxNumberOfPitchers(availableLemonPitchers, availableSugarPitchers);
 
                 //recipe.maxNumOfPitchers = Math.Min(availableLemonPitchers, availableSugarPitchers);
 
                 recipe.SetMaxNumberOfCups();
-                recipe.maxNumOfCups = recipe.maxNumOfPitchers * recipe.cupsPerPitcher;
+                //recipe.maxNumOfCups = recipe.maxNumOfPitchers * recipe.cupsPerPitcher;
             }
             else
             {
@@ -211,7 +211,7 @@ namespace LemonadeStand
         {
             if (store.GetCashOnHand() <= cost)
             {
-                Console.WriteLine("Sorry, you don't have enough money to purchase those ingredients.");
+                Console.WriteLine("\nSorry, you don't have enough money to purchase those ingredients.");
                 return false;
             }
 
@@ -223,7 +223,7 @@ namespace LemonadeStand
         {
             store.SubtractFromCashOnHand(cost);
 
-            Console.WriteLine("Cash on hand: {0:$0.00}", store.GetCashOnHand());
+            Console.WriteLine("\nCash on hand: {0:$0.00}", store.GetCashOnHand());
         }
 
         public void AddSugarInventory(Store store, UserInput gameConsole)
@@ -233,7 +233,7 @@ namespace LemonadeStand
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} sugar in your inventory.", store.storeInventory.GetSugarInventoryCount());
+            Console.WriteLine("\nYou have {0} cups of sugar in your inventory.", store.storeInventory.GetSugarInventoryCount());
             userInput = gameConsole.SetInventory("sugar");
 
             switch (userInput)
@@ -269,13 +269,14 @@ namespace LemonadeStand
                     store.AddToStoreExpenses(dailyExpenses);
 
                     UpdateCashOnHand(store, cost);
-                    if ((store.GetCashOnHand() <= store.GetMinimumCashNeeded()) && ((store.storeInventory.GetSugarInventoryCount() == 0) ||
-                    (store.storeInventory.GetIceInventoryCount() == 0) ||
-                    (store.storeInventory.GetCupInventoryCount() == 0)))
-                    {
-                        Console.WriteLine("Sorry you have gone bankrupt");
+                    //Check for Bankrupt -- not enough cash to buy inventory, 
+                    //if ((store.GetCashOnHand() <= store.GetMinimumCashNeeded()) && ((store.storeInventory.GetSugarInventoryCount() == 0) ||
+                    //(store.storeInventory.GetIceInventoryCount() == 0) ||
+                    //(store.storeInventory.GetCupInventoryCount() == 0)))
+                    //{
+                    //    Console.WriteLine("Sorry you have gone bankrupt");
   
-                    }
+                    //}
                 }
                 else
                 {
@@ -291,7 +292,7 @@ namespace LemonadeStand
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} ice cubes in your inventory.", store.storeInventory.GetIceInventoryCount());
+            Console.WriteLine("\nYou have {0} ice cubes in your inventory.", store.storeInventory.GetIceInventoryCount());
             userInput = gameConsole.SetInventory("ice");
 
             switch (userInput)
@@ -340,7 +341,7 @@ namespace LemonadeStand
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} cups in your inventory.", store.storeInventory.GetCupInventoryCount());
+            Console.WriteLine("\nYou have {0} cups in your inventory.", store.storeInventory.GetCupInventoryCount());
             userInput = gameConsole.SetInventory("cup");
 
             switch (userInput)
@@ -389,7 +390,7 @@ namespace LemonadeStand
             bool addItems = true;
             int numOfItemsToAdd = 0;
 
-            Console.WriteLine("You have {0} lemons in your inventory.", store.storeInventory.GetLemonInventoryCount());
+            Console.WriteLine("\nYou have {0} lemons in your inventory.", store.storeInventory.GetLemonInventoryCount());
             userInput = gameConsole.SetInventory("lemon");
 
             switch (userInput)

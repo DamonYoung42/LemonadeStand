@@ -9,12 +9,12 @@ namespace LemonadeStand
     
     public class UserInput
     {
-        protected int inventoryQuantityMin;
-        protected int inventoryQuantityMax;
-        protected int recipeIngredientQuantityMin;
-        protected int recipeIngredientQuantityMax;
-        protected int numOfDaysMin;
-        protected int numOfDaysMax;
+        private int inventoryQuantityMin;
+        private int inventoryQuantityMax;
+        private int recipeIngredientQuantityMin;
+        private int recipeIngredientQuantityMax;
+        private int numOfDaysMin;
+        private int numOfDaysMax;
         
         public UserInput()
         {
@@ -47,7 +47,7 @@ namespace LemonadeStand
             switch (ingredient)
             {
                 case "lemon":
-                    Console.WriteLine("How many lemons, which spoil after 7 days, would you like to buy?");
+                    Console.WriteLine("\nHow many lemons, which spoil after 7 days, would you like to buy?");
                     Console.WriteLine("Option 1: 5 for $0.60");
                     Console.WriteLine("Option 2: 20 for $2.00");
                     Console.WriteLine("Option 3: 50 for $4.00");
@@ -56,7 +56,7 @@ namespace LemonadeStand
                     break;
 
                 case "sugar":
-                    Console.WriteLine("How many cups of sugar, which spoil after 3 days, would you like to buy?");
+                    Console.WriteLine("\nHow many cups of sugar, which spoil after 3 days, would you like to buy?");
                     Console.WriteLine("Option 1: 5 for $0.60");
                     Console.WriteLine("Option 2: 20 for $2.00");
                     Console.WriteLine("Option 3: 100 for $9.00");
@@ -65,7 +65,7 @@ namespace LemonadeStand
                     break;
 
                 case "ice":
-                    Console.WriteLine("How many ice cubes, which spoil each day, would you like to buy?");
+                    Console.WriteLine("\nHow many ice cubes, which spoil each day, would you like to buy?");
                     Console.WriteLine("Option 1: 100 for $0.80");
                     Console.WriteLine("Option 2: 250 for $1.80");
                     Console.WriteLine("Option 3: 500 for $2.50");
@@ -74,7 +74,7 @@ namespace LemonadeStand
                     break;
 
                 case "cup":
-                    Console.WriteLine("How many cups, which never spoil, would you like to buy?");
+                    Console.WriteLine("\nHow many cups, which never spoil, would you like to buy?");
                     Console.WriteLine("Option 1: 50 for $3.00");
                     Console.WriteLine("Option 2: 100 for $5.00");
                     Console.WriteLine("Option 3: 200 for $8.00");
@@ -144,22 +144,22 @@ namespace LemonadeStand
 
         public void DisplayWeatherForecast(Weather weather, int dayNumber)
         {
-            Console.WriteLine("The weather forecast for Day {0} calls for {1} degrees and {2} conditions", dayNumber, weather.GetWeatherTemperature(), weather.GetWeatherConditions());
+            Console.WriteLine("\nThe weather forecast for Day {0} calls for {1} degrees and {2} conditions", dayNumber, weather.GetWeatherTemperature(), weather.GetWeatherConditions());
         }
 
         public void DisplayActualWeather(Weather weather, int dayNumber)
         {
-            Console.WriteLine("The actual weather for Day {0} was {1} degrees and {2} skies", dayNumber, weather.GetWeatherTemperature(), weather.GetWeatherConditions());
+            Console.WriteLine("\nThe actual weather for Day {0} was {1} degrees and {2} skies", dayNumber, weather.GetWeatherTemperature(), weather.GetWeatherConditions());
         }
 
         public void DisplayCash(Store store)
         {
-            Console.WriteLine("You have {0:$0.00} cash to buy supplies.", store.GetCashOnHand());
+            Console.WriteLine("\nYou have {0:$0.00} to buy supplies.", store.GetCashOnHand());
         }
 
         public void DisplayDailyResults(Day day, int dayNumber)
         {
-            Console.WriteLine("You had {0} potential customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", day.GetNumOfCustomers(), 
+            Console.WriteLine("\nYou had {0} potential customers and sold {1} cups of lemonade for {2:$0.00} in revenue on Day {3}.", day.GetNumOfCustomers(), 
                 day.GetNumOfBuyingCustomers(), day.GetDailyRevenue(), dayNumber);
             Console.WriteLine("Your total expenses for Day {0} equaled {1:$0.00}.", dayNumber, day.GetDailyExpenses());
             Console.WriteLine("Your net income for Day {0} was {1:$0.00}", dayNumber, (day.GetDailyRevenue() - day.GetDailyExpenses()));

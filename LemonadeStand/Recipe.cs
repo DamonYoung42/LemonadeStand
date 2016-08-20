@@ -57,16 +57,17 @@ namespace LemonadeStand
         {
             return cupsPerPitcher;
         }
-        public int GetMaxNumberOfPitchers(int availableLemonPitchers, int availableSugarPitchers)
+        public void SetMaxNumberOfPitchers(int availableLemonPitchers, int availableSugarPitchers)
         {
 
-            return Math.Min(availableLemonPitchers, availableSugarPitchers);
+            maxNumOfPitchers= Math.Min(availableLemonPitchers, availableSugarPitchers);
         }
 
         public void SetMaxNumberOfCups()
         {
             maxNumOfCups = maxNumOfPitchers * cupsPerPitcher;
         }
+
 
     }
 }

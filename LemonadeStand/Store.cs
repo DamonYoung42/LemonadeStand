@@ -16,7 +16,10 @@ namespace LemonadeStand
         public double totalRevenue;
         public double totalExpenses;
         public int maxNumOfDays;
-        public double minimumCashNeeded;
+        public double minimumLemonCashNeeded;
+        public double minimumSugarCashNeeded;
+        public double minimumIceCashNeeded;
+        public double minimumCupCashNeeded;
 
         public Store()
         {
@@ -26,12 +29,13 @@ namespace LemonadeStand
             maxNumOfDays = 0;
             totalRevenue = 0;
             totalExpenses = 0;
+            minimumLemonCashNeeded = .60;
+            minimumSugarCashNeeded = .60;
+            minimumIceCashNeeded = .80;
+            minimumCupCashNeeded = 3.00;
 
         }
-        public double GetMinimumCashNeeded()
-        {
-            return minimumCashNeeded;
-        }
+ 
         public void SetStoreRevenue(double revenue)
         {
             totalRevenue += revenue;
@@ -138,12 +142,12 @@ namespace LemonadeStand
 
         public bool IsBankrupt()
         {
-            if ((cashOnHand < minimumCashNeeded) && ((storeInventory.lemonInventory.Count() == 0) ||
-                    (storeInventory.sugarInventory.Count() == 0) ||
-                    (storeInventory.iceInventory.Count() == 0) ||
-                    (storeInventory.cupInventory.Count() == 0)))
+            if ((storeInventory.lemonInventory.Count() == 0) && (GetCashOnHand() < minimumLemonCashNeeded) ||
+                    (storeInventory.sugarInventory.Count() == 0 && (GetCashOnHand() < minimumSugarCashNeeded)) ||
+                    (storeInventory.iceInventory.Count() == 0 && (GetCashOnHand() < minimumIceCashNeeded)) ||
+                    (storeInventory.cupInventory.Count() == 0 && (GetCashOnHand() < minimumCupCashNeeded)))
+                    
             {
-                Console.WriteLine("You have gone bankrupt!");
                 return true;
             }
             else

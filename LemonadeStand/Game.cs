@@ -39,17 +39,21 @@ namespace LemonadeStand
                     dayOfOperation++;
                     Console.WriteLine("Press any key to continue:");
                     Console.ReadKey();
+                    if (dayOfOperation == maxNumOfDays)
+                    {
+                        gameConsole.DisplayFinalResults(player.store);
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("You went bankrupt!!");
-                    dayOfOperation = maxNumOfDays;
+                    Console.WriteLine("\nYou don't enough supplies to make lemonade and you don't have enough money to buy more ingredients. You have gone bankrupt!!");
+                    dayOfOperation = maxNumOfDays +1;
                 }
 
             }
 
-            gameConsole.DisplayFinalResults(player.store);
-            Console.WriteLine("Thanks for playing {0}. Goodbye!", player.name);
+            //gameConsole.DisplayFinalResults(player.store);
+            Console.WriteLine("\nThanks for playing {0}. Goodbye!", player.name);
             Console.ReadLine();
         }
     
