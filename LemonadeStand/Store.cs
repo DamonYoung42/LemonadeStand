@@ -11,7 +11,7 @@ namespace LemonadeStand
 
         public Inventory storeInventory;
         public double cashOnHand;
-        public double initialInvestment;
+        //public double initialInvestment;
         public int dailyCupsSold;
         public double totalRevenue;
         public double totalExpenses;
@@ -24,8 +24,8 @@ namespace LemonadeStand
         public Store()
         {
             storeInventory = new Inventory();
-            initialInvestment = 20.00;
-            cashOnHand = initialInvestment;
+            //initialInvestment = 20.00;
+            cashOnHand = 20.00;
             maxNumOfDays = 0;
             totalRevenue = 0;
             totalExpenses = 0;

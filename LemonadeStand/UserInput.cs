@@ -9,8 +9,8 @@ namespace LemonadeStand
     
     public class UserInput
     {
-        private int inventoryQuantityMin;
-        private int inventoryQuantityMax;
+        private int inventoryOptionMin;
+        private int inventoryOptionMax;
         private int recipeIngredientQuantityMin;
         private int recipeIngredientQuantityMax;
         private int numOfDaysMin;
@@ -18,10 +18,10 @@ namespace LemonadeStand
         
         public UserInput()
         {
-            inventoryQuantityMin = 1;
-            inventoryQuantityMax = 4;
+            inventoryOptionMin = 1;
+            inventoryOptionMax = 4;
             recipeIngredientQuantityMin = 1;
-            recipeIngredientQuantityMax = 5;
+            recipeIngredientQuantityMax = 10;
             numOfDaysMin = 7;
             numOfDaysMax = 21;
         }
@@ -83,7 +83,7 @@ namespace LemonadeStand
                     break;
             }
 
-	        while ((!int.TryParse(Console.ReadLine(), out option)) || ((option < inventoryQuantityMin) || (option > inventoryQuantityMax)))
+	        while ((!int.TryParse(Console.ReadLine(), out option)) || ((option < inventoryOptionMin) || (option > inventoryOptionMax)))
 	        {
                      Console.WriteLine("Please enter one of the four options!");             
 	        }
@@ -121,7 +121,7 @@ namespace LemonadeStand
 
             while ((!int.TryParse(Console.ReadLine(), out quantity)) || ((quantity < recipeIngredientQuantityMin) || (quantity > recipeIngredientQuantityMax)))
             {
-                Console.WriteLine("Please enter a quantity between 1-5.");
+                Console.WriteLine("Please enter a quantity between 1-10.");
 
             }
             return quantity;
