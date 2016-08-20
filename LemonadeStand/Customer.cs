@@ -14,12 +14,12 @@ namespace LemonadeStand
         public int temperatureLevelTwo = 60;
         public int temperatureLevelThree = 75;
         public double temperatureLevelOneFactor = .20;
-        public double temperatureLevelTwoFactor = .60;
+        public double temperatureLevelTwoFactor = .75;
         public double temperatureLevelThreeFactor = .90;
-        public double temperatureLevelFourFactor = 1.1;
+        public double temperatureLevelFourFactor = 1.25;
         public double sunnyFactor = 1.1;
-        public double overcastFactor = .75;
-        public double rainyFactor = .20;
+        public double overcastFactor = .90;
+        public double rainyFactor = .30;
         public double priceLevelOne = .25;
         public double priceLevelOneFactor = 1.5;
         public double priceLevelTwo = .50;
