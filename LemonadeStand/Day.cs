@@ -251,15 +251,10 @@ namespace LemonadeStand
             {
                 availableLemonPitchers = Convert.ToInt32(store.storeInventory.GetLemonInventoryCount() / recipe.GetNumberOfLemons());
                 availableSugarPitchers = Convert.ToInt32(store.storeInventory.GetSugarInventoryCount() / recipe.GetNumberOfSugar());
-                //availableLemonPitchers = Convert.ToInt32(store.storeInventory.lemonInventory.Count() / recipe.numOfLemons);
-                //availableSugarPitchers = Convert.ToInt32(store.storeInventory.sugarInventory.Count() / recipe.numOfSugar);
 
                 recipe.SetMaxNumberOfPitchers(availableLemonPitchers, availableSugarPitchers);
 
-                //recipe.maxNumOfPitchers = Math.Min(availableLemonPitchers, availableSugarPitchers);
-
                 recipe.SetMaxNumberOfCups();
-                //recipe.maxNumOfCups = recipe.maxNumOfPitchers * recipe.cupsPerPitcher;
             }
             else
             {
@@ -342,22 +337,12 @@ namespace LemonadeStand
                 {
                     for (int i = 1; i <= numOfItemsToAdd; i++)
                     {
-                        //newSugar = new Sugar();
                         store.storeInventory.AddToSugarInventory();
-                        //store.storeInventory.sugarInventory.Add(newSugar);
                     }
                     AddToDailyExpenses(cost);
                     store.AddToStoreExpenses(dailyExpenses);
 
                     UpdateCashOnHand(store, cost);
-                    //Check for Bankrupt -- not enough cash to buy inventory, 
-                    //if ((store.GetCashOnHand() <= store.GetMinimumCashNeeded()) && ((store.storeInventory.GetSugarInventoryCount() == 0) ||
-                    //(store.storeInventory.GetIceInventoryCount() == 0) ||
-                    //(store.storeInventory.GetCupInventoryCount() == 0)))
-                    //{
-                    //    Console.WriteLine("Sorry you have gone bankrupt");
-  
-                    //}
                 }
                 else
                 {
@@ -525,7 +510,6 @@ namespace LemonadeStand
 
         public void CheckIfSoldOut(Inventory inventory)
         {
-            //if ((day.numOfBuyingCustomers == day.recipe.maxNumOfCups) || (!EnoughInventory()))
             if ((GetNumberofBuyingCustomers() == recipe.GetMaxNumberOfCups()) || (inventory.iceInventory.Count() < recipe.numOfIce))
             {
                 Console.WriteLine("You sold out of lemonade!");
@@ -547,9 +531,9 @@ namespace LemonadeStand
 
                     AddToNumberOfBuyingCustomers();
                     store.storeInventory.RemoveCupInventory();
-                    //store.storeInventory.cupInventory.RemoveAt(0);
+
                     store.storeInventory.RemoveIceInventory(recipe.GetNumberOfIce());
-                    //store.storeInventory.iceInventory.RemoveRange(0, recipe.numOfIce);
+
 
                     if (((GetNumberofBuyingCustomers() % recipe.cupsPerPitcher) == 0) && (GetNumberOfPitchers() < recipe.maxNumOfPitchers))
                     {

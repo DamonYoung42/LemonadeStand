@@ -144,12 +144,12 @@ namespace LemonadeStand
 
         public void DisplayWeatherForecast(Weather weather, int dayNumber)
         {
-            Console.WriteLine("\nThe weather forecast for Day {0} calls for {1} degrees and {2} conditions", dayNumber, weather.GetWeatherTemperature(), weather.GetWeatherConditions());
+            Console.WriteLine("\nThe weather forecast for Day {0} calls for {1} degrees and {2} conditions", dayNumber, weather.GetWeatherTemperature(), weather.GetWeatherConditions().ToLower());
         }
 
         public void DisplayActualWeather(Weather weather, int dayNumber)
         {
-            Console.WriteLine("\nThe actual weather for Day {0} was {1} degrees and {2} skies", dayNumber, weather.GetWeatherTemperature(), weather.GetWeatherConditions());
+            Console.WriteLine("\nThe actual weather for Day {0} was {1} degrees and {2} skies", dayNumber, weather.GetWeatherTemperature(), weather.GetWeatherConditions().ToLower());
         }
 
         public void DisplayCash(Store store)

@@ -59,6 +59,7 @@
     <Compile Include="Sugar.cs" />
     <Compile Include="UserInput.cs" />
     <Compile Include="Weather.cs" />
+    <Compile Include="FileInputOutput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
