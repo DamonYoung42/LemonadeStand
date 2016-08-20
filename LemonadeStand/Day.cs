@@ -46,11 +46,6 @@ namespace LemonadeStand
             gameConsole.DisplayWeatherForecast(weatherForecast, dayNumber);
             gameConsole.DisplayCash(store);
 
-            //AddLemonInventory(store, gameConsole);
-            //AddSugarInventory(store, gameConsole);
-            //AddIceInventory(store, gameConsole);
-            //AddCupInventory(store, gameConsole);
-
             do
             {
                 if (!store.IsBankrupt()){ AddLemonInventory(store, gameConsole); } else { return false; }
@@ -62,7 +57,7 @@ namespace LemonadeStand
             
             CreateRecipe(store, gameConsole);
 
-            SetProductPrice();
+            SetPricePerCup();
 
             weatherActual.SetWeather(weatherForecast);
             GenerateDemandLevel();
@@ -87,9 +82,14 @@ namespace LemonadeStand
             dailyRevenue += price;
         }
 
-        public double SetProductPrice()
+        public double SetPricePerCup()
         {
             return pricePerCup = userInput.SetPrice();
+        }
+
+        public double GetPricePerCup()
+        {
+            return pricePerCup;
         }
 
         public void AddToNumberOfBuyingCustomers()
@@ -99,15 +99,60 @@ namespace LemonadeStand
 
         public void GenerateCustomers()
         {
-            int numOfCustomersMin = 25;
-            int numOfCustomersMax = 150;
-            Random random = new Random(DateTime.Now.Millisecond);
+            int numOfCustomersMin;
+            int numOfCustomersMax;
+            int temperatureLevelOne = 30;
+            int temperatureLevelTwo = 60;
+            int temperatureLevelThree = 75;
+            int temperatureLevelFour = 85;
+            double sunnyFactor = 1.1;
+            double overcastFactor = .90;
+            double rainyFactor = .30;
 
-            numOfCustomers = random.Next(numOfCustomersMin, numOfCustomersMax);
-
-            for (int i = 0; i < numOfCustomers; i++)
+            if (weatherActual.GetWeatherTemperature() < temperatureLevelOne)
             {
-                Customer newCustomer = new Customer(weatherActual, pricePerCup);
+                numOfCustomersMin = 10;
+                numOfCustomersMax = 30;
+            }
+            else if (weatherActual.GetWeatherTemperature() < temperatureLevelTwo)
+            {
+                numOfCustomersMin = 35;
+                numOfCustomersMax = 80;
+            }
+            else if (weatherActual.GetWeatherTemperature() < temperatureLevelThree)
+            {
+                numOfCustomersMin = 50;
+                numOfCustomersMax = 100;
+            }
+            else if (weatherActual.GetWeatherTemperature() < temperatureLevelFour)
+            {
+                numOfCustomersMin = 75;
+                numOfCustomersMax = 110;
+            }
+            else
+            {
+                numOfCustomersMin = 90;
+                numOfCustomersMax = 150;
+            }
+
+            SetNumOfCustomers(numOfCustomersMin, numOfCustomersMax);
+
+            switch (weatherActual.GetWeatherConditions())
+            {
+                case "Sunny":
+                    numOfCustomers = Convert.ToInt32(GetNumOfCustomers() * sunnyFactor);
+                    break;
+                case "Overcast":
+                    numOfCustomers = Convert.ToInt32(GetNumOfCustomers() * overcastFactor); 
+                    break;
+                case "Rainy":
+                    numOfCustomers = Convert.ToInt32(GetNumOfCustomers() * rainyFactor); ;
+                    break;
+            }
+
+            for (int i = 0; i < GetNumOfCustomers(); i++)
+            {
+                Customer newCustomer = new Customer(weatherActual, GetPricePerCup());
                 customers.Add(newCustomer);
             }
 
@@ -115,30 +160,34 @@ namespace LemonadeStand
 
         public void GenerateDemandLevel()
         {
-            int temperatureLevelOne = 60;
-            int temperatureLevelTwo = 75;
-            int temperatureLevelThree = 85;
+            int temperatureLevelOne = 30;
+            int temperatureLevelTwo = 60;
+            int temperatureLevelThree = 75;
+            int temperatureLevelFour = 85;
             double sunnyFactor = 1.1;
-            double overcastFactor = .80;
-            double rainyFactor = .20;
+            double overcastFactor = .90;
+            double rainyFactor = .30;
 
             Random chance = new Random(DateTime.Now.Millisecond);
-            demandLevel = chance.Next(0, 100);
-            if (weatherActual.temperature < temperatureLevelOne)
+            if (weatherActual.GetWeatherTemperature() < temperatureLevelOne)
             {
-                demandLevel *= .30;
+                demandLevel = chance.Next(5, 30);
             }
-            else if (weatherActual.temperature < temperatureLevelTwo)
+            else if (weatherActual.GetWeatherTemperature() < temperatureLevelTwo)
             {
-                demandLevel *= .60;
+                demandLevel = chance.Next(25, 70);
             }
-            else if (weatherActual.temperature < temperatureLevelThree)
+            else if (weatherActual.GetWeatherTemperature() < temperatureLevelThree)
             {
-                demandLevel *= .75;
+                demandLevel = chance.Next(50, 85);
+            }
+            else if (weatherActual.GetWeatherTemperature() < temperatureLevelFour)
+            {
+                demandLevel = chance.Next(65, 85);
             }
             else
             {
-                demandLevel *= .90;
+                demandLevel = chance.Next(75, 100);
             }
 
             switch (weatherActual.conditions)
@@ -153,6 +202,38 @@ namespace LemonadeStand
                     demandLevel *= rainyFactor;
                     break;
             }
+
+            //Random chance = new Random(DateTime.Now.Millisecond);
+            //demandLevel = chance.Next(0, 100);
+            //if (weatherActual.temperature < temperatureLevelOne)
+            //{
+            //    demandLevel *= .30;
+            //}
+            //else if (weatherActual.temperature < temperatureLevelTwo)
+            //{
+            //    demandLevel *= .60;
+            //}
+            //else if (weatherActual.temperature < temperatureLevelThree)
+            //{
+            //    demandLevel *= .75;
+            //}
+            //else
+            //{
+            //    demandLevel *= .90;
+            //}
+
+            //switch (weatherActual.conditions)
+            //{
+            //    case "Sunny":
+            //        demandLevel *= sunnyFactor;
+            //        break;
+            //    case "Overcast":
+            //        demandLevel *= overcastFactor;
+            //        break;
+            //    case "Rainy":
+            //        demandLevel *= rainyFactor;
+            //        break;
+            //}
         }
 
         public void CreateRecipe(Store store, UserInput gameConsole)
@@ -502,6 +583,12 @@ namespace LemonadeStand
             return numOfCustomers;
         }
 
+        public void SetNumOfCustomers(int min, int max)
+        {
+            Random customers = new Random(DateTime.Now.Millisecond);
+            numOfCustomers = customers.Next(min, max);
+        }
+
         public double GetDailyRevenue()
         {
             return dailyRevenue;
@@ -516,6 +603,8 @@ namespace LemonadeStand
         {
             return numOfBuyingCustomers;
         }
+
+
 
     }
 }
