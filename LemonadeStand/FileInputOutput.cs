@@ -23,12 +23,16 @@ namespace LemonadeStand
             data.Add("actualTemperature", Convert.ToString(day.weatherActual.temperature));
             data.Add("actualConditions", Convert.ToString(day.weatherActual.conditions));
 
-            using (StreamWriter writer = new StreamWriter("lemonadestanddata.txt", true))
+            using (FileStream file = new FileStream("lemonadestand.txt", FileMode.Create))
             {
-                foreach (var item in data)
+                using (StreamWriter writer = new StreamWriter(file))
                 {
-                    writer.WriteLine(item.Key + "," + item.Value);
+                    foreach (var item in data)
+                    {
+                        writer.WriteLine(item.Key + "," + item.Value);
+                    }
                 }
+
             }
 
         }

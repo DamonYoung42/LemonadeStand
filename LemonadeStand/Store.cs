@@ -138,10 +138,11 @@ namespace LemonadeStand
 
         public bool IsBankrupt()
         {
-            if ((storeInventory.lemonInventory.Count() == 0) && (GetCashOnHand() < minimumLemonCashNeeded) ||
-                    (storeInventory.sugarInventory.Count() == 0 && (GetCashOnHand() < minimumSugarCashNeeded)) ||
-                    (storeInventory.iceInventory.Count() == 0 && (GetCashOnHand() < minimumIceCashNeeded)) ||
-                    (storeInventory.cupInventory.Count() == 0 && (GetCashOnHand() < minimumCupCashNeeded)))
+            
+            if (((storeInventory.GetLemonInventoryCount() == 0) && (GetCashOnHand() < minimumLemonCashNeeded)) ||
+                    ((storeInventory.GetSugarInventoryCount() == 0) && (GetCashOnHand() < minimumSugarCashNeeded)) ||
+                    ((storeInventory.GetIceInventoryCount() == 0) && (GetCashOnHand() < minimumIceCashNeeded)) ||
+                    ((storeInventory.GetCupInventoryCount() == 0) && (GetCashOnHand() < minimumCupCashNeeded)))
                     
             {
                 return true;
