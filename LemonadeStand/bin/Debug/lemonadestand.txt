@@ -1,8 +1,0 @@
-dayOfOperation,1
-dailyRevenue,74.7
-dailyExpenes,19.8
-numOfCustomers,152
-numOfBuyingCustomers,83
-pricePerCup,0.9
-actualTemperature,85
-actualConditions,Sunny

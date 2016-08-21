@@ -1,0 +1,8 @@
+dayOfOperation,1
+dailyRevenue,1.8
+dailyExpenes,19.8
+numOfCustomers,14
+numOfBuyingCustomers,2
+pricePerCup,0.9
+actualTemperature,55
+actualConditions,Rainy

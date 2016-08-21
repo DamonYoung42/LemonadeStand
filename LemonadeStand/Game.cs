@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace LemonadeStand
 {
@@ -20,7 +21,6 @@ namespace LemonadeStand
         public Game()
         {
             savedData = new FileInputOutput();
-            savedResults = new Dictionary<string, string>();
             gameConsole = new UserInput();
             gameConsole.IntroduceGame();
             dayOfOperation = 1;

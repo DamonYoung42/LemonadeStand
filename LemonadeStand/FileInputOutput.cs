@@ -9,6 +9,15 @@ namespace LemonadeStand
 {
     public class FileInputOutput
     {
+        public string fileName = "LemonadeStandData.txt";
+
+        public FileInputOutput()
+        {
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+        }
 
         public void WriteDailyResults(Day day, int dayOfOperation)
         {
@@ -23,39 +32,16 @@ namespace LemonadeStand
             data.Add("actualTemperature", Convert.ToString(day.weatherActual.temperature));
             data.Add("actualConditions", Convert.ToString(day.weatherActual.conditions));
 
-            using (FileStream file = new FileStream("lemonadestand.txt", FileMode.Create))
-            {
-                using (StreamWriter writer = new StreamWriter(file))
-                {
-                    foreach (var item in data)
-                    {
-                        writer.WriteLine(item.Key + "," + item.Value);
-                    }
-                }
 
+           using (StreamWriter writer = new StreamWriter(fileName, true))
+            {
+                foreach (var item in data)
+                {
+                    writer.WriteLine(item.Key + "," + item.Value);
+                }
             }
 
         }
-
-        //public Dictionary<string, string> ReadResults()
-        //{
-        //    Dictionary<string, string> fileData = new Dictionary<string, string>() { };
-        //    using (StreamReader reader = new StreamReader("lemonadestanddata.txt"))
-        //    {
-                
-        //        string[] data;
-
-        //        while ((data = reader.ReadLine().Split(',')) != null)
-        //            {
-        //                string key = data[0];
-        //                string value = data[1];
-        //                fileData.Add(key, value);
-        //            }
-        //     }
-        //    return fileData;
-        //}
-
-
 
     }
 }
