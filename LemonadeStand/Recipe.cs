@@ -22,7 +22,7 @@ namespace LemonadeStand
             numOfIce = 0;
             maxNumOfCups = 0;
             maxNumOfPitchers = 0;
-            cupsPerPitcher = 7;
+            cupsPerPitcher = 10;
         }
 
 

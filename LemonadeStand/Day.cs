@@ -45,7 +45,7 @@ namespace LemonadeStand
             weatherForecast.SetWeather();
             gameConsole.DisplayWeatherForecast(weatherForecast, dayNumber);
             gameConsole.DisplayCash(store);
-
+            gameConsole.DisplayInventory(store.storeInventory);
             do
             {
                 if (!store.IsBankrupt()){ AddLemonInventory(store, gameConsole); } else { return false; }
