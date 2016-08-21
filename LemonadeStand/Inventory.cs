@@ -67,20 +67,20 @@ namespace LemonadeStand
 
         public int GetLemonsExpiredCount()
         {
-            return lemonInventory.Count(item => item.numOfDaysBeforeExpiration == 0);
+            return lemonInventory.Count(lemon => lemon.numOfDaysBeforeExpiration == 0);
         }
 
         public int GetSugarExpiredCount()
         {
-            return sugarInventory.Count(item => item.numOfDaysBeforeExpiration == 0);
+            return sugarInventory.Count(sugar => sugar.numOfDaysBeforeExpiration == 0);
         }
         public int GetIceExpiredCount()
         {
-            return iceInventory.Count(item => item.numOfDaysBeforeExpiration == 0);
+            return iceInventory.Count(ice => ice.numOfDaysBeforeExpiration == 0);
         }
         public int GetCupExpiredCount()
         {
-            return cupInventory.Count(item => item.numOfDaysBeforeExpiration == 0);
+            return cupInventory.Count(cup => cup.numOfDaysBeforeExpiration == 0);
         }
 
         public void RemoveCupInventory()

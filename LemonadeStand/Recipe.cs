@@ -63,9 +63,10 @@ namespace LemonadeStand
             maxNumOfPitchers= Math.Min(availableLemonPitchers, availableSugarPitchers);
         }
 
-        public void SetMaxNumberOfCups()
+        public void SetMaxNumberOfCups(Inventory inventory)
         {
-            maxNumOfCups = maxNumOfPitchers * cupsPerPitcher;
+
+            maxNumOfCups = Math.Min((maxNumOfPitchers * cupsPerPitcher), Math.Min((inventory.GetIceInventoryCount()/GetNumberOfIce()), inventory.GetCupInventoryCount()));
         }
 
 

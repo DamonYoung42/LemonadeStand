@@ -253,8 +253,9 @@ namespace LemonadeStand
                 availableSugarPitchers = Convert.ToInt32(store.storeInventory.GetSugarInventoryCount() / recipe.GetNumberOfSugar());
 
                 recipe.SetMaxNumberOfPitchers(availableLemonPitchers, availableSugarPitchers);
+                
 
-                recipe.SetMaxNumberOfCups();
+                recipe.SetMaxNumberOfCups(store.GetStoreInventory());
             }
             else
             {
@@ -487,7 +488,7 @@ namespace LemonadeStand
                         store.storeInventory.AddToLemonInventory();
                     }
                     AddToDailyExpenses(cost);
-                    store.AddToStoreExpenses(dailyExpenses);
+                    store.AddToStoreExpenses(GetDailyExpenses());
                     UpdateCashOnHand(store, cost);
                 }
                 else
@@ -510,7 +511,7 @@ namespace LemonadeStand
 
         public void CheckIfSoldOut(Inventory inventory)
         {
-            if ((GetNumberofBuyingCustomers() == recipe.GetMaxNumberOfCups()) || (inventory.iceInventory.Count() < recipe.numOfIce))
+            if ((GetNumberofBuyingCustomers() == recipe.GetMaxNumberOfCups())) // || (inventory.GetIceInventoryCount() < recipe.GetNumberOfIce()))
             {
                 Console.WriteLine("You sold out of lemonade!");
                 soldOut = true;
@@ -522,7 +523,7 @@ namespace LemonadeStand
         {
             foreach (Customer customer in customers)
             {
-                if ((customer.chanceOfPurchase >= demandLevel) && (!soldOut))
+                if ((customer.chanceOfPurchase >= GetDemandLevel()) && (!soldOut))
                 {
                     if (GetNumberOfPitchers() == 0)
                     {
@@ -535,20 +536,20 @@ namespace LemonadeStand
                     store.storeInventory.RemoveIceInventory(recipe.GetNumberOfIce());
 
 
-                    if (((GetNumberofBuyingCustomers() % recipe.cupsPerPitcher) == 0) && (GetNumberOfPitchers() < recipe.maxNumOfPitchers))
+                    if (((GetNumberofBuyingCustomers() % recipe.GetCupsPerPitcher()) == 0) && (GetNumberOfPitchers() < recipe.GetMaxNumberOfPitchers()))
                     {
                         MakePitcher(store);
                     }
-                    AddToDailyRevenue(pricePerCup);
+                    AddToDailyRevenue(GetPricePerCup());
                 }
                 if (!soldOut)
                 {
-                    CheckIfSoldOut(store.storeInventory);
+                    CheckIfSoldOut(store.GetStoreInventory());
                 }
             }
 
-            store.SetStoreRevenue(dailyRevenue);
-            store.AddToStoreCashOnHand(dailyRevenue);
+            store.SetStoreRevenue(GetDailyRevenue());
+            store.AddToStoreCashOnHand(GetDailyRevenue());
 
         }
 
@@ -588,6 +589,10 @@ namespace LemonadeStand
             return numOfBuyingCustomers;
         }
 
+        public double GetDemandLevel()
+        {
+            return demandLevel;
+        }
 
 
     }

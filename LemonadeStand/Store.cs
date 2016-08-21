@@ -11,7 +11,6 @@ namespace LemonadeStand
 
         public Inventory storeInventory;
         public double cashOnHand;
-        //public double initialInvestment;
         public int dailyCupsSold;
         public double totalRevenue;
         public double totalExpenses;
@@ -24,7 +23,6 @@ namespace LemonadeStand
         public Store()
         {
             storeInventory = new Inventory();
-            //initialInvestment = 20.00;
             cashOnHand = 20.00;
             maxNumOfDays = 0;
             totalRevenue = 0;
@@ -97,8 +95,6 @@ namespace LemonadeStand
         {
             storeInventory.RemoveLemonInventory(recipe.GetNumberOfLemons());
             storeInventory.RemoveSugarInventory(recipe.GetNumberOfSugar());
-            //storeInventory.lemonInventory.RemoveRange(0, (recipe.numOfLemons));
-            //storeInventory.sugarInventory.RemoveRange(0, (recipe.numOfSugar));
         }
 
         public bool EnoughInventory(Recipe recipe)
@@ -164,6 +160,11 @@ namespace LemonadeStand
         public double GetTotalExpenses()
         {
             return totalExpenses;
+        }
+
+        public Inventory GetStoreInventory()
+        {
+            return storeInventory;
         }
     }
 }
