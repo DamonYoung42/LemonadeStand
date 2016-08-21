@@ -48,15 +48,6 @@ namespace LemonadeStand
                     if (dayOfOperation > maxNumOfDays)
                     {
                         gameConsole.DisplayFinalResults(player.store);
-                        //savedResults = savedData.ReadResults();
-                        //Console.WriteLine("Your daily results:");
-                        //foreach (var day in savedResults)
-                        //{
-                        //    Console.WriteLine(day.Key + " " + day.Value);
-                        //    //Console.WriteLine("Day {7} ... Revenue {0:$0.00} ... Expenses {1:$0.00} ... Buying Customers: {2} ... Potential Customers: {3} ... Temperature: {4} degrees ... Conditions: {5} ... Price Per Cup {6:$0.00}", day.Value);
-                        //}
-
-
                     }
                 }
                 else

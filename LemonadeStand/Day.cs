@@ -341,7 +341,7 @@ namespace LemonadeStand
                         store.storeInventory.AddToSugarInventory();
                     }
                     AddToDailyExpenses(cost);
-                    store.AddToStoreExpenses(dailyExpenses);
+                    store.AddToStoreExpenses(cost);
 
                     UpdateCashOnHand(store, cost);
                 }
@@ -390,7 +390,7 @@ namespace LemonadeStand
                         store.storeInventory.AddToIceInventory();
                     }
                     AddToDailyExpenses(cost);
-                    store.AddToStoreExpenses(dailyExpenses);
+                    store.AddToStoreExpenses(cost);
                     UpdateCashOnHand(store, cost);
                 }
                 else
@@ -439,7 +439,7 @@ namespace LemonadeStand
                         store.storeInventory.AddToCupInventory();
                     }
                     AddToDailyExpenses(cost);
-                    store.AddToStoreExpenses(dailyExpenses);
+                    store.AddToStoreExpenses(cost);
                     UpdateCashOnHand(store, cost);
                 }
                 else
@@ -488,7 +488,7 @@ namespace LemonadeStand
                         store.storeInventory.AddToLemonInventory();
                     }
                     AddToDailyExpenses(cost);
-                    store.AddToStoreExpenses(GetDailyExpenses());
+                    store.AddToStoreExpenses(cost);
                     UpdateCashOnHand(store, cost);
                 }
                 else

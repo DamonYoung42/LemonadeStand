@@ -181,9 +181,12 @@ namespace LemonadeStand
 
         public void DisplayFinalResults(Store store)
         {
-            Console.WriteLine("You made {0:$0.00} in total revenue.", store.GetTotalRevenue());
-            Console.WriteLine("You spent {0:$0.00} on inventory.", store.GetTotalExpenses());
-            Console.WriteLine("You made a net profit of {0:$0.00}", store.GetTotalRevenue() - store.GetTotalExpenses());
+            Console.WriteLine("Your stand is now closed. You collected {0:$0.00} in revenue and spent {1:$0.00} on supplies for a net income of {2:$0.00}",
+                store.GetTotalRevenue(), store.GetTotalExpenses(), store.GetTotalRevenue() - store.GetTotalExpenses()); 
+                
+            //Console.WriteLine("You made {0:$0.00} in total revenue.", store.GetTotalRevenue());
+            //Console.WriteLine("You spent {0:$0.00} on inventory.", store.GetTotalExpenses());
+            //Console.WriteLine("You made a net profit of {0:$0.00}", store.GetTotalRevenue() - store.GetTotalExpenses());
         }
     }
 }
