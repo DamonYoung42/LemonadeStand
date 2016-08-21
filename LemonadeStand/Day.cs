@@ -307,7 +307,7 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            bool addItems = true;
+            //bool addItems = true;
             int numOfItemsToAdd = 0;
 
             Console.WriteLine("\nYou have {0} cups of sugar in your inventory.", store.storeInventory.GetSugarInventoryCount());
@@ -328,18 +328,20 @@ namespace LemonadeStand
                     numOfItemsToAdd = 100;
                     break;
                 default:
-                    addItems = false;
+                    //addItems = false;
                     break;
             }
 
-            if (addItems) 
+            //if (addItems) 
+            if (numOfItemsToAdd != 0)
             {
                 if (VerifyCashOnHand(store, cost))
                 {
-                    for (int i = 1; i <= numOfItemsToAdd; i++)
-                    {
-                        store.storeInventory.AddToSugarInventory();
-                    }
+                    store.storeInventory.AddToSugarInventory(numOfItemsToAdd);
+                    //for (int i = 1; i <= numOfItemsToAdd; i++)
+                    //{
+                    //    store.storeInventory.AddToSugarInventory();
+                    //}
                     AddToDailyExpenses(cost);
                     store.AddToStoreExpenses(cost);
 
@@ -356,7 +358,7 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            bool addItems = true;
+            //bool addItems = true;
             int numOfItemsToAdd = 0;
 
             Console.WriteLine("\nYou have {0} ice cubes in your inventory.", store.storeInventory.GetIceInventoryCount());
@@ -377,18 +379,20 @@ namespace LemonadeStand
                     numOfItemsToAdd = 500;
                     break;
                 default:
-                    addItems = false;
+                    //addItems = false;
                     break;
             }
 
-            if (addItems)
+            //if (addItems)
+            if (numOfItemsToAdd != 0)
             {
                 if (VerifyCashOnHand(store, cost))
                 {
-                    for (int i = 1; i <= numOfItemsToAdd; i++)
-                    {
-                        store.storeInventory.AddToIceInventory();
-                    }
+                    store.storeInventory.AddToIceInventory(numOfItemsToAdd);
+                    //for (int i = 1; i <= numOfItemsToAdd; i++)
+                    //{
+                    //    store.storeInventory.AddToIceInventory();
+                    //}
                     AddToDailyExpenses(cost);
                     store.AddToStoreExpenses(cost);
                     UpdateCashOnHand(store, cost);
@@ -405,7 +409,7 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            bool addItems = true;
+            //bool addItems = true;
             int numOfItemsToAdd = 0;
 
             Console.WriteLine("\nYou have {0} cups in your inventory.", store.storeInventory.GetCupInventoryCount());
@@ -426,18 +430,20 @@ namespace LemonadeStand
                     numOfItemsToAdd = 200;
                     break;
                 default:
-                    addItems = false;
+                    //addItems = false;
                     break;
             }
 
-            if (addItems)
+            //if (addItems)
+            if (numOfItemsToAdd != 0)
             {
                 if (VerifyCashOnHand(store, cost))
                 {
-                    for (int i = 1; i <= numOfItemsToAdd; i++)
-                    {
-                        store.storeInventory.AddToCupInventory();
-                    }
+                    store.storeInventory.AddToCupInventory(numOfItemsToAdd);
+                    //for (int i = 1; i <= numOfItemsToAdd; i++)
+                    //{
+                    //    store.storeInventory.AddToCupInventory(numOfItemsToAdd);
+                    //}
                     AddToDailyExpenses(cost);
                     store.AddToStoreExpenses(cost);
                     UpdateCashOnHand(store, cost);
@@ -454,7 +460,7 @@ namespace LemonadeStand
         {
             int userInput;
             double cost = 0;
-            bool addItems = true;
+            //bool addItems = true;
             int numOfItemsToAdd = 0;
 
             Console.WriteLine("\nYou have {0} lemons in your inventory.", store.storeInventory.GetLemonInventoryCount());
@@ -475,18 +481,20 @@ namespace LemonadeStand
                     numOfItemsToAdd = 50;
                     break;
                 default:
-                    addItems = false;
+                    //addItems = false;
                     break;
             }
 
-            if (addItems)
+            //if (addItems)
+            if (numOfItemsToAdd != 0)
             {
                 if (VerifyCashOnHand(store, cost))
                 {
-                    for (int i = 1; i <= numOfItemsToAdd; i++)
-                    {
-                        store.storeInventory.AddToLemonInventory();
-                    }
+                    store.storeInventory.AddToLemonInventory(numOfItemsToAdd);
+                    //for (int i = 1; i <= numOfItemsToAdd; i++)
+                    //{
+                    //    store.storeInventory.AddToLemonInventory(numOfItemsToAdd);
+                    //}
                     AddToDailyExpenses(cost);
                     store.AddToStoreExpenses(cost);
                     UpdateCashOnHand(store, cost);

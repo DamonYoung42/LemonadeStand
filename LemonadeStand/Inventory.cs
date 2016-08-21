@@ -41,28 +41,48 @@ namespace LemonadeStand
             return iceInventory.Count();
         }
 
-        public void AddToSugarInventory()
+        public void AddToSugarInventory(int quantity)
         {
-            Sugar sugar = new Sugar();
-            sugarInventory.Add(sugar);
+            for (int i = 0; i < quantity; i++)
+            {
+                Sugar sugar = new Sugar();
+                sugarInventory.Add(sugar);
+            }
+            //Sugar sugar = new Sugar();
+            //sugarInventory.Add(sugar);
         }
 
-        public void AddToLemonInventory()
+        public void AddToLemonInventory(int quantity)
         {
-            Lemon lemon = new Lemon();
-            lemonInventory.Add(lemon);
+            for (int i = 0; i < quantity; i++)
+            {
+                Lemon lemon = new Lemon();
+                lemonInventory.Add(lemon);
+            }
+            //Lemon lemon = new Lemon();
+            //lemonInventory.Add(lemon);
         }
 
-        public void AddToIceInventory()
+        public void AddToIceInventory(int quantity)
         {
-            Ice ice = new Ice();
-            iceInventory.Add(ice);
+            for (int i = 0; i < quantity; i++)
+            {
+                Ice ice = new Ice();
+                iceInventory.Add(ice);
+            }
+            //Ice ice = new Ice();
+            //iceInventory.Add(ice);
         }
 
-        public void AddToCupInventory()
+        public void AddToCupInventory(int quantity)
         {
-            Cup cup = new Cup();
-            cupInventory.Add(cup);
+            for (int i = 0; i < quantity; i++)
+            {
+                Cup cup = new LemonadeStand.Cup();
+                cupInventory.Add(cup);
+            }
+            //Cup cup = new Cup();
+            //cupInventory.Add(cup);
         }
 
         public int GetLemonsExpiredCount()
