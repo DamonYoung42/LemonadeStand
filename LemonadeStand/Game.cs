@@ -50,8 +50,8 @@ namespace LemonadeStand
                     Console.ReadKey();
                     if (dayOfOperation > maxNumOfDays)
                     {
-
                         gameConsole.DisplayFinalResults(player.store);
+                        savedData.ReadDailyResults();
                     }
                 }
                 else
@@ -62,7 +62,7 @@ namespace LemonadeStand
 
             }
 
-            savedData.ReadDailyResults();
+
             Console.WriteLine("\nThanks for playing {0}. Goodbye!", player.name);
             Console.ReadLine();
         }

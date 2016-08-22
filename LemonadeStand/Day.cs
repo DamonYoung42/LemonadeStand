@@ -283,7 +283,7 @@ namespace LemonadeStand
 
         public bool VerifyCashOnHand(Store store, double cost)
         {
-            if (store.GetCashOnHand() <= cost)
+            if (store.GetCashOnHand() < cost)
             {
                 Console.WriteLine("\nSorry, you don't have enough money to purchase those ingredients.");
                 return false;
