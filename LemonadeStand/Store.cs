@@ -16,11 +16,6 @@ namespace LemonadeStand
         public double totalExpenses;
         public int maxNumOfDays;
 
-        public double minimumLemonCashNeeded;
-        public double minimumSugarCashNeeded;
-        public double minimumIceCashNeeded;
-        public double minimumCupCashNeeded;
-
         public int[] lemonMenuQuantities;
         public int[] sugarMenuQuantities;
         public int[] iceMenuQuantities;
@@ -37,10 +32,6 @@ namespace LemonadeStand
             maxNumOfDays = 0;
             totalRevenue = 0;
             totalExpenses = 0;
-            minimumLemonCashNeeded = .60;
-            minimumSugarCashNeeded = .60;
-            minimumIceCashNeeded = .80;
-            minimumCupCashNeeded = 3.00;
 
             lemonMenuQuantities = new int[4] { 5, 20, 50, 0 };
             sugarMenuQuantities = new int[4] { 5, 20, 100, 0 };
@@ -158,10 +149,10 @@ namespace LemonadeStand
         public bool IsBankrupt()
         {
             
-            if (((storeInventory.GetLemonInventoryCount() == 0) && (GetCashOnHand() < minimumLemonCashNeeded)) ||
-                    ((storeInventory.GetSugarInventoryCount() == 0) && (GetCashOnHand() < minimumSugarCashNeeded)) ||
-                    ((storeInventory.GetIceInventoryCount() == 0) && (GetCashOnHand() < minimumIceCashNeeded)) ||
-                    ((storeInventory.GetCupInventoryCount() == 0) && (GetCashOnHand() < minimumCupCashNeeded)))
+            if (((storeInventory.GetLemonInventoryCount() == 0) && (GetCashOnHand() < lemonMenuPrices[0])) ||
+                    ((storeInventory.GetSugarInventoryCount() == 0) && (GetCashOnHand() < sugarMenuPrices[0])) ||
+                    ((storeInventory.GetIceInventoryCount() == 0) && (GetCashOnHand() < iceMenuPrices[0])) ||
+                    ((storeInventory.GetCupInventoryCount() == 0) && (GetCashOnHand() < cupMenuPrices[0])))
                     
             {
                 return true;
