@@ -16,13 +16,13 @@ namespace LemonadeStand
         public UserInput userInput;
 
 
-        public int numOfCustomers;
-        public int numOfBuyingCustomers;
-        public double pricePerCup;
-        public double dailyRevenue;
-        public double dailyExpenses;
-        public bool soldOut;
-        public int numOfPitchers;
+        private int numOfCustomers;
+        private int numOfBuyingCustomers;
+        private double pricePerCup;
+        private double dailyRevenue;
+        private double dailyExpenses;
+        private bool soldOut;
+        private int numOfPitchers;
 
         public Day()
         {

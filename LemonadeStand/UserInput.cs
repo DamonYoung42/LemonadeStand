@@ -15,6 +15,8 @@ namespace LemonadeStand
         private int recipeIngredientQuantityMax;
         private int numOfDaysMin;
         private int numOfDaysMax;
+        private double priceMax;
+        private double priceMin;
         
         public UserInput()
         {
@@ -24,6 +26,8 @@ namespace LemonadeStand
             recipeIngredientQuantityMax = 10;
             numOfDaysMin = 7;
             numOfDaysMax = 21;
+            priceMax = 2.00;
+            priceMin = 0.01;
         }
 
         public void IntroduceGame()
@@ -99,9 +103,9 @@ namespace LemonadeStand
         {
             double price;
             Console.WriteLine("How much will a cup of lemonade cost today?");
-            while (!double.TryParse(Console.ReadLine(), out price))
+            while ((!double.TryParse(Console.ReadLine(), out price)) || ((price < priceMin) || (price > priceMax)))
             {
-                Console.WriteLine("Please enter a valid price.");
+                Console.WriteLine("Please enter a price from {0:$0.00}-{1:$0.00}.", priceMin, priceMax);
             }
             return price;
         }

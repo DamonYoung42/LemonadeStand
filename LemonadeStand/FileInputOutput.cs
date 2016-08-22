@@ -23,7 +23,7 @@ namespace LemonadeStand
         public void WriteDailyResults(Day day, int dayOfOperation)
         {
 
-            string dataString = dayOfOperation + "," + day.dailyRevenue + "," + day.dailyExpenses + "," + day.numOfCustomers + "," + day.numOfBuyingCustomers + "," + day.pricePerCup + "," + day.weatherActual.temperature + "," + day.weatherActual.conditions;
+            string dataString = dayOfOperation + "," + day.GetDailyRevenue() + "," + day.GetDailyExpenses() + "," + day.GetNumOfCustomers() + "," + day.GetNumOfBuyingCustomers() + "," + day.GetPricePerCup() + "," + day.weatherActual.GetWeatherTemperature() + "," + day.weatherActual.GetWeatherConditions();
             //data = Tuple.Create(dayOfOperation, day.dailyRevenue, day.dailyExpenses, day.numOfCustomers, day.numOfBuyingCustomers, day.pricePerCup, day.weatherActual.temperature, day.weatherActual.conditions);
             using (StreamWriter writer = new StreamWriter(fileName, true))
             {
