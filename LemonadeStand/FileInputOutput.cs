@@ -10,7 +10,7 @@ namespace LemonadeStand
     public class FileInputOutput
     {
         public string fileName = "LemonadeStandData.txt";
-        public Tuple<int, double, double, int, int, double, int, Tuple<string>> data;
+        //public Tuple<int, double, double, int, int, double, int, Tuple<string>> data;
 
         public FileInputOutput()
         {
@@ -24,7 +24,6 @@ namespace LemonadeStand
         {
 
             string dataString = dayOfOperation + "," + day.GetDailyRevenue() + "," + day.GetDailyExpenses() + "," + day.GetNumOfCustomers() + "," + day.GetNumOfBuyingCustomers() + "," + day.GetPricePerCup() + "," + day.weatherActual.GetWeatherTemperature() + "," + day.weatherActual.GetWeatherConditions();
-            //data = Tuple.Create(dayOfOperation, day.dailyRevenue, day.dailyExpenses, day.numOfCustomers, day.numOfBuyingCustomers, day.pricePerCup, day.weatherActual.temperature, day.weatherActual.conditions);
             using (StreamWriter writer = new StreamWriter(fileName, true))
             {
                 writer.WriteLine(dataString);

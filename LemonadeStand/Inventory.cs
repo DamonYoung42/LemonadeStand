@@ -48,8 +48,6 @@ namespace LemonadeStand
                 Sugar sugar = new Sugar();
                 sugarInventory.Add(sugar);
             }
-            //Sugar sugar = new Sugar();
-            //sugarInventory.Add(sugar);
         }
 
         public void AddToLemonInventory(int quantity)
@@ -81,8 +79,6 @@ namespace LemonadeStand
                 Cup cup = new LemonadeStand.Cup();
                 cupInventory.Add(cup);
             }
-            //Cup cup = new Cup();
-            //cupInventory.Add(cup);
         }
 
         public int GetLemonsExpiredCount()

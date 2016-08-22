@@ -8,9 +8,9 @@ namespace LemonadeStand
 {
     public class Weather
     {
-        public int temperature;
-        public string conditions;
-        public List<string> clouds = new List<string> { "Sunny", "Overcast", "Rainy" };
+        private int temperature;
+        private string conditions;
+        private List<string> clouds = new List<string> { "Sunny", "Overcast", "Rainy" };
 
        
         public Weather()

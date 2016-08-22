@@ -190,7 +190,7 @@ namespace LemonadeStand
                 demandLevel = chance.Next(75, 100);
             }
 
-            switch (weatherActual.conditions)
+            switch (weatherActual.GetWeatherConditions())
             {
                 case "Sunny":
                     demandLevel *= sunnyFactor;
@@ -203,37 +203,6 @@ namespace LemonadeStand
                     break;
             }
 
-            //Random chance = new Random(DateTime.Now.Millisecond);
-            //demandLevel = chance.Next(0, 100);
-            //if (weatherActual.temperature < temperatureLevelOne)
-            //{
-            //    demandLevel *= .30;
-            //}
-            //else if (weatherActual.temperature < temperatureLevelTwo)
-            //{
-            //    demandLevel *= .60;
-            //}
-            //else if (weatherActual.temperature < temperatureLevelThree)
-            //{
-            //    demandLevel *= .75;
-            //}
-            //else
-            //{
-            //    demandLevel *= .90;
-            //}
-
-            //switch (weatherActual.conditions)
-            //{
-            //    case "Sunny":
-            //        demandLevel *= sunnyFactor;
-            //        break;
-            //    case "Overcast":
-            //        demandLevel *= overcastFactor;
-            //        break;
-            //    case "Rainy":
-            //        demandLevel *= rainyFactor;
-            //        break;
-            //}
         }
 
         public void CreateRecipe(Store store, UserInput gameConsole)
@@ -424,7 +393,7 @@ namespace LemonadeStand
 
         public void CheckIfSoldOut(Inventory inventory)
         {
-            if ((GetNumberofBuyingCustomers() == recipe.GetMaxNumberOfCups())) // || (inventory.GetIceInventoryCount() < recipe.GetNumberOfIce()))
+            if ((GetNumberofBuyingCustomers() == recipe.GetMaxNumberOfCups())) 
             {
                 Console.WriteLine("You sold out of lemonade!");
                 soldOut = true;

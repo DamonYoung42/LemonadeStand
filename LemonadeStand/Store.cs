@@ -25,8 +25,6 @@ namespace LemonadeStand
         public double[] iceMenuPrices;
         public double[] cupMenuPrices;
 
-        public Tuple<int, double, double, int, int, double, int, string>[] dailyData;
-
         public Store()
         {
             storeInventory = new Inventory();
@@ -44,7 +42,6 @@ namespace LemonadeStand
             iceMenuPrices = new double[4] { 0.80, 1.80, 2.50, 0 };
             cupMenuPrices = new double[4] { 3.00, 5.00, 8.00, 0 };
 
-            dailyData = new Tuple<int, double, double, int, int, double, int, string>[maxNumOfDays];
 
         }
  
@@ -182,12 +179,7 @@ namespace LemonadeStand
             return storeInventory;
         }
 
-        //public void SaveDailyResults(Day day, int dayNumber)
-        //{
-        //    dailyData[dayNumber-1] = [dayNumber, day.dailyRevenue, day.dailyExpenses, day.numOfCustomers, day.numOfBuyingCustomers, day.pricePerCup, 
-        //        day.weatherActual.temperature, day.weatherActual.conditions];
-        //}
-        
+       
     }
 }
 
