@@ -40,44 +40,48 @@ namespace LemonadeStand
             return Console.ReadLine();
         }
 
-        public int SetInventory(string ingredient)
+        public int SetInventory(string ingredient, Store store)
         {
             int option;
 
             switch (ingredient)
             {
                 case "lemon":
+                    Console.WriteLine("\nYou have {0} lemons in your inventory.", store.storeInventory.GetLemonInventoryCount());
                     Console.WriteLine("\nHow many lemons, which spoil after 7 days, would you like to buy?");
-                    Console.WriteLine("Option 1: 5 for $0.60");
-                    Console.WriteLine("Option 2: 20 for $2.00");
-                    Console.WriteLine("Option 3: 50 for $4.00");
+                    Console.WriteLine("Option 1: {0} for {1:$0.00}", store.lemonMenuQuantities[0], store.lemonMenuPrices[0]);
+                    Console.WriteLine("Option 2: {0} for {1:$0.00}", store.lemonMenuQuantities[1], store.lemonMenuPrices[1]);
+                    Console.WriteLine("Option 3: {0} for {1:$0.00}", store.lemonMenuQuantities[2], store.lemonMenuPrices[2]);
                     Console.WriteLine("Option 4: Keep current inventory level");
                     Console.WriteLine("Please enter the number (1-4) of your selection:");
                     break;
 
                 case "sugar":
+                    Console.WriteLine("\nYou have {0} cups of sugar in your inventory.", store.storeInventory.GetSugarInventoryCount());
                     Console.WriteLine("\nHow many cups of sugar, which spoil after 3 days, would you like to buy?");
-                    Console.WriteLine("Option 1: 5 for $0.60");
-                    Console.WriteLine("Option 2: 20 for $2.00");
-                    Console.WriteLine("Option 3: 100 for $9.00");
+                    Console.WriteLine("Option 1: {0} for {1:$0.00}", store.sugarMenuQuantities[0], store.sugarMenuPrices[0]);
+                    Console.WriteLine("Option 2: {0} for {1:$0.00}", store.sugarMenuQuantities[1], store.sugarMenuPrices[1]);
+                    Console.WriteLine("Option 3: {0} for {1:$0.00}", store.sugarMenuQuantities[2], store.sugarMenuPrices[2]);
                     Console.WriteLine("Option 4: Keep current inventory level");
                     Console.WriteLine("Please enter the number (1-4) of your selection:");
                     break;
 
                 case "ice":
+                    Console.WriteLine("\nYou have {0} ice cubes in your inventory.", store.storeInventory.GetIceInventoryCount());
                     Console.WriteLine("\nHow many ice cubes, which spoil each day, would you like to buy?");
-                    Console.WriteLine("Option 1: 100 for $0.80");
-                    Console.WriteLine("Option 2: 250 for $1.80");
-                    Console.WriteLine("Option 3: 500 for $2.50");
+                    Console.WriteLine("Option 1: {0} for {1:$0.00}", store.iceMenuQuantities[0], store.iceMenuPrices[0]);
+                    Console.WriteLine("Option 2: {0} for {1:$0.00}", store.iceMenuQuantities[1], store.iceMenuPrices[1]);
+                    Console.WriteLine("Option 3: {0} for {1:$0.00}", store.iceMenuQuantities[2], store.iceMenuPrices[2]);
                     Console.WriteLine("Option 4: Keep current inventory level");
                     Console.WriteLine("Please enter the number (1-4) of your selection:");
                     break;
 
                 case "cup":
+                    Console.WriteLine("\nYou have {0} cups in your inventory.", store.storeInventory.GetCupInventoryCount());
                     Console.WriteLine("\nHow many cups, which never spoil, would you like to buy?");
-                    Console.WriteLine("Option 1: 50 for $3.00");
-                    Console.WriteLine("Option 2: 100 for $5.00");
-                    Console.WriteLine("Option 3: 200 for $8.00");
+                    Console.WriteLine("Option 1: {0} for {1:$0.00}", store.cupMenuQuantities[0], store.cupMenuPrices[0]);
+                    Console.WriteLine("Option 2: {0} for {1:$0.00}", store.cupMenuQuantities[1], store.cupMenuPrices[1]);
+                    Console.WriteLine("Option 3: {0} for {1:$0.00}", store.cupMenuQuantities[2], store.cupMenuPrices[2]);
                     Console.WriteLine("Option 4: Keep current inventory level");
                     Console.WriteLine("Please enter the number (1-4) of your selection:");
                     break;
@@ -181,12 +185,9 @@ namespace LemonadeStand
 
         public void DisplayFinalResults(Store store)
         {
-            Console.WriteLine("Your stand is now closed. You collected {0:$0.00} in revenue and spent {1:$0.00} on supplies for a net income of {2:$0.00}",
+            Console.WriteLine("Your stand is now closed. You collected {0:$0.00} in revenue and spent {1:$0.00} on supplies for a net income of {2:$0.00}.",
                 store.GetTotalRevenue(), store.GetTotalExpenses(), store.GetTotalRevenue() - store.GetTotalExpenses()); 
                 
-            //Console.WriteLine("You made {0:$0.00} in total revenue.", store.GetTotalRevenue());
-            //Console.WriteLine("You spent {0:$0.00} on inventory.", store.GetTotalExpenses());
-            //Console.WriteLine("You made a net profit of {0:$0.00}", store.GetTotalRevenue() - store.GetTotalExpenses());
         }
     }
 }

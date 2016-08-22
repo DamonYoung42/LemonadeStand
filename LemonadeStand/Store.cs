@@ -15,10 +15,20 @@ namespace LemonadeStand
         public double totalRevenue;
         public double totalExpenses;
         public int maxNumOfDays;
+
         public double minimumLemonCashNeeded;
         public double minimumSugarCashNeeded;
         public double minimumIceCashNeeded;
         public double minimumCupCashNeeded;
+
+        public int[] lemonMenuQuantities;
+        public int[] sugarMenuQuantities;
+        public int[] iceMenuQuantities;
+        public int[] cupMenuQuantities;
+        public double[] lemonMenuPrices;
+        public double[] sugarMenuPrices;
+        public double[] iceMenuPrices;
+        public double[] cupMenuPrices;
 
         public Store()
         {
@@ -31,6 +41,15 @@ namespace LemonadeStand
             minimumSugarCashNeeded = .60;
             minimumIceCashNeeded = .80;
             minimumCupCashNeeded = 3.00;
+
+            lemonMenuQuantities = new int[4] { 5, 20, 50, 0 };
+            sugarMenuQuantities = new int[4] { 5, 20, 100, 0 };
+            iceMenuQuantities = new int[4] { 100, 250, 500, 0 };
+            cupMenuQuantities = new int[4] { 50, 100, 200, 0 };
+            lemonMenuPrices = new double[4] { 0.60, 2.00, 4.00, 0 };
+            sugarMenuPrices = new double[4] { 0.60, 2.00, 9.00, 0 };
+            iceMenuPrices = new double[4] { 0.80, 1.80, 2.50, 0 };
+            cupMenuPrices = new double[4] { 3.00, 5.00, 8.00, 0 };
 
         }
  

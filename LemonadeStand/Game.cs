@@ -18,12 +18,15 @@ namespace LemonadeStand
         public Dictionary<string, string> savedResults;
 
 
+
         public Game()
         {
             savedData = new FileInputOutput();
             gameConsole = new UserInput();
             gameConsole.IntroduceGame();
             dayOfOperation = 1;
+
+
         }
         public void RunGame()
         {
@@ -37,7 +40,6 @@ namespace LemonadeStand
                 day = new Day();
                 if (day.RunDay(gameConsole, player.store, dayOfOperation))
                 {
-                    //day.RunDay(gameConsole, player.store, dayOfOperation);
                     gameConsole.DisplayDailyResults(day, dayOfOperation);
                     savedData.WriteDailyResults(day, dayOfOperation);
                     gameConsole.DisplaySpoilage(player.store.storeInventory);
