@@ -25,6 +25,8 @@ namespace LemonadeStand
         public double[] iceMenuPrices;
         public double[] cupMenuPrices;
 
+        public Tuple<int, double, double, int, int, double, int, string>[] dailyData;
+
         public Store()
         {
             storeInventory = new Inventory();
@@ -41,6 +43,8 @@ namespace LemonadeStand
             sugarMenuPrices = new double[4] { 0.60, 2.00, 9.00, 0 };
             iceMenuPrices = new double[4] { 0.80, 1.80, 2.50, 0 };
             cupMenuPrices = new double[4] { 3.00, 5.00, 8.00, 0 };
+
+            dailyData = new Tuple<int, double, double, int, int, double, int, string>[maxNumOfDays];
 
         }
  
@@ -110,17 +114,17 @@ namespace LemonadeStand
         public bool EnoughInventory(Recipe recipe)
         {
 
-            if (storeInventory.lemonInventory.Count() < recipe.numOfLemons)
+            if (storeInventory.GetLemonInventoryCount() < recipe.GetNumberOfLemons())
             {
                 Console.WriteLine("You don't have enough lemons for your recipe.");
                 return false;
             }
-            else if (storeInventory.iceInventory.Count() < recipe.numOfIce)
+            else if (storeInventory.GetIceInventoryCount() < recipe.GetNumberOfIce())
             {
                 Console.WriteLine("You don't have enough ice for your recipe.");
                 return false;
             }
-            else if (storeInventory.sugarInventory.Count() < recipe.numOfSugar)
+            else if (storeInventory.GetSugarInventoryCount() < recipe.GetNumberOfSugar())
             {
                 Console.WriteLine("You don't have enough sugar for your recipe.");
                 return false;
@@ -177,6 +181,13 @@ namespace LemonadeStand
         {
             return storeInventory;
         }
+
+        //public void SaveDailyResults(Day day, int dayNumber)
+        //{
+        //    dailyData[dayNumber-1] = [dayNumber, day.dailyRevenue, day.dailyExpenses, day.numOfCustomers, day.numOfBuyingCustomers, day.pricePerCup, 
+        //        day.weatherActual.temperature, day.weatherActual.conditions];
+        //}
+        
     }
 }
 

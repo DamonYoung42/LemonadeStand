@@ -10,6 +10,7 @@ namespace LemonadeStand
     public class FileInputOutput
     {
         public string fileName = "LemonadeStandData.txt";
+        public Tuple<int, double, double, int, int, double, int, Tuple<string>> data;
 
         public FileInputOutput()
         {
@@ -21,27 +22,36 @@ namespace LemonadeStand
 
         public void WriteDailyResults(Day day, int dayOfOperation)
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
 
-            data.Add("dayOfOperation", Convert.ToString(dayOfOperation));
-            data.Add("dailyRevenue", Convert.ToString(day.dailyRevenue));
-            data.Add("dailyExpenes", Convert.ToString(day.dailyExpenses));
-            data.Add("numOfCustomers", Convert.ToString(day.numOfCustomers));
-            data.Add("numOfBuyingCustomers", Convert.ToString(day.numOfBuyingCustomers));
-            data.Add("pricePerCup", Convert.ToString(day.pricePerCup));
-            data.Add("actualTemperature", Convert.ToString(day.weatherActual.temperature));
-            data.Add("actualConditions", Convert.ToString(day.weatherActual.conditions));
-
-
-           using (StreamWriter writer = new StreamWriter(fileName, true))
+            string dataString = dayOfOperation + "," + day.dailyRevenue + "," + day.dailyExpenses + "," + day.numOfCustomers + "," + day.numOfBuyingCustomers + "," + day.pricePerCup + "," + day.weatherActual.temperature + "," + day.weatherActual.conditions;
+            //data = Tuple.Create(dayOfOperation, day.dailyRevenue, day.dailyExpenses, day.numOfCustomers, day.numOfBuyingCustomers, day.pricePerCup, day.weatherActual.temperature, day.weatherActual.conditions);
+            using (StreamWriter writer = new StreamWriter(fileName, true))
             {
-                foreach (var item in data)
-                {
-                    writer.WriteLine(item.Key + "," + item.Value);
-                }
+                writer.WriteLine(dataString);
             }
 
         }
+            public void ReadDailyResults()
+        {
+            string dataString;
+            using (StreamReader reader = new StreamReader(fileName))
+            {
+                do
+                {
+                    dataString = reader.ReadLine();
+                    if (dataString != null)
+                    {
+                        string[] dataNumbers = new string[8];
+                        dataNumbers = dataString.Split(new[] { ',' });
+                        Console.WriteLine("Day {0}: Revenue ({1:$0.00}) ... Expenses ({2:$0.00}) ... # of Customers ({3}) ... # of Buying Customers ({4}) ... Price ({5:$0.00})... Temperature ({6}) ... Conditions ({7})",
+                            dataNumbers[0], Convert.ToDouble(dataNumbers[1]), Convert.ToDouble(dataNumbers[2]), dataNumbers[3], dataNumbers[4], Convert.ToDouble(dataNumbers[5]), dataNumbers[6], dataNumbers[7]);
+                    }
 
+                } while (dataString != null);
+            }
+
+        }
     }
+
 }
+

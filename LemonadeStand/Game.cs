@@ -44,11 +44,13 @@ namespace LemonadeStand
                     savedData.WriteDailyResults(day, dayOfOperation);
                     gameConsole.DisplaySpoilage(player.store.storeInventory);
                     player.store.RemoveSpoiledInventory();
+
                     dayOfOperation++;
                     Console.WriteLine("Press any key to continue:");
                     Console.ReadKey();
                     if (dayOfOperation > maxNumOfDays)
                     {
+
                         gameConsole.DisplayFinalResults(player.store);
                     }
                 }
@@ -60,7 +62,7 @@ namespace LemonadeStand
 
             }
 
-
+            savedData.ReadDailyResults();
             Console.WriteLine("\nThanks for playing {0}. Goodbye!", player.name);
             Console.ReadLine();
         }
