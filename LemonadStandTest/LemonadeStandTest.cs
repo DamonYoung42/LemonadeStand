@@ -10,10 +10,11 @@ namespace LemonadStandTest
         [TestMethod]
         public void VerifyCashOnHandGreater()
         {
+
+            //Arrange
             Day day = new Day();
             Store store = new Store();
 
-            //Arrange
             store.cashOnHand = 10.00;
             double cost = 6.50;
             bool result;
@@ -28,10 +29,10 @@ namespace LemonadStandTest
         [TestMethod]
         public void VerifyCashOnHandLess()
         {
+            //Arrange
             Day day = new Day();
             Store store = new Store();
 
-            //Arrange
             store.cashOnHand = 5.00;
             double cost = 6.50;
             bool result;
@@ -46,10 +47,11 @@ namespace LemonadStandTest
         [TestMethod]
         public void VerifyCashOnHandEqual()
         {
+
+            //Arrange
             Day day = new Day();
             Store store = new Store();
 
-            //Arrange
             store.cashOnHand = 6.50;
             double cost = 6.50;
             bool result;
@@ -65,9 +67,8 @@ namespace LemonadStandTest
         [TestMethod]
         public void NoInventoryAllZero()
         {
-            Store store = new Store();
-
             //Arrange
+            Store store = new Store();
             bool result;
 
             //Act
@@ -79,14 +80,16 @@ namespace LemonadStandTest
         [TestMethod]
         public void NoInventoryOnlyLemonadeZero()
         {
+
+            //Arrange
             Store store = new Store();
             Lemon lemon = new Lemon();
             Sugar sugar = new Sugar();
             Cup cup = new Cup();
             Ice ice = new Ice();
 
-            //Arrange
             bool result;
+
             store.storeInventory.sugarInventory.Add(sugar);
             store.storeInventory.iceInventory.Add(ice);
             store.storeInventory.cupInventory.Add(cup);
@@ -100,14 +103,16 @@ namespace LemonadStandTest
         [TestMethod]
         public void NoInventoryOnlySugarZero()
         {
+            
+            //Arrange
             Store store = new Store();
             Lemon lemon = new Lemon();
             Sugar sugar = new Sugar();
             Cup cup = new Cup();
             Ice ice = new Ice();
 
-            //Arrange
             bool result;
+
             store.storeInventory.lemonInventory.Add(lemon);
             store.storeInventory.iceInventory.Add(ice);
             store.storeInventory.cupInventory.Add(cup);
@@ -123,14 +128,16 @@ namespace LemonadStandTest
         [TestMethod]
         public void NoInventoryOnlyIceZero()
         {
+
+            //Arrange
             Store store = new Store();
             Lemon lemon = new Lemon();
             Sugar sugar = new Sugar();
             Cup cup = new Cup();
             Ice ice = new Ice();
 
-            //Arrange
             bool result;
+
             store.storeInventory.lemonInventory.Add(lemon);
             store.storeInventory.sugarInventory.Add(sugar);
             store.storeInventory.cupInventory.Add(cup);
@@ -145,14 +152,16 @@ namespace LemonadStandTest
         [TestMethod]
         public void NoInventoryOnlyCupZero()
         {
+
+            //Arrange
             Store store = new Store();
             Lemon lemon = new Lemon();
             Sugar sugar = new Sugar();
             Cup cup = new Cup();
             Ice ice = new Ice();
 
-            //Arrange
             bool result;
+
             store.storeInventory.lemonInventory.Add(lemon);
             store.storeInventory.sugarInventory.Add(sugar);
             store.storeInventory.iceInventory.Add(ice);
@@ -167,14 +176,17 @@ namespace LemonadStandTest
         [TestMethod]
         public void NoInventoryNoneZero()
         {
+
+
+            //Arrange
             Store store = new Store();
             Lemon lemon = new Lemon();
             Sugar sugar = new Sugar();
             Cup cup = new Cup();
             Ice ice = new Ice();
 
-            //Arrange
             bool result;
+
             store.storeInventory.lemonInventory.Add(lemon);
             store.storeInventory.sugarInventory.Add(sugar);
             store.storeInventory.iceInventory.Add(ice);
@@ -190,14 +202,12 @@ namespace LemonadStandTest
         [TestMethod]
         public void SetWeatherForecastTemperature()
         {
-            Weather weather = new Weather();
-            int result;
-            int tempMin;
-            int tempMax;
 
             //Arrange
-            tempMin = 30;
-            tempMax = 100;
+            Weather weather = new Weather();
+            int result;
+            int tempMin = 30;
+            int tempMax = 100;
 
             //Act
             weather.SetWeather();
@@ -209,10 +219,10 @@ namespace LemonadStandTest
         [TestMethod]
         public void SetWeatherForecastConditions()
         {
+         
+            //Arrange
             Weather weather = new Weather();
             string result;
-
-            //Arrange
 
             //Act
             weather.SetWeather();
@@ -226,12 +236,11 @@ namespace LemonadStandTest
         [TestMethod]
         public void AddIceToIceInventory()
         {
-            Inventory inventory = new Inventory();
-            int quantity;
-            int result;
 
             //Arrange
-            quantity = 1;
+            Inventory inventory = new Inventory();
+            int result;
+            int quantity = 1;
 
             //Act
             inventory.AddToIceInventory(quantity);
@@ -245,12 +254,10 @@ namespace LemonadStandTest
         [TestMethod]
         public void AddSugarToSugarInventory()
         {
-            Inventory inventory = new Inventory();
-            int quantity;
-            int result;
-
             //Arrange
-            quantity = 1;
+            Inventory inventory = new Inventory();
+            int result;
+            int quantity = 1;
 
             //Act
             inventory.AddToSugarInventory(quantity);
@@ -264,12 +271,10 @@ namespace LemonadStandTest
         [TestMethod]
         public void AddLemonToLemonInventory()
         {
-            Inventory inventory = new Inventory();
-            int quantity;
-            int result;
-
             //Arrange
-            quantity = 1;
+            Inventory inventory = new Inventory();
+            int result;
+            int quantity = 1;
 
             //Act
             inventory.AddToLemonInventory(quantity);
@@ -283,12 +288,10 @@ namespace LemonadStandTest
         [TestMethod]
         public void AddCupToCupInventory()
         {
-            Inventory inventory = new Inventory();
-            int quantity;
-            int result;
-
             //Arrange
-            quantity = 1;
+            Inventory inventory = new Inventory();
+            int result;
+            int quantity = 1;
 
             //Act
             inventory.AddToCupInventory(quantity);
