@@ -186,5 +186,116 @@ namespace LemonadStandTest
             //Assert
             Assert.IsFalse(result);
         }
+
+        [TestMethod]
+        public void SetWeatherForecastTemperature()
+        {
+            Weather weather = new Weather();
+            int result;
+            int tempMin;
+            int tempMax;
+
+            //Arrange
+            tempMin = 30;
+            tempMax = 100;
+
+            //Act
+            weather.SetWeather();
+            result = weather.GetWeatherTemperature();
+            //Assert
+            Assert.IsTrue(tempMin <= result && result <= tempMax);
+
+        }
+        [TestMethod]
+        public void SetWeatherForecastConditions()
+        {
+            Weather weather = new Weather();
+            string result;
+
+            //Arrange
+
+            //Act
+            weather.SetWeather();
+            result = weather.GetWeatherConditions();
+
+            //Assert
+            Assert.IsTrue(result == "Sunny" || result == "Rainy" || result == "Overcast");
+
+        }
+
+        [TestMethod]
+        public void AddIceToIceInventory()
+        {
+            Inventory inventory = new Inventory();
+            int quantity;
+            int result;
+
+            //Arrange
+            quantity = 1;
+
+            //Act
+            inventory.AddToIceInventory(quantity);
+            result = inventory.iceInventory.Count;
+
+            //Assert
+            Assert.IsTrue(result == 1);
+
+        }
+
+        [TestMethod]
+        public void AddSugarToSugarInventory()
+        {
+            Inventory inventory = new Inventory();
+            int quantity;
+            int result;
+
+            //Arrange
+            quantity = 1;
+
+            //Act
+            inventory.AddToSugarInventory(quantity);
+            result = inventory.sugarInventory.Count;
+
+            //Assert
+            Assert.IsTrue(result == 1);
+
+        }
+
+        [TestMethod]
+        public void AddLemonToLemonInventory()
+        {
+            Inventory inventory = new Inventory();
+            int quantity;
+            int result;
+
+            //Arrange
+            quantity = 1;
+
+            //Act
+            inventory.AddToLemonInventory(quantity);
+            result = inventory.lemonInventory.Count;
+
+            //Assert
+            Assert.IsTrue(result == 1);
+
+        }
+
+        [TestMethod]
+        public void AddCupToCupInventory()
+        {
+            Inventory inventory = new Inventory();
+            int quantity;
+            int result;
+
+            //Arrange
+            quantity = 1;
+
+            //Act
+            inventory.AddToCupInventory(quantity);
+            result = inventory.cupInventory.Count;
+
+            //Assert
+            Assert.IsTrue(result == 1);
+        }
     }
 }
