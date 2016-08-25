@@ -232,6 +232,27 @@ namespace LemonadStandTest
             Assert.IsTrue(result == "Sunny" || result == "Rainy" || result == "Overcast");
 
         }
+        [TestMethod]
+        public void SetWeatherActualTemperature()
+        {
+            //Arrange
+            Weather weatherActual = new Weather();
+            Weather weatherForecast = new Weather();
+
+            weatherForecast.SetWeather();
+            int weatherVariance = 5;
+            int result;
+            int forecastTemperature;
+
+            //Act
+            weatherActual.SetWeather(weatherForecast);
+            result = weatherActual.GetWeatherTemperature();
+            forecastTemperature = weatherForecast.GetWeatherTemperature();
+
+
+            //Assert
+            Assert.IsTrue((forecastTemperature-weatherVariance <= result) && (result <= forecastTemperature + weatherVariance));
+        }
 
         [TestMethod]
         public void AddIceToIceInventory()
