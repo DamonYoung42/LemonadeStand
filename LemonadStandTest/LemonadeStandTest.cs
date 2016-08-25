@@ -163,5 +163,28 @@ namespace LemonadStandTest
             //Assert
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public void NoInventoryNoneZero()
+        {
+            Store store = new Store();
+            Lemon lemon = new Lemon();
+            Sugar sugar = new Sugar();
+            Cup cup = new Cup();
+            Ice ice = new Ice();
+
+            //Arrange
+            bool result;
+            store.storeInventory.lemonInventory.Add(lemon);
+            store.storeInventory.sugarInventory.Add(sugar);
+            store.storeInventory.iceInventory.Add(ice);
+            store.storeInventory.cupInventory.Add(cup);
+
+            //Act
+            result = store.NoInventory();
+
+            //Assert
+            Assert.IsFalse(result);
+        }
     }
 }
